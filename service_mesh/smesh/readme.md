@@ -8,7 +8,7 @@ This implementation here consists of three major layers.
 * Sidecar-Layer
 * Service-Layer
 
-![](img\archi.png)
+![](img/archi.png)
 
 This project is written in GoLang and uses Protocol Buffers in combination with gRPC. [^1][^2][^3]
 
@@ -154,9 +154,15 @@ ok      github.com/Open-Twin/CityMesh-ProtoTypes/Jakob_GRPC/test        1.052s
 
 ### Healthchecks
 
-Work in Progress
+
+
+# Work in Progress
 
 ```/cmd```
+
+MASTER
+
+SIDECAR
 
 
 
@@ -168,6 +174,14 @@ go run masterHeartBeat.go
 
 ```
 healthChechReport.csv
+```
+
+
+
+```
+  ID: S123 IP Addr: 172.217.22.196 receive, RTT: 17.7742ms;
+  ID: S12 IP Addr: 172.217.22.196 receive, RTT: 18.0854ms; 
+  ID: S1234 IP Addr: 172.217.22.196 receive, RTT: 29.1553ms; 
 ```
 
 
