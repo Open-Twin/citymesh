@@ -1,14 +1,14 @@
 package test
 
 import (
-	"net/http/httptest"
-	"net/http"
 	"fmt"
-	"path/filepath"
-	"runtime"
-	"reflect"
-	"testing"
 	"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/GETAPI"
+	"net/http"
+	"net/http/httptest"
+	"path/filepath"
+	"reflect"
+	"runtime"
+	"testing"
 )
 
 func getData(t *testing.T) {
@@ -33,15 +33,6 @@ func getData(t *testing.T) {
 func mapValuesToProtobuf(t *testing.T) {
 
 }
-
-
-
-
-
-
-
-
-
 
 // Functions - Collection:
 

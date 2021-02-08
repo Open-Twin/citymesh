@@ -1,16 +1,16 @@
 package sidecar
 
 import (
-	"bufio"
-	"fmt"
-	//"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/sidecar"
-	"golang.org/x/net/context"
-	"log"
-	"os"
-	"strings"
-	"time"
+/*"bufio"
+"fmt"
+//"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/sidecar"
+"golang.org/x/net/context"
+"log"
+"os"
+"strings"
+"time"
 
-	"google.golang.org/grpc"
+"google.golang.org/grpc"*/
 )
 
 var responseData datastruct
@@ -25,7 +25,7 @@ type datastruct []struct {
 	} `json:"Warnstufen"`
 }
 
-func sidecarClient() {
+/*func sidecarClient() {
 
 	// get()
 	// create client for GRPC Server
@@ -131,7 +131,7 @@ func sidecarClient() {
 		if response != nil {
 			log.Printf("Response from Server: %s , ", response.Reply)
 
-			/*// Established a connection
+			//Established a connection
 			fmt.Println("Sending old data")
 			file, err := os.Open("files/safeData.txt")
 			if err != nil {
@@ -199,7 +199,7 @@ func sidecarClient() {
 			//Saving the data in a local file
 			dataSave()
 
-			*/
+
 
 
 		}
@@ -207,7 +207,7 @@ func sidecarClient() {
 			log.Printf("Response from Server: %s , ", err)
 		}
 	}
-}
+}*/
 
 /*func dataSave() {
 

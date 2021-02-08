@@ -6,8 +6,11 @@ import (
 	"fmt"
 	_ "github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/chat"
 	"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/dataFormat"
-	//"golang.org/x/net/context"
+	"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/sidecar"
+	"github.com/golang/protobuf/ptypes"
+
 	_ "github.com/gogo/protobuf/proto"
+	"golang.org/x/net/context"
 	"io/ioutil"
 	"net/http"
 
@@ -39,7 +42,7 @@ func Apiclient() {
 	// defer runs after the functions finishes
 	defer conn.Close()
 
-	//c := chat.NewChatServiceClient(conn)
+	c := sidecar.NewChatServiceClient(conn)
 
 	ampel, erro := http.Get("https://corona-ampel.gv.at/sites/corona-ampel.gv.at/files/assets/Warnstufen_Corona_Ampel_Gemeinden_aktuell.json")
 
@@ -62,7 +65,7 @@ func Apiclient() {
 		stand := value.String()
 		warnstufen := make([]*dataFormat.Warnstufen, 0, 0)
 
-		path := "#(Stand=="+stand+").Warnstufen"
+		path := "#(Stand==" + stand + ").Warnstufen"
 		result := gjson.Get(ampelJson, path)
 		result.ForEach(func(key, value gjson.Result) bool {
 			var warning Warning
@@ -86,19 +89,39 @@ func Apiclient() {
 		return true
 	})
 
-	fmt.Println(messages)
+	//fmt.Println(messages)
 
 	//attributes := make([]*sidecar.CloudEvent_CloudEventAttributeValue, 0, 0)
 
+	/*warnstufen := make([]*dataFormat.Warnstufen, 0, 0)
 
-	/*marshalMessages, err := ptypes.MarshalAny(&messages)
+	warnstufen = append(warnstufen,
+		&dataFormat.Warnstufen{
+			Region:    "warning.Region",
+			GKZ:       "warning.Gkz",
+			Name:      "warning.Name",
+			Warnstufe: "warning.Warnstufe",
+		})
+
+	warnstufen = append(warnstufen,
+		&dataFormat.Warnstufen{
+			Region:    "warning.Region",
+			GKZ:       "warning.Gkz",
+			Name:      "warning.Name",
+			Warnstufe: "warning.Warnstufe",
+		})
+
+	message := dataFormat.Message{
+		Stand:      "2021",
+		Warnstufen: warnstufen,
+	}*/
+
+	marshalMessages, err := ptypes.MarshalAny(&dataFormat.Messages{Message: messages})
 	if err != nil {
 		panic(err)
 	}
 
-	protodata := append(protodata, &sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages})
-
-
+	data := sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages}
 
 	cloudeventmessage := sidecar.CloudEvent{
 		IdService:   "",
@@ -106,24 +129,25 @@ func Apiclient() {
 		SpecVersion: "1.0",
 		Type:        "json",
 		Attributes:  nil,
-		Data:        protodata,
+		Data:        &data,
 		IdSidecar:   "01",
 		IpService:   "192.168.0.10",
 		IpSidecar:   "192.168.0.11",
 	}
 
+	fmt.Print(cloudeventmessage)
 
+	fmt.Println(cloudeventmessage.Data)
 
-	for _, element := range messages {
-		response, err := c.SayHello(context.Background(), &element)
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
-		log.Printf("Greeting: %s", response.GetMessage())
-	}*/
+	response, err := c.DataFromService(context.Background(), &cloudeventmessage)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", response.GetMessage())
+
 }
 
-func APIData() ([]byte, error){
+func APIData() ([]byte, error) {
 	ampel, erro := http.Get("https://corona-ampel.gv.at/sites/corona-ampel.gv.at/files/assets/Warnstufen_Corona_Ampel_Gemeinden_aktuell.json")
 
 	if erro != nil {

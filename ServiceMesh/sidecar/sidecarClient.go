@@ -70,7 +70,7 @@ func client(mssgg *CloudEvent) {
 	message = chat.CloudEvent{
 		IdService:   ClientServiceID,
 		Source:      ClientSource,
-		SpecVersion: nil,
+		SpecVersion: "123",
 		Type:        ClientType,
 		Attributes:  nil,
 		Data:        nil,
