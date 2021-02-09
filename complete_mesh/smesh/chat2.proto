@@ -1,0 +1,38 @@
+syntax= "proto3";
+package chat;
+
+//option go_package = "./Jakob_GRPC";
+
+
+
+
+
+message Message {
+  string Timestamp = 1;
+  string Location = 2;
+  string Sensortyp = 3;
+  int32 SensorID = 4;
+  string SensorData = 5;
+}
+
+message MessageReply{
+  string reply = 1;
+}
+
+message Reply{
+  string reply = 1;
+}
+
+message Health{
+  string reply = 1;
+}
+
+service ChatService {
+  rpc DataFromSidecar(Message) returns (MessageReply) {}
+  rpc HealthCheck(Health) returns (MessageReply) {}
+
+}
+
+
+
+
