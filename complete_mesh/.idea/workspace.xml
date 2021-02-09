@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GETAPI/apiclient2.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/apiclientMAIN.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/serverMAIN.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/.idea/Jakob_GRPC.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/complete_mesh.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/DataEncoding/Encoding.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/DataEncoding/Test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/Kafka/Consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/Consumer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/Kafka/Producer.go" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/Producer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/chat/chat2.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/chat2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/chat/chat2.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/chat2.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/chat/chat2_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/chat2_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/chat/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/chat2.proto" beforeDir="false" afterPath="$PROJECT_DIR$/chat2.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/client/client2.go" beforeDir="false" afterPath="$PROJECT_DIR$/client/client2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/cmd/clientMain.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/clientMain.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/masterHeartBeat.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/cmd/masterMain.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/masterMain.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/cmd/sidecarMain.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/sidecarMain.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/docker/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/docker/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/docker/SEBI Pose" beforeDir="false" afterPath="$PROJECT_DIR$/docker/SEBI Pose" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/docker/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/clientCon.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/clientCon.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/healthCheckReport.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/healthCheckReport.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/master2Config.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/master2Config.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/masterConfig.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/masterConfig.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/safeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/safeData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/sidecarCon.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarCon.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/files/sidecarConfig.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarConfig.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/img/archi.png" beforeDir="false" afterPath="$PROJECT_DIR$/img/archi.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/sidecar.proto" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/sidecar/sidecar.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecar.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/sidecar/sidecarServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarServer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/sidecar/sidecar_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecar_grpc.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/test/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/test/files/safeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/test/files/safeData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/test/master_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/master_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/smesh/test/sidecar_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/sidecar_test.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.15.5/libexec" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="ProjectId" id="1oFaBSBKPFmowxQhG8RsjVvqLFr" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cmd" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1988" y="532" key="#Go_Modules" timestamp="1612884828344">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state x="1988" y="532" key="#Go_Modules/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1612884828344" />
+  </component>
+</project>
