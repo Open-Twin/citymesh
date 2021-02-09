@@ -21,7 +21,7 @@ func Client() {
 
 	// Getting all the ips from the ClientCon File
 	var ips []string
-	file, err := os.Open("files/clientCon.csv")
+	file, err := os.Open("../files/clientCon.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,13 +31,13 @@ func Client() {
 	//saving all
 	for scanner.Scan() {
 		line := scanner.Text()
-		res:= strings.Split(line,";")
+		res := strings.Split(line, ";")
 		ips = append(ips, res[1])
 	}
 
 	target := ips[0]
 
-	fmt.Println("Connecting to:" +target)
+	fmt.Println("Connecting to:" + target)
 
 	// Creating a connection with the first ip from the file
 
@@ -56,20 +56,20 @@ func Client() {
 
 	c := sidecar.NewChatServiceClient(conn)
 
-	var message sidecar.Message
-	var message2 sidecar.Message
 	var lines []string
 
-
-
-	message = sidecar.Message{
-		Timestamp:  "16:00:00",
-		Location:   "Alte Börse",
-		Sensortyp:  "192.168.41.140",
-		SensorID:   123,
-		SensorData: "S1234",
+	message := sidecar.CloudEvent{
+		IdService:   "S123",
+		Source:      "corona-ampel",
+		SpecVersion: "1.1",
+		Type:        "JSON",
+		Attributes:  nil,
+		Data:        nil,
+		IdSidecar:   "",
+		IpService:   "123.123.123.123",
+		IpSidecar:   "",
+		Timestamp:   "2021",
 	}
-
 
 	for _ = range time.Tick(time.Second * 10) {
 
@@ -78,7 +78,7 @@ func Client() {
 		response, err := c.DataFromService(context.Background(), &message)
 
 		if response != nil {
-			log.Printf("Response: %s ", response.Reply)
+			log.Printf("Response: %s ", response.Message)
 
 			// Established a connection
 			fmt.Println("Sending old data")
@@ -94,28 +94,32 @@ func Client() {
 				line := scanner.Text()
 				fmt.Println(line)
 				// Trying to push the old data
-				res:= strings.Split(line,";")
-				message2 = sidecar.Message{
-					Timestamp:  res[0],
-					Location:   res[1],
-					Sensortyp:  res[2],
-					SensorID:   123,
-					SensorData: res[4],
+				res := strings.Split(line, ";")
+				fmt.Println(res)
+				message2 := sidecar.CloudEvent{
+					IdService:   res[0],
+					Source:      res[1],
+					SpecVersion: res[2],
+					Type:        res[3],
+					Attributes:  nil,
+					Data:        nil,
+					IdSidecar:   "",
+					IpService:   res[4],
+					IpSidecar:   "",
+					Timestamp:   res[5],
 				}
 				response, err := c.DataFromService(context.Background(), &message2)
 				if response != nil {
 					if err != nil {
 						log.Fatal(err)
 					}
-					log.Printf("Response from Sidecar: %s ", response.Reply)
+					log.Printf("Response from Sidecar: %s ", response.Message)
 
 				} else {
 					lines = append(lines, line)
 				}
 
 			}
-
-
 
 			if err := scanner.Err(); err != nil {
 				log.Fatal(err)
@@ -127,7 +131,7 @@ func Client() {
 				return
 			}
 			for _, value := range lines {
-				fmt.Fprintln(f, value)  // print values to f, one per line
+				fmt.Fprintln(f, value) // print values to f, one per line
 			}
 			if err != nil {
 				fmt.Println(err)
@@ -157,7 +161,7 @@ func Client() {
 	}
 }
 
-func DataSave(clientMessage sidecar.Message){
+func DataSave(clientMessage sidecar.CloudEvent) {
 
 	f, err := os.OpenFile("../files/safeData.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
@@ -165,7 +169,7 @@ func DataSave(clientMessage sidecar.Message){
 		return
 	}
 
-	l, err := f.WriteString( clientMessage.Location+";"+"Placeholder"+";"+clientMessage.Sensortyp+";"+"Placeholder"+";"+clientMessage.SensorData+";"+"ce_uri_ref"+";"+clientMessage.Timestamp+";"+"\n")
+	l, err := f.WriteString(clientMessage.IdService + ";" + "Placeholder" + ";" + clientMessage.Source + ";" + "Placeholder" + ";" + clientMessage.SpecVersion + ";" + "ce_uri_ref" + ";" + clientMessage.Type + ";" + clientMessage.IdSidecar + ";" + clientMessage.IpService + ";" + clientMessage.IpSidecar + ";" + clientMessage.Timestamp + ";\n")
 	if err != nil {
 		fmt.Println(err)
 		f.Close()
@@ -179,11 +183,11 @@ func DataSave(clientMessage sidecar.Message){
 	}
 }
 
-func newIP(ips []string){
+func newIP(ips []string) {
 	fmt.Println("Connecting to new Sidecar")
 	for _, newIP := range ips {
 		//fmt.Println("Sidecar Ip")
-		fmt.Println("Connecting to:"+newIP)
+		fmt.Println("Connecting to:" + newIP)
 		//conn, erro := grpc.Dial("target", grpc.WithInsecure())
 		//defer conn.Close()
 		//c := sidecar.NewChatServiceClient(conn)

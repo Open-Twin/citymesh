@@ -8,7 +8,6 @@ import (
 	"net"
 )
 
-
 func Master() {
 	// create a TCP Listener on Port 9001
 	lis, err := net.Listen("tcp", ":9001")
@@ -33,6 +32,3 @@ func Master() {
 	}
 
 }
-
-
-

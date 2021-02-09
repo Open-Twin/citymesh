@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	_ "errors"
 	"fmt"
-	_ "github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/chat"
-	"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/dataFormat"
-	"github.com/Open-Twin/CityMesh-ProtoTypes/ServiceMesh/sidecar"
+	"github.com/Open-Twin/citymesh/complete_mesh/dataFormat"
+	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"github.com/golang/protobuf/ptypes"
 
 	_ "github.com/gogo/protobuf/proto"

@@ -11,47 +11,47 @@ import (
 
 func main() {
 	/*
-	pinger, err := ping.NewPinger("www.google.com")
-	if err != nil {
-		panic(err)
-	}
-	pinger.Count = 3
-	err = pinger.Run() // blocks until finished
-	if err != nil {
-		panic(err)
-	}
-	stats := pinger.Statistics() // get send/receive/rtt stats
-	fmt.Println(stats)
+		pinger, err := ping.NewPinger("www.google.com")
+		if err != nil {
+			panic(err)
+		}
+		pinger.Count = 3
+		err = pinger.Run() // blocks until finished
+		if err != nil {
+			panic(err)
+		}
+		stats := pinger.Statistics() // get send/receive/rtt stats
+		fmt.Println(stats)
 	*/
 	/*
-	p := fastping.NewPinger()
-	ra, err := net.ResolveIPAddr("ip4:icmp", "www.google.com")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	p.AddIPAddr(ra)
-	p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
-		fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
-	}
-	p.OnIdle = func() {
-		fmt.Println("finish")
-	}
-	err = p.Run()
-	if err != nil {
-		fmt.Println(err)
-	}
+		p := fastping.NewPinger()
+		ra, err := net.ResolveIPAddr("ip4:icmp", "www.google.com")
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		p.AddIPAddr(ra)
+		p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
+			fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
+		}
+		p.OnIdle = func() {
+			fmt.Println("finish")
+		}
+		err = p.Run()
+		if err != nil {
+			fmt.Println(err)
+		}
 
-	/*
-	host := "www.google.com"
-	port := ""
-	timeout := time.Duration(1 * time.Second)
-	_, err := net.DialTimeout("tcp", host+":"+port, timeout)
-	if err != nil {
-		fmt.Printf("%s %s %s\n", host, "not responding", err.Error())
-	} else {
-		fmt.Printf("%s %s %s\n", host, "responding on port:", port)
-	}
+		/*
+		host := "www.google.com"
+		port := ""
+		timeout := time.Duration(1 * time.Second)
+		_, err := net.DialTimeout("tcp", host+":"+port, timeout)
+		if err != nil {
+			fmt.Printf("%s %s %s\n", host, "not responding", err.Error())
+		} else {
+			fmt.Printf("%s %s %s\n", host, "responding on port:", port)
+		}
 	*/
 
 	// Placeholder until Gateway
@@ -71,17 +71,13 @@ func main() {
 
 	var message sidecar.Health
 
-
-	message = sidecar.Health{
-		Reply:  "abc",
-	}
-
+	message = sidecar.Health{Health: "abc"}
 	response, err := c.HealthCheck(context.Background(), &message)
 	var data string
 	if response != nil {
-		fmt.Sprintf("Healthcheck Report: %s ", response.Reply)
+		fmt.Sprintf("Healthcheck Report: %s ", response.Message)
 		fmt.Println(data)
-		saveHealthCheck(response.Reply)
+		saveHealthCheck(response.Message)
 
 	}
 
@@ -89,10 +85,9 @@ func main() {
 		log.Printf("Response from Server: %s , ", err)
 	}
 
-
 }
 
-func saveHealthCheck(data string){
+func saveHealthCheck(data string) {
 
 	f, err := os.OpenFile("../files/healthCheckReport.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
@@ -100,7 +95,7 @@ func saveHealthCheck(data string){
 		return
 	}
 
-	l, err := f.WriteString( data)
+	l, err := f.WriteString(data)
 	if err != nil {
 		fmt.Println(err)
 		f.Close()

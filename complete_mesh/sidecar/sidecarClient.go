@@ -12,14 +12,8 @@ import (
 	"strings"
 )
 
-func client(mssgg *Message) {
+func client(cloudmessage *CloudEvent) {
 	fmt.Println("Debug: Initialised Client")
-	var ClientTimestamp = mssgg.Timestamp
-	var ClientLocation = mssgg.Location
-	var ClientSensortyp = mssgg.Sensortyp
-	var ClientSensorID = mssgg.SensorID
-	var ClientSensorData = mssgg.SensorData
-
 
 	// create client for GRPC Server
 	var conn *grpc.ClientConn
@@ -37,7 +31,7 @@ func client(mssgg *Message) {
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		res:= strings.Split(line,";")
+		res := strings.Split(line, ";")
 
 		ips = append(ips, res[1])
 
@@ -45,7 +39,6 @@ func client(mssgg *Message) {
 
 	target := ips[0]
 	fmt.Println(target)
-
 
 	conn, erro := grpc.Dial(":9001", grpc.WithInsecure())
 	if err != nil {
@@ -57,20 +50,23 @@ func client(mssgg *Message) {
 
 	c := chat.NewChatServiceClient(conn)
 
-	var message chat.Message
-
-	message = chat.Message{
-		Timestamp:  ClientTimestamp,
-		Location:   ClientLocation,
-		Sensortyp:  ClientSensortyp,
-		SensorID:   ClientSensorID,
-		SensorData: ClientSensorData,
+	message := chat.CloudEvent{
+		IdService:   cloudmessage.IdService,
+		Source:      cloudmessage.Source,
+		SpecVersion: cloudmessage.SpecVersion,
+		Type:        cloudmessage.Type,
+		Attributes:  nil,
+		Data:        nil,
+		IdSidecar:   cloudmessage.IdSidecar,
+		IpService:   cloudmessage.IpService,
+		IpSidecar:   cloudmessage.IpSidecar,
+		Timestamp:   cloudmessage.Timestamp,
 	}
 
 	response, err := c.DataFromSidecar(context.Background(), &message)
 
 	if response != nil {
-		log.Printf("Response from Server: %s , ", response.Reply)
+		log.Printf("Response from Server: %s , ", response.Message)
 
 	} else {
 		fmt.Println("Debug: Could not establish a connection")

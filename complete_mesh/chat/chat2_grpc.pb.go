@@ -17,7 +17,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
-	DataFromSidecar(ctx context.Context, in *Message, opts ...grpc.CallOption) (*MessageReply, error)
+	DataFromSidecar(ctx context.Context, in *CloudEvent, opts ...grpc.CallOption) (*MessageReply, error)
 	HealthCheck(ctx context.Context, in *Health, opts ...grpc.CallOption) (*MessageReply, error)
 }
 
@@ -29,9 +29,9 @@ func NewChatServiceClient(cc grpc.ClientConnInterface) ChatServiceClient {
 	return &chatServiceClient{cc}
 }
 
-func (c *chatServiceClient) DataFromSidecar(ctx context.Context, in *Message, opts ...grpc.CallOption) (*MessageReply, error) {
+func (c *chatServiceClient) DataFromSidecar(ctx context.Context, in *CloudEvent, opts ...grpc.CallOption) (*MessageReply, error) {
 	out := new(MessageReply)
-	err := c.cc.Invoke(ctx, "/chat.ChatService/DataFromSidecar", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/sidecar.ChatService/DataFromSidecar", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (c *chatServiceClient) DataFromSidecar(ctx context.Context, in *Message, op
 
 func (c *chatServiceClient) HealthCheck(ctx context.Context, in *Health, opts ...grpc.CallOption) (*MessageReply, error) {
 	out := new(MessageReply)
-	err := c.cc.Invoke(ctx, "/chat.ChatService/HealthCheck", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/sidecar.ChatService/HealthCheck", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +51,7 @@ func (c *chatServiceClient) HealthCheck(ctx context.Context, in *Health, opts ..
 // All implementations must embed UnimplementedChatServiceServer
 // for forward compatibility
 type ChatServiceServer interface {
-	DataFromSidecar(context.Context, *Message) (*MessageReply, error)
+	DataFromSidecar(context.Context, *CloudEvent) (*MessageReply, error)
 	HealthCheck(context.Context, *Health) (*MessageReply, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
@@ -60,7 +60,7 @@ type ChatServiceServer interface {
 type UnimplementedChatServiceServer struct {
 }
 
-func (UnimplementedChatServiceServer) DataFromSidecar(context.Context, *Message) (*MessageReply, error) {
+func (UnimplementedChatServiceServer) DataFromSidecar(context.Context, *CloudEvent) (*MessageReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DataFromSidecar not implemented")
 }
 func (UnimplementedChatServiceServer) HealthCheck(context.Context, *Health) (*MessageReply, error) {
@@ -75,12 +75,12 @@ type UnsafeChatServiceServer interface {
 	mustEmbedUnimplementedChatServiceServer()
 }
 
-func RegisterChatServiceServer(s grpc.ServiceRegistrar, srv ChatServiceServer) {
+func RegisterChatServiceServer(s *grpc.Server, srv ChatServiceServer) {
 	s.RegisterService(&_ChatService_serviceDesc, srv)
 }
 
 func _ChatService_DataFromSidecar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Message)
+	in := new(CloudEvent)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -89,10 +89,10 @@ func _ChatService_DataFromSidecar_Handler(srv interface{}, ctx context.Context, 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chat.ChatService/DataFromSidecar",
+		FullMethod: "/sidecar.ChatService/DataFromSidecar",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatServiceServer).DataFromSidecar(ctx, req.(*Message))
+		return srv.(ChatServiceServer).DataFromSidecar(ctx, req.(*CloudEvent))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -107,7 +107,7 @@ func _ChatService_HealthCheck_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/chat.ChatService/HealthCheck",
+		FullMethod: "/sidecar.ChatService/HealthCheck",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ChatServiceServer).HealthCheck(ctx, req.(*Health))
@@ -116,7 +116,7 @@ func _ChatService_HealthCheck_Handler(srv interface{}, ctx context.Context, dec 
 }
 
 var _ChatService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "chat.ChatService",
+	ServiceName: "sidecar.ChatService",
 	HandlerType: (*ChatServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -129,5 +129,5 @@ var _ChatService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "chat2.proto",
+	Metadata: "proto/chat2.proto",
 }

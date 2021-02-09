@@ -29,24 +29,20 @@ var SensorData string
 
 var localmessage string
 
-var msg *Message
+var msg *CloudEvent
 
-func (s *Server) DataFromService(ctx context.Context, message *Message) (*MessageReply, error) {
-	log.Printf( "Recived message body from client %s , %s , %s , %s , %s ", message.Timestamp, message.Location,message.Sensortyp, message.SensorID , message.SensorData)
-	Timestamp = message.Timestamp
-	Location = message.Location
-	Sensortyp = message.Sensortyp
-	SensorID = message.SensorID
-	SensorData = message.SensorData
-
-	localmessage = Timestamp + "|" + Location + "|" + Sensortyp + "|" + string(SensorID) + "|" + SensorData
+func (s *Server) DataFromService(ctx context.Context, message *CloudEvent) (*MessageReply, error) {
+	log.Printf("Received message body from client %s , %s , %s , %s , %s ", message.IdService, message.Source, message.SpecVersion, message.Type, message.IdService, message.IpSidecar, message.IpSidecar, message.Timestamp)
+	//log.Printf( "Received message body from client")
+	message.IdSidecar = "sd123"
+	message.IpSidecar = "123.123.123.123"
 	msg = message
-	SafeToFile(Sensortyp,SensorData,Timestamp)
+	SafeToFile(message.IdService, message.IpService, message.Timestamp)
 	go client(msg)
-	return &MessageReply{Reply: "Sidecar Proxy: Received the message"}, nil
+	return &MessageReply{Message: "Sidecar Proxy: Received the message"}, nil
 }
 
-func (s *Server) HealthCheck(ctx context.Context,  health *Health) (*MessageReply, error) {
+func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply, error) {
 	fmt.Println("Sending pings to all registered entries")
 
 	file, err := os.Open("../files/sidecarConfig.csv")
@@ -79,7 +75,7 @@ func (s *Server) HealthCheck(ctx context.Context,  health *Health) (*MessageRepl
 		p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
 			//response = fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
 
-			response = fmt.Sprintf( "%s ID: %s IP Addr: %s receive, RTT: %v; \n ",response,res[0],addr.String(),rtt)
+			response = fmt.Sprintf("%s ID: %s IP Addr: %s receive, RTT: %v; \n ", response, res[0], addr.String(), rtt)
 
 		}
 		p.OnIdle = func() {
@@ -90,21 +86,16 @@ func (s *Server) HealthCheck(ctx context.Context,  health *Health) (*MessageRepl
 			fmt.Println(err)
 		}
 	}
-	return &MessageReply{Reply: response}, nil
+	return &MessageReply{Message: response}, nil
 }
 
-func (s *Server) GetMessage() (string) {
-
-	return localmessage
-}
-
-func SafeToFile(ip string, sid string,tst string) (){
+func SafeToFile(ip string, sid string, tst string) {
 
 	b, err := ioutil.ReadFile("../files/sidecarConfig.csv")
 	if err != nil {
 		panic(err)
 	}
-	suchRegex:=sid+";"
+	suchRegex := sid + ";"
 	fmt.Println(suchRegex)
 	isExist, err := regexp.Match(suchRegex, b)
 	if err != nil {
@@ -152,10 +143,10 @@ func SafeToFile(ip string, sid string,tst string) (){
 		}
 
 		for i := 0; i < len(lines); i++ {
-			if strings.Contains(lines[i],suchRegex) {
+			if strings.Contains(lines[i], suchRegex) {
 				//lines[i]= sid + ";" + ip + ";" + "Timestamp" + ";"
 
-				lines[i]= sid + ";" + ip + ";" + tst + ";"
+				lines[i] = sid + ";" + ip + ";" + tst + ";"
 				break
 			}
 		}
@@ -166,7 +157,7 @@ func SafeToFile(ip string, sid string,tst string) (){
 			return
 		}
 		for _, value := range lines {
-			fmt.Fprintln(f, value)  // print values to f, one per line
+			fmt.Fprintln(f, value) // print values to f, one per line
 		}
 		if err != nil {
 			fmt.Println(err)

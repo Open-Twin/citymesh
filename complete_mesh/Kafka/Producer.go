@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Open-Twin/CityMesh-ProtoTypes/Jakob_GRPC/chat"
+	"github.com/Open-Twin/citymesh/complete_mesh/chat"
 	"github.com/Shopify/sarama"
 	"github.com/golang/protobuf/proto"
 	"log"
@@ -50,7 +50,7 @@ func initProducer() (sarama.SyncProducer, error) {
 	return prd, err
 }
 
-func publish(message chat.Message, producer sarama.SyncProducer) {
+func publish(message chat.CloudEvent, producer sarama.SyncProducer) {
 	// publish sync
 
 	messageToSend := &message

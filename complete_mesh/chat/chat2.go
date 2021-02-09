@@ -16,8 +16,6 @@ import (
 type Server struct {
 }
 
-
-
 var Timestamp string
 var Location string
 var Sensortyp string
@@ -28,93 +26,87 @@ var localmessage string
 
 const (
 	kafkaConn = "localhost:9092"
-	topic = "topic_test"
+	topic     = "topic_test"
 )
 
 func (s *Server) mustEmbedUnimplementedChatServiceServer() {
 	panic("implement me")
 }
 
-func (s *Server) DataFromSidecar(ctx context.Context, message *Message) (*MessageReply, error) {
-	log.Printf( "Received message body from client %s , %s , %s , %s , %s ", message.Timestamp, message.Location,message.Sensortyp, message.SensorID , message.SensorData)
-	Timestamp = message.Timestamp
-	Location = message.Location
-	Sensortyp = message.Sensortyp
-	SensorID = message.SensorID
-	SensorData = message.SensorData
-
-	localmessage = Timestamp + "|" + Location + "|" + Sensortyp + "|" + string(SensorID) + "|" + SensorData
-	go SafeToFile(Sensortyp,SensorData,Timestamp)
-	//go initialize()
-
-	return &MessageReply{Reply: "Master: received the Message"}, nil
+func (s *Server) DataFromSidecar(ctx context.Context, message *CloudEvent) (*MessageReply, error) {
+	log.Printf("Received message body from client %s , %s , %s , %s , %s ", message.IdService, message.Source, message.SpecVersion, message.Type, message.IdService, message.IpSidecar, message.IpSidecar, message.Timestamp)
+	//log.Printf( "Received message body from client")
+	message.IdSidecar = "sd123"
+	message.IpSidecar = "123.123.123.123"
+	//msg := message
+	SafeToFile(message.IdSidecar, message.IpSidecar, message.Timestamp)
+	return &MessageReply{Message: "Sidecar Proxy: Received the message"}, nil
 }
 
-func (s *Server) HealthCheck(ctx context.Context,  health2 *Health) (*MessageReply, error) {
+func (s *Server) HealthCheck(ctx context.Context, health2 *Health) (*MessageReply, error) {
 	/*
-	fmt.Println("Sending pings to all registered entries")
+		fmt.Println("Sending pings to all registered entries")
 
-	file, err := os.Open("../files/master2Config.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-
-	var lines []string
-	var report string
-	var health sidecar.Health
-
-
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		lines = append(lines, line)
-	}
-
-	for _, value := range lines {
-		res := strings.Split(value, ";")
-		report = report + res[0] + "; \n"
-		fmt.Println(res)
-		// get()
-		// create client for GRPC Server
-		var conn *grpc.ClientConn
-		// Placeholder until Gateway
-		conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
-		//conn, err := grpc.Dial(target+":9000", grpc.WithInsecure())
-
-		if erro != nil {
-			log.Fatalf("no server connection could be established cause: %v", erro)
-
-		}
-
-		// defer runs after the functions finishes
-		defer conn.Close()
-
-		c := sidecar.NewChatServiceClient(conn)
-
-		response, err := c.HealthCheck(context.Background(), &health)
-
-		if response != nil {
-			log.Printf("Response from Sidecar: %s ", response.Reply)
-		}
-
+		file, err := os.Open("../files/master2Config.csv")
 		if err != nil {
-			fmt.Println(err)
+			log.Fatal(err)
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+
+		var lines []string
+		var report string
+		var health sidecar.Health
+
+
+
+		for scanner.Scan() {
+			line := scanner.Text()
+			lines = append(lines, line)
 		}
 
-		report = report + response.Reply
+		for _, value := range lines {
+			res := strings.Split(value, ";")
+			report = report + res[0] + "; \n"
+			fmt.Println(res)
+			// get()
+			// create client for GRPC Server
+			var conn *grpc.ClientConn
+			// Placeholder until Gateway
+			conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
+			//conn, err := grpc.Dial(target+":9000", grpc.WithInsecure())
 
-	}
-	return &MessageReply{Reply: report}, nil
+			if erro != nil {
+				log.Fatalf("no server connection could be established cause: %v", erro)
+
+			}
+
+			// defer runs after the functions finishes
+			defer conn.Close()
+
+			c := sidecar.NewChatServiceClient(conn)
+
+			response, err := c.HealthCheck(context.Background(), &health)
+
+			if response != nil {
+				log.Printf("Response from Sidecar: %s ", response.Reply)
+			}
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+			report = report + response.Reply
+
+		}
+		return &MessageReply{Reply: report}, nil
 	*/
 
-	return &MessageReply{Reply: "Hello"}, nil
+	return &MessageReply{Message: "Hello"}, nil
 }
 
-
-func (s *Server) GetMessage() (string) {
+func (s *Server) GetMessage() string {
 	return localmessage
 }
 
@@ -126,19 +118,14 @@ func initialize() {
 		os.Exit(1)
 	}
 
+	msg := localmessage
 
-		msg := localmessage
-
-		// publish without goroutene
-		publish(msg, producer)
+	// publish without goroutene
+	publish(msg, producer)
 
 }
 
-
-
-
-
-func initProducer()(sarama.SyncProducer, error) {
+func initProducer() (sarama.SyncProducer, error) {
 	// setup sarama log to stdout
 	sarama.Logger = log.New(os.Stdout, "", log.Ltime)
 
@@ -159,7 +146,7 @@ func initProducer()(sarama.SyncProducer, error) {
 
 func publish(message string, producer sarama.SyncProducer) {
 	// publish sync
-	msg := &sarama.ProducerMessage {
+	msg := &sarama.ProducerMessage{
 		Topic: topic,
 		Value: sarama.StringEncoder(message),
 	}
@@ -175,21 +162,19 @@ func publish(message string, producer sarama.SyncProducer) {
 	fmt.Println("Offset: ", o)
 }
 
-
-func SafeToFile(ip string, sid string,tst string) (){
+func SafeToFile(ip string, sid string, tst string) {
 	//Checks if Sidecar ID already has an entry
 	b, err := ioutil.ReadFile("../files/master2Config.csv")
 	if err != nil {
 		panic(err)
 	}
-	suchRegex:=sid+";"
+	suchRegex := sid + ";"
 	isExist, err := regexp.Match(suchRegex, b)
 	if err != nil {
 		panic(err)
 	}
 
 	if isExist == false {
-
 
 		f, err := os.OpenFile("../files/master2Config.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 		if err != nil {
@@ -228,9 +213,9 @@ func SafeToFile(ip string, sid string,tst string) (){
 		}
 
 		for i := 0; i < len(lines); i++ {
-			if strings.Contains(lines[i],suchRegex) {
+			if strings.Contains(lines[i], suchRegex) {
 
-				lines[i]= sid + ";" + ip + ";" + tst + ";"
+				lines[i] = sid + ";" + ip + ";" + tst + ";"
 				break
 			}
 		}
@@ -241,7 +226,7 @@ func SafeToFile(ip string, sid string,tst string) (){
 			return
 		}
 		for _, value := range lines {
-			fmt.Fprintln(f, value)  // print values to f, one per line
+			fmt.Fprintln(f, value) // print values to f, one per line
 		}
 		if err != nil {
 			fmt.Println(err)
@@ -256,5 +241,3 @@ func SafeToFile(ip string, sid string,tst string) (){
 
 	}
 }
-
-

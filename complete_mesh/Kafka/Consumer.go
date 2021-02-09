@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Open-Twin/CityMesh-ProtoTypes/Jakob_GRPC/chat"
+	"github.com/Open-Twin/citymesh/complete_mesh/chat"
 	"github.com/Shopify/sarama"
 	"github.com/golang/protobuf/proto"
 	"log"
@@ -48,7 +48,7 @@ func main() {
 			select {
 			case msg := <-consumer:
 				msgCount++
-				receivedMessage := &chat.Message{}
+				receivedMessage := &chat.CloudEvent{}
 				err := proto.Unmarshal(msg.Value, receivedMessage)
 				if err != nil {
 					log.Fatalln("Failed to unmarshal message:", err)

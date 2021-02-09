@@ -17,7 +17,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
-	DataFromService(ctx context.Context, in *Message, opts ...grpc.CallOption) (*MessageReply, error)
+	DataFromService(ctx context.Context, in *CloudEvent, opts ...grpc.CallOption) (*MessageReply, error)
 	HealthCheck(ctx context.Context, in *Health, opts ...grpc.CallOption) (*MessageReply, error)
 }
 
@@ -29,7 +29,7 @@ func NewChatServiceClient(cc grpc.ClientConnInterface) ChatServiceClient {
 	return &chatServiceClient{cc}
 }
 
-func (c *chatServiceClient) DataFromService(ctx context.Context, in *Message, opts ...grpc.CallOption) (*MessageReply, error) {
+func (c *chatServiceClient) DataFromService(ctx context.Context, in *CloudEvent, opts ...grpc.CallOption) (*MessageReply, error) {
 	out := new(MessageReply)
 	err := c.cc.Invoke(ctx, "/sidecar.ChatService/DataFromService", in, out, opts...)
 	if err != nil {
@@ -51,7 +51,7 @@ func (c *chatServiceClient) HealthCheck(ctx context.Context, in *Health, opts ..
 // All implementations must embed UnimplementedChatServiceServer
 // for forward compatibility
 type ChatServiceServer interface {
-	DataFromService(context.Context, *Message) (*MessageReply, error)
+	DataFromService(context.Context, *CloudEvent) (*MessageReply, error)
 	HealthCheck(context.Context, *Health) (*MessageReply, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
@@ -60,7 +60,7 @@ type ChatServiceServer interface {
 type UnimplementedChatServiceServer struct {
 }
 
-func (UnimplementedChatServiceServer) DataFromService(context.Context, *Message) (*MessageReply, error) {
+func (UnimplementedChatServiceServer) DataFromService(context.Context, *CloudEvent) (*MessageReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DataFromService not implemented")
 }
 func (UnimplementedChatServiceServer) HealthCheck(context.Context, *Health) (*MessageReply, error) {
@@ -75,12 +75,12 @@ type UnsafeChatServiceServer interface {
 	mustEmbedUnimplementedChatServiceServer()
 }
 
-func RegisterChatServiceServer(s grpc.ServiceRegistrar, srv ChatServiceServer) {
+func RegisterChatServiceServer(s *grpc.Server, srv ChatServiceServer) {
 	s.RegisterService(&_ChatService_serviceDesc, srv)
 }
 
 func _ChatService_DataFromService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Message)
+	in := new(CloudEvent)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func _ChatService_DataFromService_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: "/sidecar.ChatService/DataFromService",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ChatServiceServer).DataFromService(ctx, req.(*Message))
+		return srv.(ChatServiceServer).DataFromService(ctx, req.(*CloudEvent))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -129,5 +129,5 @@ var _ChatService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "sidecar.proto",
+	Metadata: "proto/sidecar.proto",
 }
