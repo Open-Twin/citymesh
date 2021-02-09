@@ -137,7 +137,7 @@ func Apiclient() {
 
 	fmt.Print(cloudeventmessage)
 
-	fmt.Println(cloudeventmessage.Data)
+	//fmt.Println(cloudeventmessage.Data)
 
 	response, err := c.DataFromService(context.Background(), &cloudeventmessage)
 	if err != nil {
