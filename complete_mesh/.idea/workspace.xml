@@ -23,32 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/dataFormat/data.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dataFormat/data.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proto/chat2.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/proto/sidecar.proto" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GETAPI/apiclient2.go" beforeDir="false" afterPath="$PROJECT_DIR$/GETAPI/apiclient2.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kafka/Consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/Consumer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Kafka/Producer.go" beforeDir="false" afterPath="$PROJECT_DIR$/Kafka/Producer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/chat2.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/chat2.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/chat2.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/chat2.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/chat2_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/chat2_grpc.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/chat/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chat2.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/client2.go" beforeDir="false" afterPath="$PROJECT_DIR$/client/client2.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/apiclientMAIN.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/apiclientMAIN.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/masterHeartBeat.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/serverMAIN.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/safeData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/safeData.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sidecarConfig.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarConfig.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecar.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecar.pb.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecar_grpc.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecar_grpc.pb.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +50,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/proto" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -147,5 +123,15 @@
       <screen x="0" y="25" width="5120" height="1341" />
     </state>
     <state x="1392" y="331" width="670" height="676" key="search.everywhere.popup/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1612888464389" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/sidecar/sidecarCom.go</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
