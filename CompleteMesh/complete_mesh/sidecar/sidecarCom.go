@@ -49,7 +49,7 @@ func (s *Server) DataFromService(ctx context.Context, message *Message) (*Messag
 func (s *Server) HealthCheck(ctx context.Context,  health *Health) (*MessageReply, error) {
 	fmt.Println("Sending pings to all registered entries")
 
-	file, err := os.Open("../files/sidecarConfig.csv")
+	file, err := os.Open("files/sidecarConfig.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -100,7 +100,7 @@ func (s *Server) GetMessage() (string) {
 
 func SafeToFile(ip string, sid string,tst string) (){
 
-	b, err := ioutil.ReadFile("../files/sidecarConfig.csv")
+	b, err := ioutil.ReadFile("files/sidecarConfig.csv")
 	if err != nil {
 		panic(err)
 	}
@@ -114,7 +114,7 @@ func SafeToFile(ip string, sid string,tst string) (){
 	if isExist == false {
 		fmt.Println("Debug: Saving the connection data")
 
-		f, err := os.OpenFile("../files/sidecarConfig.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+		f, err := os.OpenFile("files/sidecarConfig.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 		if err != nil {
 			fmt.Println(err)
 			return
@@ -135,7 +135,7 @@ func SafeToFile(ip string, sid string,tst string) (){
 	} else {
 		fmt.Println("Debug: ID already stored")
 
-		file, err := os.Open("../files/sidecarConfig.csv")
+		file, err := os.Open("files/sidecarConfig.csv")
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -160,7 +160,7 @@ func SafeToFile(ip string, sid string,tst string) (){
 			}
 		}
 
-		f, err := os.OpenFile("../files/sidecarConfig.csv", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+		f, err := os.OpenFile("files/sidecarConfig.csv", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
 		if err != nil {
 			fmt.Println(err)
 			return

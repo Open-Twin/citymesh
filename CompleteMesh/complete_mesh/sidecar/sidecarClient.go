@@ -27,7 +27,7 @@ func client(mssgg *Message) {
 	// Zuerst holen wir uns alle Ips aus dem ClientCon File
 
 	var ips []string
-	file, err := os.Open("../files/sidecarCon.csv")
+	file, err := os.Open("files/sidecarCon.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
