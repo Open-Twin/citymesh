@@ -82,7 +82,7 @@ func Client() {
 
 			// Established a connection
 			fmt.Println("Sending old data")
-			file, err := os.Open("../files/safeData.csv")
+			file, err := os.Open("files/safeData.csv")
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -121,7 +121,7 @@ func Client() {
 				log.Fatal(err)
 			}
 
-			f, err := os.OpenFile("../files/safeData.csv", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+			f, err := os.OpenFile("files/safeData.csv", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -159,7 +159,7 @@ func Client() {
 
 func DataSave(clientMessage sidecar.Message){
 
-	f, err := os.OpenFile("../files/safeData.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile("files/safeData.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		fmt.Println(err)
 		return
