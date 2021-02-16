@@ -19,43 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64bab9b8-f091-44be-8719-53be4c653577" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/DataEncoding/Encoding.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/DataEncoding/Test.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/GETAPI/apiclient2.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/Kafka/Consumer.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/Kafka/Producer.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/chat/chat2.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/chat/chat2.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/chat/chat2_grpc.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/cmd/apiclientMAIN.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/dataFormat/data.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/dataFormat/data.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/docker/docker-compose.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/files/clientCon.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/files/master2Config.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/files/masterConfig.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/files/safeData.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/files/sidecarCon.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/files/sidecarConfig.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/go.mod" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/go.sum" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/masterHeartBeat.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/proto/chat2.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/proto/sidecar.proto" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/client2.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/server.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/sidecar.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/sidecarCentral.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/sidecarClient.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/sidecarCom.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/sidecarServer.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecar/sidecar_grpc.pb.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/sidecarMain.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ServiceMesh/test/apiclient2_test.go" beforeDir="false" />
-    </list>
+    <list default="true" id="64bab9b8-f091-44be-8719-53be4c653577" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
