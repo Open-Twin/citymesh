@@ -11,7 +11,26 @@ import (
 	"time"
 
 	"google.golang.org/grpc"
+
+	"encoding/json"
+	_ "errors"
+	"github.com/Open-Twin/citymesh/complete_mesh/dataFormat"
+	"github.com/golang/protobuf/ptypes"
+
+	_ "github.com/gogo/protobuf/proto"
+	"io/ioutil"
+	"net/http"
+	_ "reflect"
+
+	"github.com/tidwall/gjson"
 )
+
+type Warning struct {
+	Gkz       string `json:"GKZ"`
+	Name      string `json:"Name"`
+	Region    string `json:"Region"`
+	Warnstufe string `json:"Warnstufe"`
+}
 
 func Client() {
 
@@ -21,7 +40,7 @@ func Client() {
 
 	// Getting all the ips from the ClientCon File
 	var ips []string
-	file, err := os.Open("../files/clientCon.csv")
+	file, err := os.Open("files/clientCon.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,7 +77,9 @@ func Client() {
 
 	var lines []string
 
-	message := sidecar.CloudEvent{
+	cloudeventmessage := Apiclient()
+
+	/*message := sidecar.CloudEvent{
 		IdService:   "S123",
 		Source:      "corona-ampel",
 		SpecVersion: "1.1",
@@ -69,20 +90,22 @@ func Client() {
 		IpService:   "123.123.123.123",
 		IpSidecar:   "",
 		Timestamp:   "2021",
-	}
+	}*/
 
 	for _ = range time.Tick(time.Second * 10) {
 
 		// Sending the Data
 
-		response, err := c.DataFromService(context.Background(), &message)
+		response, err := c.DataFromService(context.Background(), &cloudeventmessage)
+
+		fmt.Println(cloudeventmessage.Data)
 
 		if response != nil {
 			log.Printf("Response: %s ", response.Message)
 
 			// Established a connection
 			fmt.Println("Sending old data")
-			file, err := os.Open("../files/safeData.csv")
+			file, err := os.Open("files/saveData.csv")
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -125,7 +148,7 @@ func Client() {
 				log.Fatal(err)
 			}
 
-			f, err := os.OpenFile("../files/safeData.csv", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
+			f, err := os.OpenFile("files/saveData.csv", os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0755)
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -152,7 +175,7 @@ func Client() {
 
 			// Der weitere Teil ist für das Abspeichern von Datensätzen in ein File zuständig, wenn mit keinem Sidecar Verbindung aufgebaut werden kann
 			//Saving the data in a local file
-			DataSave(message)
+			DataSave(cloudeventmessage)
 
 		}
 		if err != nil {
@@ -163,7 +186,7 @@ func Client() {
 
 func DataSave(clientMessage sidecar.CloudEvent) {
 
-	f, err := os.OpenFile("../files/safeData.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile("files/saveData.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -206,4 +229,84 @@ func newIP(ips []string) {
 		*/
 
 	}
+}
+
+func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
+
+	ampel, erro := http.Get("https://corona-ampel.gv.at/sites/corona-ampel.gv.at/files/assets/Warnstufen_Corona_Ampel_Gemeinden_aktuell.json")
+
+	if erro != nil {
+		fmt.Print(erro.Error())
+		os.Exit(1)
+	}
+	body, err := ioutil.ReadAll(ampel.Body)
+	ampelJson := string(body)
+
+	value := gjson.Get(ampelJson, "#.Stand")
+	println("Length: ", len(value.Array()))
+	println(value.String())
+
+	messages := make([]*dataFormat.Message, 0, 0)
+	//0,0 checken
+
+	datenres := gjson.Get(ampelJson, "#.Stand")
+	datenres.ForEach(func(key, value gjson.Result) bool {
+		stand := value.String()
+		warnstufen := make([]*dataFormat.Warnstufen, 0, 0)
+
+		path := "#(Stand==" + stand + ").Warnstufen"
+		result := gjson.Get(ampelJson, path)
+		result.ForEach(func(key, value gjson.Result) bool {
+			var warning Warning
+			if err := json.Unmarshal([]byte(value.Raw), &warning); err != nil {
+				panic(err)
+			}
+			warnstufen = append(warnstufen,
+				&dataFormat.Warnstufen{
+					Region:    warning.Region,
+					GKZ:       warning.Gkz,
+					Name:      warning.Name,
+					Warnstufe: warning.Warnstufe,
+				})
+			return true
+		})
+		messages = append(messages,
+			&dataFormat.Message{Stand: stand,
+				Warnstufen: warnstufen,
+			})
+
+		return true
+	})
+
+	marshalMessages, err := ptypes.MarshalAny(&dataFormat.Messages{Message: messages})
+	if err != nil {
+		panic(err)
+	}
+
+	data := sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages}
+
+	cloudeventmessage = sidecar.CloudEvent{
+		IdService:   "",
+		Source:      "corona-ampel",
+		SpecVersion: "1.0",
+		Type:        "json",
+		Attributes:  nil,
+		Data:        &data,
+		IdSidecar:   "01",
+		IpService:   "192.168.0.10",
+		IpSidecar:   "192.168.0.11",
+	}
+
+	//fmt.Print(cloudeventmessage.Data)
+
+	//fmt.Println(cloudeventmessage.Data)
+
+	/*response, err := c.DataFromService(context.Background(), &cloudeventmessage)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", response.GetMessage())*/
+
+	return cloudeventmessage
+
 }

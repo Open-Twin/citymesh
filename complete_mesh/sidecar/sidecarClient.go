@@ -2,32 +2,19 @@ package sidecar
 
 import (
 	"bufio"
+	_ "errors"
 	"fmt"
-	//"github.com/Open-Twin/citymesh/complete_mesh/chat"
+	"github.com/Open-Twin/citymesh/complete_mesh/chat"
+	_ "github.com/gogo/protobuf/proto"
 	//"github.com/Open-Twin/citymesh/service_mesh/smesh/sidecar"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"log"
-	"net/http"
 	"os"
 	_ "os"
-	"strings"
-	"encoding/json"
-	_ "errors"
-	"github.com/Open-Twin/citymesh/complete_mesh/dataFormat"
-	"github.com/golang/protobuf/ptypes"
-	_ "github.com/gogo/protobuf/proto"
-	"io/ioutil"
 	_ "reflect"
-	"github.com/tidwall/gjson"
+	"strings"
 )
-
-type Warning struct {
-	Gkz       string `json:"GKZ"`
-	Name      string `json:"Name"`
-	Region    string `json:"Region"`
-	Warnstufe string `json:"Warnstufe"`
-}
 
 func client(cloudmessage *CloudEvent) {
 	fmt.Println("Debug: Initialised Client")
@@ -38,7 +25,7 @@ func client(cloudmessage *CloudEvent) {
 	// Zuerst holen wir uns alle Ips aus dem ClientCon File
 
 	var ips []string
-	file, err := os.Open("../files/sidecarCon.csv")
+	file, err := os.Open("files/sidecarCon.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -65,12 +52,9 @@ func client(cloudmessage *CloudEvent) {
 	// defer runs after the functions finishes
 	defer conn.Close()
 
+	c := chat.NewChatServiceClient(conn)
 
-
-
-	c := NewChatServiceClient(conn)
-
-	/*message := chat.CloudEvent{
+	message := chat.CloudEvent{
 		IdService:   cloudmessage.IdService,
 		Source:      cloudmessage.Source,
 		SpecVersion: cloudmessage.SpecVersion,
@@ -81,12 +65,9 @@ func client(cloudmessage *CloudEvent) {
 		IpService:   cloudmessage.IpService,
 		IpSidecar:   cloudmessage.IpSidecar,
 		Timestamp:   cloudmessage.Timestamp,
-	}*/
+	}
 
-	cloudeventmessage := Apiclient()
-
-	response, err := c.DataFromService(context.Background(), &cloudeventmessage)
-
+	response, err := c.DataFromSidecar(context.Background(), &message)
 
 	if response != nil {
 		log.Printf("Response from Server: %s , ", response.Message)
@@ -115,87 +96,4 @@ func client(cloudmessage *CloudEvent) {
 			*/
 		}
 	}
-}
-
-func Apiclient() (cloudeventmessage CloudEvent) {
-
-
-	ampel, erro := http.Get("https://corona-ampel.gv.at/sites/corona-ampel.gv.at/files/assets/Warnstufen_Corona_Ampel_Gemeinden_aktuell.json")
-
-	if erro != nil {
-		fmt.Print(erro.Error())
-		os.Exit(1)
-	}
-	body, err := ioutil.ReadAll(ampel.Body)
-	ampelJson := string(body)
-
-	value := gjson.Get(ampelJson, "#.Stand")
-	println("Length: ", len(value.Array()))
-	println(value.String())
-
-	messages := make([]*dataFormat.Message, 0, 0)
-	//0,0 checken
-
-	datenres := gjson.Get(ampelJson, "#.Stand")
-	datenres.ForEach(func(key, value gjson.Result) bool {
-		stand := value.String()
-		warnstufen := make([]*dataFormat.Warnstufen, 0, 0)
-
-		path := "#(Stand==" + stand + ").Warnstufen"
-		result := gjson.Get(ampelJson, path)
-		result.ForEach(func(key, value gjson.Result) bool {
-			var warning Warning
-			if err := json.Unmarshal([]byte(value.Raw), &warning); err != nil {
-				panic(err)
-			}
-			warnstufen = append(warnstufen,
-				&dataFormat.Warnstufen{
-					Region:    warning.Region,
-					GKZ:       warning.Gkz,
-					Name:      warning.Name,
-					Warnstufe: warning.Warnstufe,
-				})
-			return true
-		})
-		messages = append(messages,
-			&dataFormat.Message{Stand: stand,
-				Warnstufen: warnstufen,
-			})
-
-		return true
-	})
-
-
-
-	marshalMessages, err := ptypes.MarshalAny(&dataFormat.Messages{Message: messages})
-	if err != nil {
-		panic(err)
-	}
-
-	data := CloudEvent_ProtoData{ProtoData: marshalMessages}
-
-	cloudeventmessage = CloudEvent{
-		IdService:   "",
-		Source:      "corona-ampel",
-		SpecVersion: "1.0",
-		Type:        "json",
-		Attributes:  nil,
-		Data:        &data,
-		IdSidecar:   "01",
-		IpService:   "192.168.0.10",
-		IpSidecar:   "192.168.0.11",
-	}
-
-	fmt.Print(cloudeventmessage)
-
-	//fmt.Println(cloudeventmessage.Data)
-
-	/*response, err := c.DataFromService(context.Background(), &cloudeventmessage)
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	log.Printf("Greeting: %s", response.GetMessage())*/
-
-	return cloudeventmessage
-
 }
