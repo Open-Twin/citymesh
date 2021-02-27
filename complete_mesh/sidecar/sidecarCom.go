@@ -31,12 +31,17 @@ var localmessage string
 
 var msg *CloudEvent
 
+const (
+	sidecarID = "S123"
+	sidecarIP = "123.123.123.123"
+)
+
 func (s *Server) DataFromService(ctx context.Context, message *CloudEvent) (*MessageReply, error) {
 	//log.Printf("Received message body from client %s , %s , %s , %s , %s ", message.IdService, message.Source, message.SpecVersion, message.Type, message.IdService, message.IpSidecar, message.IpSidecar, message.Timestamp, message.Data)
 	//fmt.Printf( "Received message body from client")
 	log.Printf("Received: %s", message.Data)
-	message.IdSidecar = "sd123"
-	message.IpSidecar = "123.123.123.123"
+	message.IdSidecar = sidecarID
+	message.IpSidecar = sidecarIP
 	msg = message
 	SafeToFile(message.IdService, message.IpService, message.Timestamp)
 	go client(msg)
@@ -76,7 +81,7 @@ func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply
 		p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
 			//response = fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
 
-			response = fmt.Sprintf("%s ID: %s IP Addr: %s receive, RTT: %v; \n ", response, res[0], addr.String(), rtt)
+			response += fmt.Sprintf("	ID: %s IP Addr: %s receive, RTT: %v;\n", response, res[0], addr.String(), rtt)
 
 		}
 		p.OnIdle = func() {
@@ -87,7 +92,7 @@ func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply
 			fmt.Println(err)
 		}
 	}
-	return &MessageReply{Message: response}, nil
+	return &MessageReply{Message:response}, nil
 }
 
 func SafeToFile(ip string, sid string, tst string) {

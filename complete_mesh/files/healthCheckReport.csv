@@ -1,9 +1,23 @@
-  ID: S123 IP Addr: 172.217.22.196 receive, RTT: 17.7742ms;
-  ID: S12 IP Addr: 172.217.22.196 receive, RTT: 18.0854ms; 
-  ID: S1234 IP Addr: 172.217.22.196 receive, RTT: 29.1553ms; 
-  ID: S12345 IP Addr: 172.217.22.196 receive, RTT: 24.9056ms; 
-  ID: S123 IP Addr: 216.58.207.132 receive, RTT: 19.0574ms; 
-  ID: S12 IP Addr: 216.58.207.132 receive, RTT: 19.0577ms; 
-  ID: S1234 IP Addr: 216.58.207.132 receive, RTT: 20.994ms; 
-  ID: S12345 IP Addr: 216.58.207.132 receive, RTT: 20.0029ms; 
+Master: Master123 | 192.168.0.2 Timestamp: 2021-02-27 11:41:31.4137417 +0100 CET m=+0.165407001
+Sidecar: Sidecar123 | 192.168.41.140 Timestamp: 2021-02-27 11:41:31.4238277 +0100 CET m=+0.175493001
+ ID: Service1 IP Addr: 172.217.22.196 receive, RTT: 18.0002ms; 
+  ID: Service2 IP Addr: 172.217.22.196 receive, RTT: 18.9975ms; 
+  ID: Service3 IP Addr: 172.217.22.196 receive, RTT: 28.9211ms; 
+  ID: Service4 IP Addr: 172.217.22.196 receive, RTT: 21.9628ms; 
+ Sidecar: Sidecar456 | 192.168.41.140 Timestamp: 2021-02-27 11:41:35.5916745 +0100 CET m=+4.343339801
+ ID: Service1 IP Addr: 172.217.22.196 receive, RTT: 24.6356ms; 
+  ID: Service2 IP Addr: 172.217.22.196 receive, RTT: 88.1816ms; 
+  ID: Service3 IP Addr: 172.217.22.196 receive, RTT: 18.9963ms; 
+  ID: Service4 IP Addr: 172.217.22.196 receive, RTT: 25.1674ms; 
+ Master: Master456 | 192.168.0.1 Timestamp: 2021-02-27 11:41:39.8032478 +0100 CET m=+8.554913101
+Sidecar: Sidecar123 | 192.168.41.140 Timestamp: 2021-02-27 11:41:39.8102514 +0100 CET m=+8.561916701
+ ID: Service1 IP Addr: 172.217.22.196 receive, RTT: 16.9915ms; 
+  ID: Service2 IP Addr: 172.217.22.196 receive, RTT: 30.9289ms; 
+  ID: Service3 IP Addr: 172.217.22.196 receive, RTT: 25.2192ms; 
+  ID: Service4 IP Addr: 172.217.22.196 receive, RTT: 19.5218ms; 
+ Sidecar: Sidecar456 | 192.168.41.140 Timestamp: 2021-02-27 11:41:43.9777557 +0100 CET m=+12.729421001
+ ID: Service1 IP Addr: 172.217.22.196 receive, RTT: 18.9991ms; 
+  ID: Service2 IP Addr: 172.217.22.196 receive, RTT: 17.9928ms; 
+  ID: Service3 IP Addr: 172.217.22.196 receive, RTT: 17.586ms; 
+  ID: Service4 IP Addr: 172.217.22.196 receive, RTT: 24.5394ms; 
  

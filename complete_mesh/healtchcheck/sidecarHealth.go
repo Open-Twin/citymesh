@@ -1,4 +1,4 @@
-package main
+package healthcheck
 
 import (
 	"fmt"
@@ -6,10 +6,10 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"log"
-	"os"
+	"time"
 )
+func SidecarHealth(sidecarID []string ,sidecarIps []string) (string) {
 
-func main() {
 	/*
 		pinger, err := ping.NewPinger("www.google.com")
 		if err != nil {
@@ -53,58 +53,45 @@ func main() {
 			fmt.Printf("%s %s %s\n", host, "responding on port:", port)
 		}
 	*/
-
-	// Placeholder until Gateway
-	conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
-	// real code:
-	//conn, err := grpc.Dial(target, grpc.WithInsecure())
-
-	if erro != nil {
-		log.Fatalf("no server connection could be established cause: %v", erro)
-
-	}
-
-	// defer runs after the functions finishes
-	defer conn.Close()
-
-	c := sidecar.NewChatServiceClient(conn)
-
-	var message sidecar.Health
-
-	message = sidecar.Health{Health: "abc"}
-	response, err := c.HealthCheck(context.Background(), &message)
+	fmt.Println("Infos")
 	var data string
-	if response != nil {
-		fmt.Sprintf("Healthcheck Report: %s ", response.Message)
-		fmt.Println(data)
-		saveHealthCheck(response.Message)
+	for index, ip  := range sidecarIps {
+		fmt.Println("Starting Healthcheck for Sidecar : "+sidecarID[index] +"|"+ ip)
+		now := time.Now()
+		// Placeholder until Ips
+		conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
+		// real code:
+		//conn, err := grpc.Dial(ip+":9000", grpc.WithInsecure())
+
+		if erro != nil {
+			log.Fatalf("no server connection could be established cause: %v", erro)
+
+		}
+
+		// defer runs after the functions finishes
+		defer conn.Close()
+
+		c := sidecar.NewChatServiceClient(conn)
+
+		var message sidecar.Health
+
+		message = sidecar.Health{Health: "abc"}
+		response, err := c.HealthCheck(context.Background(), &message)
+
+		if response != nil {
+			fmt.Sprintf("Healthcheck Report: %s ", response.Message)
+			data+= "Sidecar: "+sidecarID[index] +" | "+ip+" Timestamp: " +now.String()+"\n"
+			//fmt.Println(response.Message)
+			data += response.Message
+
+
+		}
+
+		if err != nil {
+			log.Printf("Response from Server: %s , ", err)
+		}
 
 	}
-
-	if err != nil {
-		log.Printf("Response from Server: %s , ", err)
-	}
-
-}
-
-func saveHealthCheck(data string) {
-
-	f, err := os.OpenFile("../files/healthCheckReport.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-
-	l, err := f.WriteString(data)
-	if err != nil {
-		fmt.Println(err)
-		f.Close()
-		return
-	}
-	fmt.Println(l, "bytes written successfully")
-	err = f.Close()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	fmt.Println(data)
+	return data
 }

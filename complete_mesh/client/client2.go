@@ -5,12 +5,10 @@ import (
 	"fmt"
 	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 	"log"
 	"os"
 	"strings"
-	"time"
-
-	"google.golang.org/grpc"
 
 	"encoding/json"
 	_ "errors"
@@ -31,6 +29,11 @@ type Warning struct {
 	Region    string `json:"Region"`
 	Warnstufe string `json:"Warnstufe"`
 }
+
+const (
+	serviceID = "S123"
+	serviceIP = "123.123.123.123"
+)
 
 func Client() {
 
@@ -92,7 +95,7 @@ func Client() {
 		Timestamp:   "2021",
 	}*/
 
-	for _ = range time.Tick(time.Second * 10) {
+	for  i := 1; i <= 3; i++ {
 
 		// Sending the Data
 
@@ -286,13 +289,13 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 	data := sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages}
 
 	cloudeventmessage = sidecar.CloudEvent{
-		IdService:   "",
+		IdService:   serviceID,
 		Source:      "corona-ampel",
 		SpecVersion: "1.0",
 		Type:        "json",
 		Attributes:  nil,
 		Data:        &data,
-		IdSidecar:   "01",
+		IdSidecar:   serviceIP,
 		IpService:   "192.168.0.10",
 		IpSidecar:   "192.168.0.11",
 	}

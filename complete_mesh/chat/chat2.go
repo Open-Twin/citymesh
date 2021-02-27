@@ -46,6 +46,13 @@ func (s *Server) DataFromSidecar(ctx context.Context, message *CloudEvent) (*Mes
 }
 
 func (s *Server) HealthCheck(ctx context.Context, health2 *Health) (*MessageReply, error) {
+	b, err := ioutil.ReadFile("files/master2Config.csv")
+	str := string(b) // convert content to a 'string'
+	fmt.Println("WAS LIEST der MASTER?")
+	fmt.Println(str)
+	if err != nil {
+		fmt.Println(err)
+	}
 	/*
 		fmt.Println("Sending pings to all registered entries")
 
@@ -105,7 +112,7 @@ func (s *Server) HealthCheck(ctx context.Context, health2 *Health) (*MessageRepl
 		return &MessageReply{Reply: report}, nil
 	*/
 
-	return &MessageReply{Message: "Hello"}, nil
+	return &MessageReply{Message: str}, nil
 }
 
 func (s *Server) GetMessage() string {
