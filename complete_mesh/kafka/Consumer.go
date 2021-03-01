@@ -54,8 +54,8 @@ func main() {
 					log.Fatalln("Failed to unmarshal message:", err)
 				}
 
-				log.Printf("Message received: %s", receivedMessage)
-				fmt.Println("Message received: ", receivedMessage)
+				log.Printf("Message received: %s", receivedMessage.Data)
+				fmt.Println("Message received: ", receivedMessage.Data)
 				fmt.Println("Received messages", string(msg.Key), string(msg.Value))
 			case consumerError := <-errors:
 				msgCount++
