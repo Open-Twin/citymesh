@@ -77,8 +77,6 @@ func Client() {
 
 	var lines []string
 
-	cloudeventmessage := Apiclient()
-
 	/*message := sidecar.CloudEvent{
 		IdService:   "S123",
 		Source:      "corona-ampel",
@@ -95,6 +93,8 @@ func Client() {
 	for _ = range time.Tick(time.Second * 10) {
 
 		// Sending the Data
+
+		cloudeventmessage := Apiclient()
 
 		response, err := c.DataFromService(context.Background(), &cloudeventmessage)
 
