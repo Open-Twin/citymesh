@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	_ "errors"
 	"fmt"
+	"github.com/Open-Twin/citymesh/complete_mesh/broker"
 	"github.com/Open-Twin/citymesh/complete_mesh/dataFormat"
-	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"github.com/Shopify/sarama"
 	"github.com/golang/protobuf/proto"
 	"github.com/golang/protobuf/ptypes"
@@ -74,6 +74,7 @@ func initProducer() (sarama.SyncProducer, error) {
 	config.Producer.Retry.Max = 5
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Return.Successes = true
+	config.Producer.MaxMessageBytes = 5000000
 
 	// async producer
 	//prd, err := sarama.NewAsyncProducer([]string{kafkaConn}, config)
@@ -84,7 +85,7 @@ func initProducer() (sarama.SyncProducer, error) {
 	return prd, err
 }
 
-func publish(message sidecar.CloudEvent, producer sarama.SyncProducer) {
+func publish(message broker.CloudEvent, producer sarama.SyncProducer) {
 	// publish sync
 
 	messageToSend := &message
@@ -109,7 +110,7 @@ func publish(message sidecar.CloudEvent, producer sarama.SyncProducer) {
 	fmt.Println("Offset: ", o)
 }
 
-func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
+func Apiclient() (cloudeventmessage broker.CloudEvent) {
 
 	ampel, erro := http.Get("https://corona-ampel.gv.at/sites/corona-ampel.gv.at/files/assets/Warnstufen_Corona_Ampel_Gemeinden_aktuell.json")
 
@@ -161,18 +162,16 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 		panic(err)
 	}
 
-	data := sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages}
+	data := broker.CloudEvent_ProtoData{ProtoData: marshalMessages}
 
-	cloudeventmessage = sidecar.CloudEvent{
+	cloudeventmessage = broker.CloudEvent{
 		IdService:   "",
 		Source:      "corona-ampel",
 		SpecVersion: "1.0",
 		Type:        "json",
 		Attributes:  nil,
 		Data:        &data,
-		IdSidecar:   "01",
 		IpService:   "192.168.0.10",
-		IpSidecar:   "192.168.0.11",
 	}
 
 	//fmt.Print(cloudeventmessage.Data)

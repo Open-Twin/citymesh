@@ -12,7 +12,7 @@ services:
 
   kafka:
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
-    # An important note about accessing Kafka from clients on other machines: 
+    # An important note about accessing kafka from clients on other machines:
     # -----------------------------------------------------------------------
     #
     # The config used here exposes port 9092 for _external_ connections to the broker

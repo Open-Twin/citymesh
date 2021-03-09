@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/chat"
+	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"github.com/Shopify/sarama"
 	"github.com/golang/protobuf/proto"
 	"log"
@@ -48,15 +48,15 @@ func main() {
 			select {
 			case msg := <-consumer:
 				msgCount++
-				receivedMessage := &chat.CloudEvent{}
+				receivedMessage := &sidecar.CloudEvent{}
 				err := proto.Unmarshal(msg.Value, receivedMessage)
 				if err != nil {
 					log.Fatalln("Failed to unmarshal message:", err)
 				}
 
-				log.Printf("Message received: %s", receivedMessage.Data)
+				//log.Printf("Message received: %s", receivedMessage.Data)
 				fmt.Println("Message received: ", receivedMessage.Data)
-				fmt.Println("Received messages", string(msg.Key), string(msg.Value))
+				//fmt.Println("Received messages", string(msg.Key), string(msg.Value))
 			case consumerError := <-errors:
 				msgCount++
 				fmt.Println("Received consumerError ", string(consumerError.Topic), string(consumerError.Partition), consumerError.Err)
