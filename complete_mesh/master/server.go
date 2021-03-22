@@ -1,15 +1,15 @@
-package sidecar
+package master
 
 import (
 	"fmt"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+
+	"google.golang.org/grpc"
 	"log"
 	"net"
-	_ "os"
 )
 
-func NewServer() {
+func Master() {
 	// create a TCP Listener on Port 9000
 	lis, err := net.Listen("tcp", ":9000")
 	// this how you handle errors in Golang
@@ -33,5 +33,4 @@ func NewServer() {
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve gRPC server over port 9000 %v", err)
 	}
-
 }

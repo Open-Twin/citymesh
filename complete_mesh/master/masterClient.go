@@ -1,21 +1,21 @@
-package sidecar
+package master
 
 import (
-	"bufio"
+	//"bufio"
 	_ "errors"
 	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/master"
-	_ "github.com/gogo/protobuf/proto"
 	"google.golang.org/grpc/credentials"
 
-	//"github.com/Open-Twin/citymesh/service_mesh/smesh/sidecar"
-	"golang.org/x/net/context"
+	//"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
+	//"github.com/golang/protobuf/ptypes"
+
+	//"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
+	//"github.com/gogo/protobuf/proto"
+	_ "github.com/gogo/protobuf/proto"
+
 	"google.golang.org/grpc"
 	"log"
-	"os"
-	_ "os"
 	_ "reflect"
-	"strings"
 )
 
 func client(cloudmessage *CloudEvent) {
@@ -24,46 +24,33 @@ func client(cloudmessage *CloudEvent) {
 	// create client for GRPC Server
 	var conn *grpc.ClientConn
 
-	// Zuerst holen wir uns alle Ips aus dem ClientCon File
-
-	var ips []string
-	file, err := os.Open("files/sidecarCon.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		res := strings.Split(line, ";")
-
-		ips = append(ips, res[1])
-
-	}
-
-	target := ips[0]
-	fmt.Println(target)
-
 	creds, _ := credentials.NewClientTLSFromFile("cert/server.crt", "")
 	conn, error := grpc.Dial(":9001", grpc.WithTransportCredentials(creds))
-	if err != nil {
+	if error != nil {
 		log.Fatalf("no server connection could be established cause: %v", error)
 	}
 
 	// defer runs after the functions finishes
 	defer conn.Close()
 
-	c := master.NewChatServiceClient(conn)
+	//c := broker.NewChatServiceClient(conn)
 
-	message := master.CloudEvent{
+	//broker
+
+	//data := CloudEvent_ProtoData{cloudmessage.Data}
+
+	newdata := cloudmessage.Data
+	print(newdata)
+	/*data := ptypes.UnmarshalAny(cloudmessage.Data)
+
+
+	message := broker.CloudEvent{
 		IdService:   cloudmessage.IdService,
 		Source:      cloudmessage.Source,
 		SpecVersion: cloudmessage.SpecVersion,
 		Type:        cloudmessage.Type,
 		Attributes:  nil,
-		Data:        nil,
+		Data:        cloudmessage.Data,
 		IdSidecar:   cloudmessage.IdSidecar,
 		IpService:   cloudmessage.IpService,
 		IpSidecar:   cloudmessage.IpSidecar,
@@ -96,7 +83,7 @@ func client(cloudmessage *CloudEvent) {
 					break
 				}
 
-			*/
+
 		}
-	}
+	}*/
 }

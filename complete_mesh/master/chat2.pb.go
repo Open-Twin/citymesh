@@ -4,7 +4,7 @@
 // 	protoc        v3.14.0
 // source: proto/chat2.proto
 
-package chat
+package master
 
 import (
 	proto "github.com/golang/protobuf/proto"

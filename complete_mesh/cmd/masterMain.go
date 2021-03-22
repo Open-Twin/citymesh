@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/Open-Twin/citymesh/complete_mesh/chat"
+	"github.com/Open-Twin/citymesh/complete_mesh/master"
 )
 
 func main() {
-	chat.Master()
+	master.Master()
 }
