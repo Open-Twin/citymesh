@@ -81,16 +81,16 @@ object KafkaDemo {
 
         // val parseBytes = ProtoSQL.udf {bytes: Array[Byte] => bytes.toString()}
 
-        val unpackAny = ProtoSQL.udf { any: com.google.protobuf.any.Any => any.unpack[Corona] }
+        // val unpackAny = ProtoSQL.udf { any: com.google.protobuf.any.Any => any.unpack[Corona] }
 
 
         val df_new = df.withColumn("cloud", parseCloud($"value"))
 
 
        df_new.select("cloud.*", "*").drop("value")//.drop("cloud")
-          //.select("proto_data.*", "*")
-          .withColumn("corona", unpackAny($"proto_data"))
-          //.selectExpr("CAST(value AS STRING)")
+          .select("proto_data.*", "*")
+          // .withColumn("corona", unpackAny($"proto_data"))
+          .selectExpr("CAST(value AS STRING)")
           .writeStream
           .format("json")
           .option("path", "spark-warehouse/corona")
