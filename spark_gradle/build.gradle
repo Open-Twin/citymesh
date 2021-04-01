@@ -21,23 +21,16 @@ plugins {
     id 'com.google.protobuf' version '0.8.8'
 }
 
-
-task push(type: JavaExec) {
-    description 'Attempts to push a CloudEvent of Covid Traffic Light to Kafka'
-    classpath = sourceSets.main.runtimeClasspath
-    main = 'ashukhov.PushToKafka'
-}
-
 task stream(type: JavaExec) {
     description 'Spark Structured Streaming with Kafka CloudEvent implementation'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'ashukhov.KafkaDemo'
+    main = 'ashukhov.StreamingCloudevent'
 }
 
-task getAll(type: JavaExec) {
-    description 'Additional Spark functions to look at Persistance Store'
+task socketData(type: JavaExec) {
+    description 'Listens to a Socket and returns a json with the data'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'ashukhov.SparkFunctions'
+    main = 'ashukhov.SocketData'
 }
 
 
