@@ -22,13 +22,14 @@ func NewServer() {
 	fmt.Println("Sidecar: GRPC-Server started")
 	//create the GRCP Server
 
-	creds, _ := credentials.NewServerTLSFromFile("cert/server.crt", "cert/server.key")
-	grpcServer := grpc.NewServer(grpc.Creds(creds))
+	creds, _ := credentials.NewServerTLSFromFile("cert/service.pem", "cert/service.key")
+	grpcServer := grpc.NewServer(grpc.Creds(creds), grpc.MaxSendMsgSize(10*1024*1024), grpc.MaxRecvMsgSize(10*1024*1024))
 	// error handling omitted
-	grpcServer.Serve(lis)
 
 	//grpcServer := grpc.NewServer()
 	RegisterChatServiceServer(grpcServer, &s)
+	print("Test after register")
+	grpcServer.Serve(lis)
 	// start listening on port 9000 for rpc
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve gRPC server over port 9000 %v", err)

@@ -4,6 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
+	_ "github.com/gogo/protobuf/proto"
+	"github.com/golang/protobuf/proto"
+	"google.golang.org/grpc/credentials"
+	"google.golang.org/protobuf/encoding/protojson"
+
 	"golang.org/x/net/context"
 	"log"
 	"os"
@@ -15,9 +20,8 @@ import (
 	"encoding/json"
 	_ "errors"
 	"github.com/Open-Twin/citymesh/complete_mesh/dataFormat"
-	"github.com/golang/protobuf/ptypes"
+	_ "github.com/golang/protobuf/ptypes"
 
-	_ "github.com/gogo/protobuf/proto"
 	"io/ioutil"
 	"net/http"
 	_ "reflect"
@@ -60,8 +64,21 @@ func Client() {
 
 	// Creating a connection with the first ip from the file
 
-	// Placeholder until Gateway
+	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "")
+	if err != nil {
+		log.Fatalf("could not process the credentials: %v", err)
+	}
+	conn, err = grpc.Dial(":9000", grpc.WithTransportCredentials(creds))
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+
+	print("Test after connection")
+
+	/*// Placeholder until Gateway
 	conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
+
 	// real code:
 	//conn, err := grpc.Dial(target, grpc.WithInsecure())
 
@@ -71,7 +88,7 @@ func Client() {
 	}
 
 	// defer runs after the functions finishes
-	defer conn.Close()
+	defer conn.Close()*/
 
 	c := sidecar.NewChatServiceClient(conn)
 
@@ -98,8 +115,9 @@ func Client() {
 
 		response, err := c.DataFromService(context.Background(), &cloudeventmessage)
 
-		fmt.Println(cloudeventmessage.Data)
+		//fmt.Println(cloudeventmessage.Data)
 
+		//fmt.Println("Hat es funktioniert?" + response.Message)
 		if response != nil {
 			log.Printf("Response: %s ", response.Message)
 
@@ -240,6 +258,10 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 		os.Exit(1)
 	}
 	body, err := ioutil.ReadAll(ampel.Body)
+	if err != nil {
+		fmt.Print(err.Error())
+		os.Exit(1)
+	}
 	ampelJson := string(body)
 
 	value := gjson.Get(ampelJson, "#.Stand")
@@ -274,16 +296,31 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 			&dataFormat.Message{Stand: stand,
 				Warnstufen: warnstufen,
 			})
+		//jsonmessage,err := ProtobufToJSON(messages)
 
 		return true
 	})
 
-	marshalMessages, err := ptypes.MarshalAny(&dataFormat.Messages{Message: messages})
+	print("Message", messages)
+
+	/*marshalMessages, err := ptypes.MarshalAny(&dataFormat.Messages{Message: messages})
 	if err != nil {
 		panic(err)
+	}*/
+
+	//data := sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages}
+
+	//jsondata,err := ProtobufToJSON(messages)
+
+	text := ""
+	for _, element := range messages {
+		text = text + string(proto.MarshalTextString(element))
+		//result, _ := ProtobufToJSON(element)
+		//text = text + result
+
 	}
 
-	data := sidecar.CloudEvent_ProtoData{ProtoData: marshalMessages}
+	finishedMessage := sidecar.CloudEvent_TextData{TextData: text}
 
 	cloudeventmessage = sidecar.CloudEvent{
 		IdService:   "",
@@ -291,13 +328,11 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 		SpecVersion: "1.0",
 		Type:        "json",
 		Attributes:  nil,
-		Data:        &data,
+		Data:        &finishedMessage,
 		IdSidecar:   "01",
 		IpService:   "192.168.0.10",
 		IpSidecar:   "192.168.0.11",
 	}
-
-	//fmt.Print(cloudeventmessage.Data)
 
 	//fmt.Println(cloudeventmessage.Data)
 
@@ -309,4 +344,14 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 
 	return cloudeventmessage
 
+}
+
+func ProtobufToJSON(message dataFormat.Message) (string, error) {
+	marshaler := protojson.MarshalOptions{
+		Indent:          "  ",
+		UseProtoNames:   true,
+		EmitUnpopulated: true,
+	}
+	b, err := marshaler.Marshal(&message)
+	return string(b), err
 }
