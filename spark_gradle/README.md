@@ -39,4 +39,3 @@ Der Task getAll führt eine SQL-Query aus und schaut sich den Inhalt des Filesys
 ```bash
 gradle getAll
 ```
-
