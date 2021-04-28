@@ -1,0 +1,60 @@
+syntax= "proto3";
+package sidecar;
+
+import "google/protobuf/any.proto";
+
+option go_package = "";
+
+message CloudEvent{
+
+  // Required Attributes
+  string idService = 1;
+  string source = 2; // URI-reference
+  string spec_version = 3;
+  string type = 4;
+
+  map<string, CloudEventAttributeValue> attributes = 5;
+
+  oneof data{
+    //Binary data
+    bytes binary_data = 6;
+    //String data
+    string text_data = 7;
+    //Protobuf Message data
+    google.protobuf.Any proto_data = 8;
+  }
+
+  message CloudEventAttributeValue {
+
+  }
+
+  // Attribute Extensions
+  string idSidecar = 9;
+  string ipService = 10;
+  string ipSidecar = 11;
+  string timestamp = 12;
+}
+
+
+message MessageReply {
+  string message = 1;
+}
+
+message Health{
+  string health = 1;
+}
+
+
+service ChatService{
+  rpc DataFromService(CloudEvent) returns (MessageReply) {}
+  rpc HealthCheck(Health) returns (MessageReply) {}
+}
+
+//service SidecarService{
+//  rpc HealthCheck(ProtoSchlecht) returns (MessageReply) {}
+//}
+
+
+
+
+
