@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smesh-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: smesh-master
+  template:
+    metadata:
+      labels:
+        name: smesh-master
+    spec:
+      containers:
+      - name: masternode
+        image: tmatschinegg/smesh3
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 9000

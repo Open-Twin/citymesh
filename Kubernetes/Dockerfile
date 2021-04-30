@@ -1,0 +1,7 @@
+FROM golang:1.15.2
+RUN mkdir /app
+ADD ./complete_mesh /app
+WORKDIR /app
+RUN ls -l
+CMD go run cmd/clientMain.go
+
