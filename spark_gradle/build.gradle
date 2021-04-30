@@ -14,7 +14,6 @@ buildscript {
   }
 }
 
-
 plugins {
     id 'scala'
     id 'application'
@@ -24,13 +23,13 @@ plugins {
 task stream(type: JavaExec) {
     description 'Spark Structured Streaming with Kafka CloudEvent implementation'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'ashukhov.StreamingCloudevent'
+    main = 'application.StreamingCloudevent'
 }
 
 task socketData(type: JavaExec) {
     description 'Listens to a Socket and returns a json with the data'
     classpath = sourceSets.main.runtimeClasspath
-    main = 'ashukhov.SocketData'
+    main = 'application.SocketData'
 }
 
 
@@ -58,11 +57,26 @@ dependencies {
     implementation group: 'org.apache.spark', name: 'spark-sql-kafka-0-10_2.12', version: '3.0.1'  
     implementation group: 'org.apache.spark', name: 'spark-hive_2.12', version: '3.0.1'
 
+    compileOnly 'org.apache.spark:spark-core_2.12:3.0.1'
+    compileOnly 'org.apache.spark:spark-streaming-kafka-0-10_2.12:3.0.1'
+    compileOnly 'org.apache.spark:spark-sql_2.12:3.0.1'
+    compileOnly 'org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.1'
+    compileOnly 'org.apache.spark:spark-hive_2.12:3.0.1'
+
     implementation group: 'com.thesamet.scalapb', name: 'sparksql-scalapb_2.12', version: '0.11.0-RC1'
     implementation group: 'com.thesamet.scalapb', name: 'scalapb-runtime_2.12', version: '0.11.0-M4'
     implementation group: 'com.thesamet.scalapb', name: 'scalapb-runtime-grpc_2.12', version: '0.11.0-M4'
 }
 
+jar {
+  manifest { 
+    attributes "Main-Class": "application.StreamingCloudevent"
+  }  
+
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+} 
 
 test {
     useJUnit()
