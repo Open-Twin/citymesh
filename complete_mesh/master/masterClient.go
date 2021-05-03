@@ -4,6 +4,7 @@ import (
 	//"bufio"
 	_ "errors"
 	"fmt"
+	_ "github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc/credentials"
 
 	//"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
@@ -39,9 +40,10 @@ func client(cloudmessage *CloudEvent) {
 
 	//data := CloudEvent_ProtoData{cloudmessage.Data}
 
-	newdata := cloudmessage.Data
-	print(newdata)
-	/*data := ptypes.UnmarshalAny(cloudmessage.Data)
+	/*newdata := CloudEvent_TextData{TextData: "Hallo"}
+	newdata2 := broker.CloudEvent_TextData{TextData: "Hallo"}
+
+	//finishedMessage := sidecar.CloudEvent_TextData{TextData: text}
 
 
 	message := broker.CloudEvent{
@@ -50,7 +52,7 @@ func client(cloudmessage *CloudEvent) {
 		SpecVersion: cloudmessage.SpecVersion,
 		Type:        cloudmessage.Type,
 		Attributes:  nil,
-		Data:        cloudmessage.Data,
+		Data:        CloudEvent{Data: CloudEvent_TextData{TextData: cloudmessage.Data}},
 		IdSidecar:   cloudmessage.IdSidecar,
 		IpService:   cloudmessage.IpService,
 		IpSidecar:   cloudmessage.IpSidecar,
@@ -73,7 +75,7 @@ func client(cloudmessage *CloudEvent) {
 			//c := sidecar.NewChatServiceClient(conn)
 			//response, err := c.DataFromSidecar(context.Background(), &message2)
 
-			/*
+
 				if response != nil {
 					fmt.Println("New Target gesichtet")
 					if err != nil {
