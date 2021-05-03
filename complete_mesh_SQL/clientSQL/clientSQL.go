@@ -56,7 +56,7 @@ func Client() {
 	}
 	defer sqliteDatabase.Close() // Defer Closing the database
 	sqliteDatabase.Exec("PRAGMA journal_mode=WAL;")
-	createTable(sqliteDatabase) // Create Database Tables
+	CreateTable(sqliteDatabase) // Create Database Tables
 
 	//insertStorage(sqliteDatabase, "", "S123", "Corona Ampel","1.0","Json","000","123.123.123.123","192.168.0.1")
 	//insertStorage(sqliteDatabase, "2021.1", "S123", "Corona Ampel","1.0","Json","000","123.123.123.123","192.168.0.1")
@@ -71,19 +71,7 @@ func Client() {
 
 	// Getting all the ips from the ClientCon File
 	var ips []string
-	file, erre := os.Open("files/clientCon.csv")
-	if erre != nil {
-		log.Fatal(erre)
-	}
-	defer file.Close()
-
-	scanner := bufio.NewScanner(file)
-	//saving all
-	for scanner.Scan() {
-		line := scanner.Text()
-		res := strings.Split(line, ";")
-		ips = append(ips, res[1])
-	}
+	ips = GetIPs()
 
 	target := ips[0]
 
@@ -166,7 +154,7 @@ func Client() {
 							log.Panic(error)
 
 						} else {
-							deleteStorage(sqliteDatabase,message2.Timestamp)
+							DeleteStorage(sqliteDatabase,message2.Timestamp)
 						}
 
 
@@ -185,9 +173,9 @@ func Client() {
 				log.Panic(error)
 			} else {
 				//Saving the data in a local file
-				insertStorage(sqliteDatabase,cloudeventmessage.Timestamp,cloudeventmessage.IdService,cloudeventmessage.Source, cloudeventmessage.SpecVersion,cloudeventmessage.Type,cloudeventmessage.IdSidecar, cloudeventmessage.IpSidecar,cloudeventmessage.IpService)
+				InsertStorage(sqliteDatabase,cloudeventmessage.Timestamp,cloudeventmessage.IdService,cloudeventmessage.Source, cloudeventmessage.SpecVersion,cloudeventmessage.Type,cloudeventmessage.IdSidecar, cloudeventmessage.IpSidecar,cloudeventmessage.IpService)
 			}
-			displayStorage(sqliteDatabase)
+			DisplayStorage(sqliteDatabase)
 
 
 		}
@@ -197,6 +185,24 @@ func Client() {
 	}
 
 
+}
+
+func GetIPs() []string {
+	var ips []string
+	file, erre := os.Open("files/clientCon.csv")
+	if erre != nil {
+		log.Fatal(erre)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	//saving all
+	for scanner.Scan() {
+		line := scanner.Text()
+		res := strings.Split(line, ";")
+		ips = append(ips, res[1])
+	}
+	return ips
 }
 
 
@@ -296,7 +302,7 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 }
 
 
-func createTable(db *sql.DB) {
+func CreateTable(db *sql.DB) {
 	createStorageTableSQL := `CREATE TABLE IF NOT EXISTS storage (
 		"Timestamp" TEXT NOT NULL PRIMARY KEY,		
 		"IdService" TEXT,
@@ -317,7 +323,7 @@ func createTable(db *sql.DB) {
 	log.Println("storage table created")
 }
 
-func insertStorage(db *sql.DB, Timestamp string, IdService string, Source string,SpecVersion string,Type string,IdSidecar string,IpSidecar string,IpService string) {
+func InsertStorage(db *sql.DB, Timestamp string, IdService string, Source string,SpecVersion string,Type string,IdSidecar string,IpSidecar string,IpService string) {
 
 	log.Println("Inserting storage record ...")
 	insertStorageSQL := `INSERT INTO storage(Timestamp , IdService, Source, SpecVersion, Type, IdSidecar, IpService, IpSidecar ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
@@ -332,7 +338,7 @@ func insertStorage(db *sql.DB, Timestamp string, IdService string, Source string
 	}
 }
 
-func deleteStorage(db *sql.DB, tst string) {
+func DeleteStorage(db *sql.DB, tst string) {
 	log.Println("Delete storage record ...")
 	deleteStorageSQL := `DELETE FROM storage WHERE Timestamp = (?)`
 
@@ -349,12 +355,13 @@ func deleteStorage(db *sql.DB, tst string) {
 }
 
 
-func displayStorage(db *sql.DB) {
+func DisplayStorage(db *sql.DB) string {
 	row, err := db.Query("SELECT * FROM storage ORDER BY Timestamp")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
+	var sqlresponse string
 	for row.Next() { // Iterate and fetch the records from result cursor
 		var timestamp string
 		var IdService string
@@ -366,7 +373,11 @@ func displayStorage(db *sql.DB) {
 		var IpSidecar string
 		row.Scan(&timestamp, &IdService, &Source, &SpecVersion, &Type, &IdSidecar, &IpService, &IpSidecar )
 		log.Println("Storage: ", timestamp, " ", IdService, " ", Source, " ", SpecVersion, " ", Type, " ", IdSidecar, " ", IpService, " ", IpSidecar)
+
+		sqlresponse += timestamp +";"+IdService+ ";" +Source+ ";"  +SpecVersion+ ";" +Type+ ";" +IdSidecar+ ";" +IpService+ ";" +IpSidecar
+		//log.Println(sqlresponse)
 	}
+	return sqlresponse
 }
 
 

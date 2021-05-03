@@ -111,14 +111,14 @@ func SafeToFile(ip string, sid string, tst string) {
 	}
 	defer sqliteDatabase.Close() // Defer Closing the database
 
-	createTable(sqliteDatabase) // Create Database Tables
-	insertStorage(sqliteDatabase,sid,ip,tst)
-	displayStorage(sqliteDatabase)
+	CreateTable(sqliteDatabase) // Create Database Tables
+	InsertStorage(sqliteDatabase,sid,ip,tst)
+	DisplayStorage(sqliteDatabase)
 }
 
 
 
-func createTable(db *sql.DB) {
+func CreateTable(db *sql.DB) {
 	createStorageTableSQL := `CREATE TABLE IF NOT EXISTS metadata (
 		"IdService" TEXT NOT NULL PRIMARY KEY,		
 		"IpService" TEXT,
@@ -134,7 +134,7 @@ func createTable(db *sql.DB) {
 	log.Println("metadata table created")
 }
 
-func insertStorage(db *sql.DB, ip string, sid string, tst string) {
+func InsertStorage(db *sql.DB, ip string, sid string, tst string) {
 	log.Println("Inserting metadata record ...")
 	insertStorageSQL := `INSERT OR REPLACE INTO metadata(IdService , IpService, Timestamp) VALUES (?, ?, ?)`
 	statement, err := db.Prepare(insertStorageSQL) // Prepare statement.
@@ -148,18 +148,23 @@ func insertStorage(db *sql.DB, ip string, sid string, tst string) {
 	}
 }
 
-func displayStorage(db *sql.DB) {
+func DisplayStorage(db *sql.DB) string {
 	row, err := db.Query("SELECT * FROM metadata ORDER BY Timestamp")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer row.Close()
+	var sqlresponse string
 	for row.Next() { // Iterate and fetch the records from result cursor
 		var timestamp string
 		var IdService string
 		var IpService string
 		row.Scan(&IdService, &IpService, &timestamp )
 		log.Println("Metadata: TS:", timestamp, ", ID:", IdService, ", IP:", IpService)
+
+		sqlresponse += timestamp +";"+IdService+ ";" +IpService+ ";"
+		//log.Println(sqlresponse)
 	}
+	return sqlresponse
 }
 

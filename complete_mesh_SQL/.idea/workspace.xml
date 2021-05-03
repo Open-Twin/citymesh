@@ -22,11 +22,31 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="" />
+    <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/test/files/clientCon.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/files/sidecarCon.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/clientSQL/clientSQL.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarmetadata-database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/master/chat2.go" beforeDir="false" afterPath="$PROJECT_DIR$/master/chat2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/master_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/master_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/sidecar_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/sidecar_test.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" url="file://E:/Go" />
   <component name="Git.Settings">
@@ -42,22 +62,24 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/files" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/chat" />
-      <recent name="$PROJECT_DIR$/sidecar" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\thoma\Documents\Projekt\ProjectFinale\citymesh\complete_mesh_SQL\test\files" />
       <recent name="$PROJECT_DIR$/proto" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/cmd" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/chat" />
+      <recent name="$PROJECT_DIR$/sidecar" />
     </key>
   </component>
   <component name="RunManager">

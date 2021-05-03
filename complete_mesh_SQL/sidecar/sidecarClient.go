@@ -27,28 +27,15 @@ func client(cloudmessage *CloudEvent) {
 	// Zuerst holen wir uns alle Ips aus dem ClientCon File
 
 	var ips []string
-	file, err := os.Open("files/sidecarCon.csv")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		res := strings.Split(line, ";")
-
-		ips = append(ips, res[1])
-
-	}
+	ips = GetIp()
 
 	target := ips[0]
 	fmt.Println(target)
 
 	creds, _ := credentials.NewClientTLSFromFile("cert/server.crt", "")
 	conn, error := grpc.Dial(":9010", grpc.WithTransportCredentials(creds))
-	if err != nil {
+	if error != nil {
 		log.Fatalf("no server connection could be established cause: %v", error)
 	}
 
@@ -102,4 +89,23 @@ func client(cloudmessage *CloudEvent) {
 			*/
 		}
 	}
+}
+func GetIp() []string{
+	var ips []string
+	file, err := os.Open("files/sidecarCon.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		res := strings.Split(line, ";")
+
+		ips = append(ips, res[1])
+
+	}
+	return ips
 }
