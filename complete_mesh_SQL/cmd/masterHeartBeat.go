@@ -86,5 +86,6 @@ func saveHealthCheckSQL(data string) {
 		fmt.Println(err)
 		return
 	}
+
 }
 

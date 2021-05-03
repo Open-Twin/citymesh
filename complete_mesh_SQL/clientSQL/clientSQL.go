@@ -10,6 +10,7 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"log"
 	"os"
 	"strings"
@@ -79,13 +80,20 @@ func Client() {
 
 	// Creating a connection with the first ip from the file
 
+	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "")
+	if err != nil {
+		log.Fatalf("could not process the credentials: %v", err)
+	}
+	conn, err = grpc.Dial(":9000", grpc.WithTransportCredentials(creds))
+
+
 	// Placeholder until Gateway
-	conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
+	//conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
 	// real code:
 	//conn, err := grpc.Dial(target, grpc.WithInsecure())
 
-	if erro != nil {
-		log.Fatalf("no server connection could be established cause: %v", erro)
+	if err != nil {
+		log.Fatalf("no server connection could be established cause: %v", err)
 
 	}
 

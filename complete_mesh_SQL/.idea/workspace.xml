@@ -23,18 +23,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/files/clientCon.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/files/sidecarCon.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cert/service.pem" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/clientSQL/clientSQL.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/masterHeartBeat.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarmetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/master/chat2.go" beforeDir="false" afterPath="$PROJECT_DIR$/master/chat2.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/client_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/master_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/master_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/sidecar_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/sidecar_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db-journal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/files/sqlite-database.db-shm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/files/sqlite-database.db-wal" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,10 +65,11 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/test/files" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cert" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\thoma\Documents\Projekt\ProjectFinale\citymesh\complete_mesh_SQL\cert" />
       <recent name="C:\Users\thoma\Documents\Projekt\ProjectFinale\citymesh\complete_mesh_SQL\test\files" />
       <recent name="$PROJECT_DIR$/proto" />
       <recent name="$PROJECT_DIR$" />
