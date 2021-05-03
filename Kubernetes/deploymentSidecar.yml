@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: sidecar
+  template:
+    metadata:
+      labels:
+        name: sidecar
+    spec:
+      containers:
+      - name: sidecarnode
+        image: tmatschinegg/smesh2
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8000

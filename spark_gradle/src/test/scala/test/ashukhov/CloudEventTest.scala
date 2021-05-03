@@ -1,9 +1,9 @@
 package test.ashukhov
 
-import chat.cloudevent.CloudEventAttribute
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.functions.explode
 import org.scalatest.funsuite.AnyFunSuite
+import broker.CloudEvent
 
 class CloudEventTest extends AnyFunSuite with SparkSessionTestWrapper {
     test("Json and Kafka") {
@@ -33,7 +33,7 @@ class CloudEventTest extends AnyFunSuite with SparkSessionTestWrapper {
           .load()
           .select("value")
 
-        val parseCloud = ProtoSQL.udf { bytes: Array[Byte] => CloudEventAttribute.parseFrom(bytes) }
+        val parseCloud = ProtoSQL.udf { bytes: Array[Byte] => CloudEvent.parseFrom(bytes) }
 
         val df_new = df.withColumn("cloud", parseCloud($"value"))
 

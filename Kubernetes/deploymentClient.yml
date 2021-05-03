@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: client
+  template:
+    metadata:
+      labels:
+        name: client
+    spec:
+      containers:
+      - name: servicenode
+        image: tmatschinegg/smesh
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 9000
