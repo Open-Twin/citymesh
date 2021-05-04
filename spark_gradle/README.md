@@ -19,13 +19,13 @@ Spark ist mit Scala geschrieben und das Projekt wird mit dem Build-Management To
 
 ### Streaming
 
-Nebenbei sollte ein Docker Container für Kafka laufen. In diesem Repository gibt es einen kafka-docker Ordner dafür. 
+Nebenbei sollte ein Docker Container für Kafka laufen. In diesem Repository gibt es einen kafka-docker Ordner dafür.
 Wenn man Gradle installiert hat, führt man das Spark Projekt folgend aus.
 
 ```bash
 gradle stream
 ```
-Der Task stream führt die Klasse StreamingCloudevent aus. Dort ist ein streaming-Job definiert, um Cloudevents (Corona-Ampel) von Kafka zu lesen. 
+Der Task stream führt die Klasse StreamingCloudevent aus. Dort ist ein streaming-Job definiert, um Cloudevents (Corona-Ampel) von Kafka zu lesen.
 Diese werden entsprechend in ein DataFrame gewandelt und im Filesystem als JSON persistiert. Um Messages in Kafka reinzubekommen, geht man zum citymesh/complete_mesh/kafka Ordner. Hier führt man den Producer aus, während das Gradle Projekt läuft.
 
 ```bash

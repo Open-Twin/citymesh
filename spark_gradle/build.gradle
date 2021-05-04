@@ -46,11 +46,11 @@ dependencies {
     // Use Scalatest for testing our library
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.scalatest:scalatest_2.12:3.2.2'
+    testImplementation 'org.scalatestplus:junit-4-12_2.12:3.2.2.0'
 
 
-    // Need scala-xml at test runtime
-    testRuntimeOnly 'org.scala-lang.modules:scala-xml_2.11:1.2.0'
-    
+
+
     implementation group: 'org.apache.spark', name: 'spark-core_2.12', version: '3.0.1'
     implementation group: 'org.apache.spark', name: 'spark-streaming-kafka-0-10_2.12', version: '3.0.1'
     implementation group: 'org.apache.spark', name: 'spark-sql_2.12', version: '3.0.1'
@@ -74,7 +74,7 @@ jar {
   }  
 
   from {
-    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    //configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
   }
 } 
 
