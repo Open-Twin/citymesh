@@ -28,7 +28,7 @@ docker-compose -f docker-compose-expose.yml down
 
 To run the whole citymesh:
 
-go to the [complete_mesh]() folder and run the following commands:
+go to the [complete_mesh](complete_mesh_sql) folder and run the following commands:
 
 **Starting the sidecar-Server:**
 
