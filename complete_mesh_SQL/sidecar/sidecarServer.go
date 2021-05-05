@@ -2,7 +2,7 @@ package sidecar
 
 import (
 	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/DDNS"
+	"github.com/Open-Twin/citymesh/complete_mesh/ddns"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -29,7 +29,6 @@ func NewServer() {
 		log.Fatalf("Failed to listen on port 9000 %v", err)
 	}
 	// this is just a structure that has an interface with needed function SayHello
-	// have a look at /master/chat2.go for more information
 	s := Server{}
 	fmt.Println("Sidecar: GRPC-Server started ... ")
 	//create the GRCP Server

@@ -2,7 +2,7 @@ package master
 
 import (
 	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/DDNS"
+	"github.com/Open-Twin/citymesh/complete_mesh/ddns"
 	"google.golang.org/grpc/credentials"
 
 	"google.golang.org/grpc"
@@ -10,13 +10,20 @@ import (
 	"net"
 )
 
+const (
+	hostname = "Master"
+	masterip = "127.0.0.1"
+	rtype = "store"
+	grpcport = "9010"
+)
+
 func Master() {
 
 	// Service erreichbar + Ip von Service + Type des Services Store etc...
-	ddns.Register("Master","127.0.0.1","store")
+	ddns.Register(hostname,masterip,rtype)
 
 	// create a TCP Listener on Port 9001
-	lis, err := net.Listen("tcp", ":9010")
+	lis, err := net.Listen("tcp", ":"+grpcport)
 	// this how you handle errors in Golang
 	if err != nil {
 		log.Fatalf("Failed to listen on port 9001 %v", err)

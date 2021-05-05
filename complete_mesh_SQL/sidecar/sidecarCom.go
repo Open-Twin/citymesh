@@ -81,7 +81,7 @@ func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply
 		p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
 			//response = fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
 
-			response += fmt.Sprintf("%s ID: %s IP Addr: %s receive, RTT: %v; \n ", response, res[0], addr.String(), rtt)
+			response += fmt.Sprintf("%sID: %s IP Addr: %s receive, RTT: %v;\n", response, res[0], addr.String(), rtt)
 
 		}
 		p.OnIdle = func() {

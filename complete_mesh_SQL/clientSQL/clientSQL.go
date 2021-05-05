@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	_ "errors"
 	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/DDNS"
 	"github.com/Open-Twin/citymesh/complete_mesh/dataFormat"
+	"github.com/Open-Twin/citymesh/complete_mesh/ddns"
 	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"github.com/golang/protobuf/ptypes"
 	"golang.org/x/net/context"
@@ -48,8 +48,11 @@ func Client() {
 	// Registering the service at the DDNS cluster
 	var ipsidecar net.IP
 	ipsidecar = conDNS()
-	fmt.Println(ipsidecar)
-
+	fmt.Println(ipsidecar.String())
+	if ipsidecar == nil{
+		ipsidecar = net.ParseIP("127.0.0.1")
+		fmt.Println(ipsidecar.String())
+	}
 	// Creating and opening a sqlite database
 	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
 		log.Println("Creating sqlite-database.db...")
@@ -85,19 +88,13 @@ func Client() {
 	var ips []string
 	ips = GetIPs()
 
-	target := ips[0]
-
-	log.Printf("Connecting to:" + target)
-
-
 	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "")
 	if err != nil {
 		log.Fatalf("could not process the credentials: %v", err)
 	}
-	conn, err = grpc.Dial(":"+gRPCport, grpc.WithTransportCredentials(creds))
 
-	//conn, err = grpc.Dial(sidecarip+":"+gRPCport, grpc.WithTransportCredentials(creds))
-
+	conn, err = grpc.Dial(ipsidecar.String()+":"+gRPCport, grpc.WithTransportCredentials(creds))
+	//conn, err = grpc.Dial(ipsidecar.String()+":"+gRPCport, grpc.WithInsecure())
 	//conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 
 
@@ -108,10 +105,11 @@ func Client() {
 
 	// Defer runs after the functions finishes
 	defer conn.Close()
-
-	c := sidecar.NewChatServiceClient(conn)
+	var c sidecar.ChatServiceClient
+	c = sidecar.NewChatServiceClient(conn)
 
 	// For loop which sends data to the sidecars
+
 	for _ = range time.Tick(time.Second * 10) {
 
 		// Gathering data from the open data API
@@ -128,7 +126,7 @@ func Client() {
 			log.Printf("Sending old data")
 
 			if err != nil {
-				log.Panic(err)
+				log.Println(err)
 
 			} else {
 
@@ -152,7 +150,8 @@ func Client() {
 					log.Println("Storage: ", timestamp, " ", IdService, " ", Source, " ", SpecVersion, " ", Type, " ", IdSidecar, " ", IpService, " ", IpSidecar)
 
 					// Creating a new cloudevent from the sqlite data
-					message2 := sidecar.CloudEvent{
+					var message2 sidecar.CloudEvent
+					message2 = sidecar.CloudEvent{
 						IdService:   IdService,
 						Source:      Source,
 						SpecVersion: SpecVersion,
@@ -187,14 +186,18 @@ func Client() {
 			log.Printf("Debug: Saving data locally")
 
 			// Trying other Ip addresses
-			newIP(ips)
-
-			if error != nil {
-				log.Panic(error)
+			newip := newIP(ips,cloudeventmessage)
+			if newip != nil{
+				c = newip
 			} else {
-				//Saving the data in a local file
-				InsertStorage(sqliteDatabase,cloudeventmessage.Timestamp,cloudeventmessage.IdService,cloudeventmessage.Source, cloudeventmessage.SpecVersion,cloudeventmessage.Type,cloudeventmessage.IdSidecar, cloudeventmessage.IpSidecar,cloudeventmessage.IpService)
+				if error != nil {
+					log.Panic(error)
+				} else {
+					//Saving the data in a local file
+					InsertStorage(sqliteDatabase,cloudeventmessage.Timestamp,cloudeventmessage.IdService,cloudeventmessage.Source, cloudeventmessage.SpecVersion,cloudeventmessage.Type,cloudeventmessage.IdSidecar, cloudeventmessage.IpSidecar,cloudeventmessage.IpService)
+				}
 			}
+
 			DisplayStorage(sqliteDatabase)
 
 
@@ -226,28 +229,29 @@ func GetIPs() []string {
 }
 
 
-func newIP(ips []string) error {
-	fmt.Println("Connecting to new Sidecar")
+func newIP(ips []string, message2 sidecar.CloudEvent) sidecar.ChatServiceClient {
+	log.Println("Searching for a new Sidecar")
 	for _, newIP := range ips {
-		//fmt.Println("Sidecar Ip")
 		fmt.Println("Connecting to:" + newIP)
-		//conn, erro := grpc.Dial("target", grpc.WithInsecure())
-		//defer conn.Close()
-		//c := sidecar.NewChatServiceClient(conn)
-		//response, err := c.DataFromService(context.Background(), &message2)
+		conn, erro := grpc.Dial(newIP+":"+gRPCport, grpc.WithInsecure())
 
-		/*
-			if response != nil {
-				fmt.Println("New Target gesichtet")
-				if err != nil {
-					log.Fatal(err)
-					return err
-				}
-				log.Printf("Response from Server: %s , ", response.Reply)
-				break
-			}
+		if erro != nil {
+			log.Println(erro)
+		}
+		defer conn.Close()
+		c := sidecar.NewChatServiceClient(conn)
+		response, err := c.DataFromService(context.Background(), &message2)
 
-		*/
+		if err != nil {
+			log.Println(err)
+		}
+
+		if response != nil {
+			log.Println("New Sidecar detected")
+
+			log.Printf("Response from Sidecar: %s , ", response.Message)
+			return c
+		}
 
 	}
 	return nil
@@ -315,120 +319,12 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 		Data:        &data,
 		IdSidecar:   "01",
 		IpService:   "192.168.0.14",
-		IpSidecar:   "192.168.0.11",
+		IpSidecar:   "-",
 		Timestamp: 	time.Now().Format(time.RFC850),
 	}
 
 	return cloudeventmessage
 
-}
-func OpenSQL() (*sql.DB,error){
-	// Method for opening or creating a sqlite DB
-	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
-		log.Println("Creating sqlite-database.db...")
-		file, err := os.Create("files/sqlite-database.db") // Create SQLite file
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-		file.Close()
-		log.Println("sqlite-database.db created")
-	}else {
-		log.Println("sqlite-database.db already exists")
-	}
-
-
-	sqliteDatabase, error := sql.Open("sqlite3", "files/sqlite-database.db") // Open the created SQLite File
-
-	if error != nil {
-		log.Panic(error)
-	}
-	defer sqliteDatabase.Close() // Defer Closing the database
-	sqliteDatabase.Exec("PRAGMA journal_mode=WAL;")
-
-	return sqliteDatabase, error
-}
-
-func CreateTable(db *sql.DB) {
-	// Createing a SQL Table which holds all the data the service is sending
-	createStorageTableSQL := `CREATE TABLE IF NOT EXISTS storage (
-		"Timestamp" TEXT NOT NULL PRIMARY KEY,		
-		"IdService" TEXT,
-		"Source" TEXT,
-		"SpecVersion" TEXT,
-		"Type" TEXT,
-		"IdSidecar" TEXT,
-		"IpService" TEXT,
-		"IpSidecar"	TEXT
-	  );` // SQL Statement for Create Table
-
-	log.Println("Create storage table...")
-	statement, err := db.Prepare(createStorageTableSQL) // Prepare SQL Statement
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	statement.Exec() // Execute SQL Statements
-	log.Println("storage table created")
-}
-
-func InsertStorage(db *sql.DB, Timestamp string, IdService string, Source string,SpecVersion string,Type string,IdSidecar string,IpSidecar string,IpService string) {
-	// Inserting service data which could not be send into the sqlite DB
-	log.Println("Inserting storage record ...")
-	insertStorageSQL := `INSERT INTO storage(Timestamp , IdService, Source, SpecVersion, Type, IdSidecar, IpService, IpSidecar ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
-	statement, err := db.Prepare(insertStorageSQL) // Prepare statement.
-	// This is good to avoid SQL injections
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-	_, err = statement.Exec(Timestamp, IdService, Source, SpecVersion, Type, IdSidecar, IpService, IpSidecar)
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-}
-
-func DeleteStorage(db *sql.DB, tst string) {
-
-	// Deleting existing entries by their Timestamp
-	log.Println("Delete storage record ...")
-	deleteStorageSQL := `DELETE FROM storage WHERE Timestamp = (?)`
-
-	statement, err := db.Prepare(deleteStorageSQL) // Prepare statement.
-	// This is good to avoid SQL injections
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-	_, err = statement.Exec(tst)
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-	log.Println("Deleting from storage record ...")
-}
-
-
-func DisplayStorage(db *sql.DB) string {
-
-	// Diplaying and returning all present entries
-	row, err := db.Query("SELECT * FROM storage ORDER BY Timestamp")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer row.Close()
-	var sqlresponse string
-	for row.Next() { // Iterate and fetch the records from result cursor
-		var timestamp string
-		var IdService string
-		var Source string
-		var SpecVersion string
-		var Type string
-		var IdSidecar string
-		var IpService string
-		var IpSidecar string
-		row.Scan(&timestamp, &IdService, &Source, &SpecVersion, &Type, &IdSidecar, &IpService, &IpSidecar )
-		log.Println("Storage: ", timestamp, " ", IdService, " ", Source, " ", SpecVersion, " ", Type, " ", IdSidecar, " ", IpService, " ", IpSidecar)
-
-		sqlresponse += timestamp +";"+IdService+ ";" +Source+ ";"  +SpecVersion+ ";" +Type+ ";" +IdSidecar+ ";" +IpService+ ";" +IpSidecar
-		//log.Println(sqlresponse)
-	}
-	return sqlresponse
 }
 
 func conDNS() net.IP {
@@ -442,10 +338,10 @@ func conDNS() net.IP {
 	fmt.Println("IP API:")
 	fmt.Println(ip)
 	if err != nil || len(ip) == 0 {
-		fmt.Println("Panik im Schweinestall.")
+		log.Println("Query was not successful")
 	}else {
 		sidecarip = ip[0]
-		fmt.Println(sidecarip)
+		log.Println("Query response: "+sidecarip.String())
 	}
 	return sidecarip
 }

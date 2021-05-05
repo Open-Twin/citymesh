@@ -23,9 +23,102 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/clientSQL/sqlInteraction.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/.idea/complete_mesh.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/GETAPI/apiclient2.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/Kafka/Consumer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/Kafka/Producer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/chat/chat2.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/chat/chat2.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/chat/chat2_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/chat/server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/chat2.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/client/client2.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/cmd/apiclientMAIN.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/cmd/clientMain.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/cmd/masterHeartBeat.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/cmd/masterMain.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/cmd/serverMAIN.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/cmd/sidecarMain.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/docker/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/docker/SEBI Pose" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/docker/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/clientCon.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/healthCheckReport.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/master2Config.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/masterConfig.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/safeData.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/sidecarCon.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/files/sidecarConfig.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/img/archi.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/sidecar.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/sidecar/sidecar.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/sidecar/sidecarClient.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/sidecar/sidecarCom.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/sidecar/sidecarServer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/sidecar/sidecar_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/test/client_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/test/files/safeData.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/test/master_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/test/sidecar_test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/DataEncoding/Encoding.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/DataEncoding/Test.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/GETAPI/apiclient2.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/Kafka/Consumer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/Kafka/Producer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/chat/chat2.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/chat/chat2.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/chat/chat2_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/cmd/apiclientMAIN.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/cmd/serverMAIN.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/dataFormat/data.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/dataFormat/data.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/docker/docker-compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/files/clientCon.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/files/master2Config.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/files/masterConfig.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/files/safeData.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/files/sidecarCon.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/files/sidecarConfig.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/masterHeartBeat.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/proto/chat2.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/proto/sidecar.proto" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/client2.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/server.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/sidecar.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/sidecarCentral.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/sidecarClient.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/sidecarCom.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/sidecarServer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecar/sidecar_grpc.pb.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecarMain.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ServiceMesh/test/apiclient2_test.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/master_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/master_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/sidecar_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/sidecar_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/clientSQL/clientSQL.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/masterHeartBeat.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/clientCon.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/clientCon.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/master2Config.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/meshMasters.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/mastermetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/mastermetadata-database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sidecarCon.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarCon.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarmetadata-database.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/master/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/master/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarServer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +135,14 @@
   <component name="GOROOT" url="file://E:/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />

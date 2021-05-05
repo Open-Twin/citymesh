@@ -3,11 +3,9 @@ package sidecar
 import (
 	"bufio"
 	_ "errors"
-	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/DDNS"
+	"github.com/Open-Twin/citymesh/complete_mesh/ddns"
 	"github.com/Open-Twin/citymesh/complete_mesh/master"
 	_ "github.com/gogo/protobuf/proto"
-	"google.golang.org/grpc/credentials"
 	"net"
 
 	"golang.org/x/net/context"
@@ -28,28 +26,31 @@ func client(cloudmessage *CloudEvent) {
 	// The client establishes a connection with the master service and tries to send cloudevent messages
 	var masterip net.IP
 	masterip = dnscon()
-	fmt.Println(masterip)
+	log.Println(masterip.String())
+	if masterip == nil {
+		masterip = net.ParseIP("127.0.0.1")
+		log.Println(masterip.String())
+	}
 
-	fmt.Println("Debug: Initialised Client")
+	log.Println("Debug: Initialised Client")
 
 	// create client for GRPC Server
 	var conn *grpc.ClientConn
 
-	// Zuerst holen wir uns alle Ips aus dem ClientCon File
+	// Gathering the stored IPs
 
 	var ips []string
 
 	ips = GetIp()
 
-	target := ips[0]
-	fmt.Println(target)
 
-	creds, _ := credentials.NewClientTLSFromFile("cert/server.crt", "")
-	conn, error := grpc.Dial(":"+grpcport, grpc.WithTransportCredentials(creds))
+	//creds, _ := credentials.NewClientTLSFromFile("cert/server.crt", "")
+	//conn, error := grpc.Dial(":"+grpcport, grpc.WithTransportCredentials(creds))
 	//conn, error := grpc.Dial(masterip.String()+":"+grpcport, grpc.WithTransportCredentials(creds))
+	conn, error := grpc.Dial(masterip.String()+":"+grpcport, grpc.WithInsecure())
 
 	if error != nil {
-		log.Fatalf("no server connection could be established cause: %v", error)
+		log.Println("no server connection could be established cause: %v", error)
 	}
 
 	// defer runs after the functions finishes
@@ -71,35 +72,38 @@ func client(cloudmessage *CloudEvent) {
 	}
 
 	response, err := c.DataFromSidecar(context.Background(), &message)
+
 	if err != nil {
-		log.Fatal(err)
+		log.Println("No con")
 	}
 
 	if response != nil {
 		log.Printf("Response from Server: %s , ", response.Message)
 
 	} else {
-		fmt.Println("Debug: Could not establish a connection")
+		log.Println("Debug: Could not establish a connection")
 
 		for _, newIP := range ips {
-			fmt.Println("Debug: New Sidecar Ip:")
-			fmt.Println(newIP)
-			//conn, erro := grpc.Dial("target", grpc.WithInsecure())
-			//defer conn.Close()
-			//c := sidecar.NewChatServiceClient(conn)
-			//response, err := c.DataFromSidecar(context.Background(), &message2)
+			log.Println("Debug: New Master Ip:")
+			log.Println(newIP)
+			conn, erro := grpc.Dial(newIP+":"+grpcport, grpc.WithInsecure())
+			defer conn.Close()
+			if erro != nil {
+				log.Println(erro)
+			}
+			c := master.NewChatServiceClient(conn)
+			response, err := c.DataFromSidecar(context.Background(), &message)
 
-			/*
-				if response != nil {
-					fmt.Println("New Target gesichtet")
-					if err != nil {
-						log.Fatal(err)
-					}
-					log.Printf("Response from Server: %s ", response.Reply)
-					break
-				}
+			if err != nil {
+				log.Println(err)
+			}
 
-			*/
+			if response != nil {
+				log.Println("Connected to a new master")
+
+				log.Printf("Response from Master: %s ", response.Message)
+				break
+			}
 		}
 	}
 }
@@ -128,10 +132,10 @@ func dnscon() net.IP{
 	// Querrying for master addresses
 	var masterip net.IP
 	ip, err := ddns.Query("Master")
-	fmt.Println("IP API:")
-	fmt.Println(ip)
+	log.Println("IP API:")
+	log.Println(ip)
 	if err != nil || len(ip) == 0 {
-		fmt.Println(fmt.Println("inegg-Alarm! Großer Hoden."))
+		log.Println("The Query could not find any entries")
 	}else {
 		masterip = ip[0]
 	}
