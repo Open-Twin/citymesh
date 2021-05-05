@@ -38,8 +38,8 @@ func TestSidecarStorage(t *testing.T) {
 	responsi := csql.DisplayStorage(sqliteDatabase)
 	log.Println(responsi)
 
-	if responsi != "2021.1;192.168.41.32;Service123ID;2021.2;192.168.41.34;Service456ID;" {
-		t.Errorf("Value 0 correct got: %s, want: %s.", responsi, "2021.1;192.168.41.32;Service123ID;2021.2;192.168.41.34;Service456ID;")
+	if responsi != "2021.1;192.168.41.32;Service123ID|2021.2;192.168.41.34;Service456ID|" {
+		t.Errorf("Value 0 correct got: %s, want: %s.", responsi, "2021.1;192.168.41.32;Service123ID|2021.2;192.168.41.34;Service456ID|")
 	}
 }
 
@@ -75,8 +75,8 @@ func TestSidecarUpdate(t *testing.T) {
 	responsi := csql.DisplayStorage(sqliteDatabase)
 	log.Println(responsi)
 
-	if responsi != "2021.1;192.168.41.32;Service123ID;2021.15;192.168.41.42;Service123ID;2021.2;192.168.41.34;Service456ID;2021.25;192.168.41.44;Service456ID;" {
-		t.Errorf("Value 0 correct got: %s, want: %s.", responsi, "2021.1;192.168.41.32;Service123ID;2021.15;192.168.41.42;Service123ID;2021.2;192.168.41.34;Service456ID;2021.25;192.168.41.44;Service456ID;")
+	if responsi != "2021.1;192.168.41.32;Service123ID|2021.15;192.168.41.42;Service123ID|2021.2;192.168.41.34;Service456ID|2021.25;192.168.41.44;Service456ID|" {
+		t.Errorf("Value 0 correct got: %s, want: %s.", responsi, "2021.1;192.168.41.32;Service123ID|2021.15;192.168.41.42;Service123ID|2021.2;192.168.41.34;Service456ID|2021.25;192.168.41.44;Service456ID|")
 	}
 }
 
