@@ -8,18 +8,22 @@ services:
     working_dir: /app 
     ports:
       - "9000:9000"
-    #command: go run ./cmd/clientMain.go
-    command: go run cmd/masterHeartBeat.go
-#  sidecar:
-#    container_name: sidecar
-#    ports:
-#      - "9000:9000"
-#      - "9001:9001"
-#    environment:
-#      POSTGRES_USER: goland
-#      POSTGRES_PASSWORD: goland
-#      POSTGRES_DB: goland
-#  master:
-#    container_name: master
-#    ports:
-#      - "9001:9001"
+    command: go run cmd/clientMain.go
+  sidecar:
+    container_name: sidecar
+    image: golang:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "9000:9000"
+    command: go run cmd/sidecarMain.go
+  master:
+    container_name: master
+    image: golang:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "9010:9010"
+    command: go run cmd/masterMain.go
