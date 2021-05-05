@@ -23,15 +23,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../complete_mesh_SQL/cert/service.pem" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../complete_mesh_SQL/ddns/dnsConnection.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/clientSQL/clientSQL.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/cmd/masterHeartBeat.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/files/sidecarmetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sidecarmetadata-database.db-journal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-shm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-wal" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-shm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-wal" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/master/chat2.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/master/chat2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/master/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/master/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/proto/chat2.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/proto/chat2.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarCom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarServer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/test/files/sqlite-database.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

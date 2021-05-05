@@ -2,44 +2,73 @@ package main
 
 import (
 	"fmt"
+	"github.com/Open-Twin/citymesh/complete_mesh/master"
 	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"log"
 	"os"
+	"strings"
 )
 
 func main() {
 
 	// Placeholder until Gateway
-	conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
+	conn, erro := grpc.Dial(":9010", grpc.WithInsecure())
 	// real code:
 	//conn, err := grpc.Dial(target, grpc.WithInsecure())
 
 	if erro != nil {
 		log.Fatalf("no server connection could be established cause: %v", erro)
-
 	}
 
 	// defer runs after the functions finishes
 	defer conn.Close()
 
-	c := sidecar.NewChatServiceClient(conn)
+	c := master.NewChatServiceClient(conn)
 
-	var message sidecar.Health
+	var message master.Health
 
-	message = sidecar.Health{Health: "abc"}
+	message = master.Health{Health: "abc"}
+
 	response, err := c.HealthCheck(context.Background(), &message)
-	var data string
-	if response != nil {
-		fmt.Sprintf("Healthcheck Report: %s ", response.Message)
-		fmt.Println(data)
-		saveHealthCheckCSV(response.Message)
-
-	}
 
 	if err != nil {
-		log.Printf("Response from Server: %s , ", err)
+		log.Fatalf("no server connection could be established cause: %v", err)
+	}
+
+	fmt.Println(response.Message)
+	res := strings.Split(response.Message, ";")
+
+	for _,value := range res{
+		fmt.Println(value)
+
+
+		// Placeholder until Gateway
+		conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
+		//conn, erro := grpc.Dial(value+":9000", grpc.WithInsecure())
+
+
+		if erro != nil {
+			log.Fatalf("no server connection could be established cause: %v", erro)
+		}
+
+		// defer runs after the functions finishes
+		defer conn.Close()
+
+		c := sidecar.NewChatServiceClient(conn)
+
+		var message sidecar.Health
+
+		message = sidecar.Health{Health: "abc"}
+
+		responseSide, err := c.HealthCheck(context.Background(), &message)
+
+		if err != nil {
+			log.Fatalf("no server connection could be established cause: %v", err)
+		}
+
+		fmt.Println(responseSide)
 	}
 
 }

@@ -2,6 +2,7 @@ package master
 
 import (
 	"fmt"
+	"github.com/Open-Twin/citymesh/complete_mesh/DDNS"
 	"google.golang.org/grpc/credentials"
 
 	"google.golang.org/grpc"
@@ -10,6 +11,10 @@ import (
 )
 
 func Master() {
+
+	// Service erreichbar + Ip von Service + Type des Services Store etc...
+	ddns.Register("Master","127.0.0.1","store")
+
 	// create a TCP Listener on Port 9001
 	lis, err := net.Listen("tcp", ":9010")
 	// this how you handle errors in Golang

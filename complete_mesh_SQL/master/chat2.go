@@ -5,6 +5,7 @@ import (
 	//"bufio"
 	"fmt"
 	"github.com/Shopify/sarama"
+	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/net/context"
 	"log"
 	"os"
@@ -27,87 +28,29 @@ const (
 )
 
 func (s *Server) mustEmbedUnimplementedChatServiceServer() {
-	panic("implement me")
 }
 
 func (s *Server) DataFromSidecar(ctx context.Context, message *CloudEvent) (*MessageReply, error) {
-	//log.Printf("Received message body from client %s , %s , %s , %s , %s ", message.IdService, message.Source, message.SpecVersion, message.Type, message.IdService, message.IpSidecar, message.IpSidecar, message.Timestamp, message.Data)
+
 	log.Printf("Received message body from client: %s, %s", message.IpSidecar, message.Source)
 	fmt.Println(message.Data)
-	//log.Printf( "Received message body from client")
-	message.IdSidecar = "sd123"
-	message.IpSidecar = "123.123.123.123"
-	//msg := message
-	SafeToFile(message.IdSidecar, message.IpSidecar, message.Timestamp)
+
+	SafeToFile(message.IpSidecar, message.IdSidecar, message.Timestamp)
 	return &MessageReply{Message: "Sidecar Proxy: Received the message"}, nil
 }
 
 func (s *Server) HealthCheck(ctx context.Context, health2 *Health) (*MessageReply, error) {
-	/*
-		fmt.Println("Sending pings to all registered entries")
-
-		file, err := os.Open("files/master2Config.csv")
-		if err != nil {
-			log.Fatal(err)
-		}
-		defer file.Close()
-
-		scanner := bufio.NewScanner(file)
-
-		var lines []string
-		var report string
-		var health sidecar.Health
+	SafeToFile("192.168.32.12","SIDI123","Heute")
+	SafeToFile("192.168.32.14","SIDI456","Morgen")
+	// The Healthcheck function returns all the master sidecar ips
+	log.Println("Returning all registered entries")
+	sidecardata := HealthData()
+	fmt.Println(sidecardata)
 
 
-
-		for scanner.Scan() {
-			line := scanner.Text()
-			lines = append(lines, line)
-		}
-
-		for _, value := range lines {
-			res := strings.Split(value, ";")
-			report = report + res[0] + "; \n"
-			fmt.Println(res)
-			// get()
-			// create client for GRPC Server
-			var conn *grpc.ClientConn
-			// Placeholder until Gateway
-			conn, erro := grpc.Dial(":9000", grpc.WithInsecure())
-			//conn, err := grpc.Dial(target+":9000", grpc.WithInsecure())
-
-			if erro != nil {
-				log.Fatalf("no server connection could be established cause: %v", erro)
-
-			}
-
-			// defer runs after the functions finishes
-			defer conn.Close()
-
-			c := sidecar.NewChatServiceClient(conn)
-
-			response, err := c.HealthCheck(context.Background(), &health)
-
-			if response != nil {
-				log.Printf("Response from Sidecar: %s ", response.Reply)
-			}
-
-			if err != nil {
-				fmt.Println(err)
-			}
-
-			report = report + response.Reply
-
-		}
-		return &MessageReply{Reply: report}, nil
-	*/
-
-	return &MessageReply{Message: "Hello"}, nil
+	return &MessageReply{Message: sidecardata}, nil
 }
 
-func (s *Server) GetMessage() string {
-	return localmessage
-}
 
 func initialize() {
 	// create producer
@@ -162,7 +105,8 @@ func publish(message string, producer sarama.SyncProducer) {
 }
 
 func SafeToFile(ip string, sid string, tst string) {
-	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
+	// Saving sidecar metadata in a SQL DB
+	if _, err := os.Stat("files/mastermetadata-database.db"); os.IsNotExist(err) {
 		log.Println("Creating mastermetadata-database.db...")
 		file, err := os.Create("files/mastermetadata-database.db") // Create SQLite file
 		if err != nil {
@@ -181,6 +125,7 @@ func SafeToFile(ip string, sid string, tst string) {
 	}
 	defer sqliteDatabase.Close() // Defer Closing the database
 
+	// Creating a table and inserting the metadata
 	CreateTable(sqliteDatabase) // Create Database Tables
 	InsertStorage(sqliteDatabase,sid,ip,tst)
 	DisplayStorage(sqliteDatabase)
@@ -189,6 +134,7 @@ func SafeToFile(ip string, sid string, tst string) {
 
 
 func CreateTable(db *sql.DB) {
+	// Creating a table for the sidecar metadata
 	createStorageTableSQL := `CREATE TABLE IF NOT EXISTS metadata (
 		"IdService" TEXT NOT NULL PRIMARY KEY,		
 		"IpService" TEXT,
@@ -205,6 +151,7 @@ func CreateTable(db *sql.DB) {
 }
 
 func InsertStorage(db *sql.DB, ip string, sid string, tst string) {
+	// Inserting the metadata into the DB
 	log.Println("Inserting metadata record ...")
 	insertStorageSQL := `INSERT OR REPLACE INTO metadata(IdService , IpService, Timestamp) VALUES (?, ?, ?)`
 	statement, err := db.Prepare(insertStorageSQL) // Prepare statement.
@@ -219,6 +166,7 @@ func InsertStorage(db *sql.DB, ip string, sid string, tst string) {
 }
 
 func DisplayStorage(db *sql.DB) string {
+	// Displaying the entries within the DB
 	row, err := db.Query("SELECT * FROM metadata ORDER BY Timestamp")
 	if err != nil {
 		log.Fatal(err)
@@ -229,10 +177,51 @@ func DisplayStorage(db *sql.DB) string {
 		var timestamp string
 		var IdService string
 		var IpService string
-		row.Scan(&IdService, &IpService, &timestamp )
+		row.Scan(&IpService, &IdService, &timestamp )
 		log.Println("Metadata: TS:", timestamp, ", ID:", IdService, ", IP:", IpService)
 		sqlresponse += timestamp +";"+IdService+ ";" +IpService+ ";"
 	}
 	return sqlresponse
 }
+
+func HealthData() string {
+	// The Healthdata function replies all enterded sidecar ips to the healthcheck service
+	if _, err := os.Stat("files/mastermetadata-database.db"); os.IsNotExist(err) {
+		log.Println("Creating mastermetadata-database.db...")
+		file, err := os.Create("files/mastermetadata-database.db") // Create SQLite file
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		file.Close()
+		log.Println("mastermetadata-database.db created")
+	} else {
+		log.Println("mastermetadata-database.db already exists")
+	}
+
+	db, error := sql.Open("sqlite3", "files/mastermetadata-database.db") // Open the created SQLite File
+
+	if error != nil {
+		log.Panic(error)
+	}
+
+	row, err := db.Query("SELECT * FROM metadata ORDER BY Timestamp")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer row.Close()
+	var sqlresponse string
+
+	for row.Next() { // Iterate and fetch the records from result cursor
+		var timestamp string
+		var IdService string
+		var IpService string
+		row.Scan(&IpService, &IdService, &timestamp )
+		log.Println("Metadata: TS:", timestamp, ", ID:", IdService, ", IP:", IpService)
+
+		sqlresponse+=IpService+";"
+
+	}
+	return sqlresponse
+}
+
 

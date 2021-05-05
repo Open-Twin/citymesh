@@ -1,7 +1,6 @@
 package sidecar
 
 import (
-	"bufio"
 	"database/sql"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
@@ -18,51 +17,56 @@ type Server struct {
 }
 
 func (s *Server) mustEmbedUnimplementedChatServiceServer() {
-	//panic("implement me")
 }
+
+const (
+	SidecarID = "SD01"
+	SidecarIP = "123.123.123.123"
+)
 
 var Timestamp string
 var Location string
 var Sensortyp string
 var SensorID int32
 var SensorData string
-
 var localmessage string
-
 var msg *CloudEvent
 
 func (s *Server) DataFromService(ctx context.Context, message *CloudEvent) (*MessageReply, error) {
-	//log.Printf("Received message body from client %s , %s , %s , %s , %s ", message.IdService, message.Source, message.SpecVersion, message.Type, message.IdService, message.IpSidecar, message.IpSidecar, message.Timestamp, message.Data)
-	//fmt.Printf( "Received message body from client")
-	//log.Printf("Received: %s", message.String())
-	message.IdSidecar = "SD01"
-	message.IpSidecar = "123.123.123.123"
+	// Method which can be called by services to send sensor data
+
+	// Mapping the cloudevent message with the sidecars metadata
+	message.IdSidecar = SidecarID
+	message.IpSidecar = SidecarIP
 	msg = message
 	fmt.Println("MessageID:"+message.IdService)
+
+	// Storing the services metadata in a sqlite file
 	SafeToFile(message.IdService, message.IpService, message.Timestamp)
+
+	// Startin a new go routine which takes the new cloudevent and sends it to the masters
 	go client(msg)
+
+	// Returning a message that everything worked fine
 	return &MessageReply{Message: "Sidecar Proxy: Received the message"}, nil
 }
 
 func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply, error) {
+	// The healthcheck method sends pings to all registered services
+
 	fmt.Println("Sending pings to all registered entries")
 
-	file, err := os.Open("files/sidecarConfig.csv")
-	if err != nil {
-		log.Fatal(err)
+	sqliteDatabase, error := sql.Open("sqlite3", "files/sidecarmetadata-database.db") // Open the created SQLite File
+
+	if error != nil {
+		fmt.Println(error)
 	}
-	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
+	serviceIPs := DisplayStorage(sqliteDatabase)
 
-	var lines []string
+	lines := strings.Split(serviceIPs, "|")
+	fmt.Println(lines)
 	var response string
-
-	for scanner.Scan() {
-		line := scanner.Text()
-		lines = append(lines, line)
-	}
-
 	for _, value := range lines {
 		res := strings.Split(value, ";")
 		fmt.Println(res)
@@ -77,7 +81,7 @@ func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply
 		p.OnRecv = func(addr *net.IPAddr, rtt time.Duration) {
 			//response = fmt.Printf("IP Addr: %s receive, RTT: %v\n", addr.String(), rtt)
 
-			response = fmt.Sprintf("%s ID: %s IP Addr: %s receive, RTT: %v; \n ", response, res[0], addr.String(), rtt)
+			response += fmt.Sprintf("%s ID: %s IP Addr: %s receive, RTT: %v; \n ", response, res[0], addr.String(), rtt)
 
 		}
 		p.OnIdle = func() {
@@ -88,10 +92,12 @@ func (s *Server) HealthCheck(ctx context.Context, health *Health) (*MessageReply
 			fmt.Println(err)
 		}
 	}
+	fmt.Println("Response:"+response)
 	return &MessageReply{Message: response}, nil
 }
 
 func SafeToFile(ip string, sid string, tst string) {
+	// Storing the service metadata in a sqlite DB
 	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
 		log.Println("Creating sidecarmetadata-database.db...")
 		file, err := os.Create("files/sidecarmetadata-database.db") // Create SQLite file
@@ -111,6 +117,7 @@ func SafeToFile(ip string, sid string, tst string) {
 	}
 	defer sqliteDatabase.Close() // Defer Closing the database
 
+	// Creating the table
 	CreateTable(sqliteDatabase) // Create Database Tables
 	InsertStorage(sqliteDatabase,sid,ip,tst)
 	DisplayStorage(sqliteDatabase)
@@ -119,6 +126,7 @@ func SafeToFile(ip string, sid string, tst string) {
 
 
 func CreateTable(db *sql.DB) {
+	// Creating a table for storing service metadata
 	createStorageTableSQL := `CREATE TABLE IF NOT EXISTS metadata (
 		"IdService" TEXT NOT NULL PRIMARY KEY,		
 		"IpService" TEXT,
@@ -135,6 +143,7 @@ func CreateTable(db *sql.DB) {
 }
 
 func InsertStorage(db *sql.DB, ip string, sid string, tst string) {
+	// Inserting metadata into the sql table structure
 	log.Println("Inserting metadata record ...")
 	insertStorageSQL := `INSERT OR REPLACE INTO metadata(IdService , IpService, Timestamp) VALUES (?, ?, ?)`
 	statement, err := db.Prepare(insertStorageSQL) // Prepare statement.
@@ -149,6 +158,7 @@ func InsertStorage(db *sql.DB, ip string, sid string, tst string) {
 }
 
 func DisplayStorage(db *sql.DB) string {
+	// Diplaying and reading the data from the sql table structure
 	row, err := db.Query("SELECT * FROM metadata ORDER BY Timestamp")
 	if err != nil {
 		log.Fatal(err)
@@ -162,8 +172,7 @@ func DisplayStorage(db *sql.DB) string {
 		row.Scan(&IdService, &IpService, &timestamp )
 		log.Println("Metadata: TS:", timestamp, ", ID:", IdService, ", IP:", IpService)
 
-		sqlresponse += timestamp +";"+IdService+ ";" +IpService+ ";"
-		//log.Println(sqlresponse)
+		sqlresponse += timestamp +";"+IdService+ ";" +IpService+ "|"
 	}
 	return sqlresponse
 }

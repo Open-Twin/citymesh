@@ -4,11 +4,12 @@ import (
 	"bufio"
 	_ "errors"
 	"fmt"
+	"github.com/Open-Twin/citymesh/complete_mesh/DDNS"
 	"github.com/Open-Twin/citymesh/complete_mesh/master"
 	_ "github.com/gogo/protobuf/proto"
 	"google.golang.org/grpc/credentials"
+	"net"
 
-	//"github.com/Open-Twin/citymesh/service_mesh/smesh/sidecar"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"log"
@@ -18,7 +19,17 @@ import (
 	"strings"
 )
 
+const (
+	grpcport = "9010"
+
+)
+
 func client(cloudmessage *CloudEvent) {
+	// The client establishes a connection with the master service and tries to send cloudevent messages
+	var masterip net.IP
+	masterip = dnscon()
+	fmt.Println(masterip)
+
 	fmt.Println("Debug: Initialised Client")
 
 	// create client for GRPC Server
@@ -34,7 +45,9 @@ func client(cloudmessage *CloudEvent) {
 	fmt.Println(target)
 
 	creds, _ := credentials.NewClientTLSFromFile("cert/server.crt", "")
-	conn, error := grpc.Dial(":9010", grpc.WithTransportCredentials(creds))
+	conn, error := grpc.Dial(":"+grpcport, grpc.WithTransportCredentials(creds))
+	//conn, error := grpc.Dial(masterip.String()+":"+grpcport, grpc.WithTransportCredentials(creds))
+
 	if error != nil {
 		log.Fatalf("no server connection could be established cause: %v", error)
 	}
@@ -91,6 +104,7 @@ func client(cloudmessage *CloudEvent) {
 	}
 }
 func GetIp() []string{
+
 	var ips []string
 	file, err := os.Open("files/sidecarCon.csv")
 	if err != nil {
@@ -108,4 +122,18 @@ func GetIp() []string{
 
 	}
 	return ips
+}
+
+func dnscon() net.IP{
+	// Querrying for master addresses
+	var masterip net.IP
+	ip, err := ddns.Query("Master")
+	fmt.Println("IP API:")
+	fmt.Println(ip)
+	if err != nil || len(ip) == 0 {
+		fmt.Println(fmt.Println("inegg-Alarm! Großer Hoden."))
+	}else {
+		masterip = ip[0]
+	}
+	return masterip
 }

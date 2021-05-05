@@ -40,8 +40,8 @@ message MessageReply {
   string message = 1;
 }
 
-message Health{
-  string health = 1;
+message MessageReplyArray {
+  string message = 1;
 }
 
 
