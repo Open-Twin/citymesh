@@ -74,7 +74,7 @@ func initProducer() (sarama.SyncProducer, error) {
 	config.Producer.Retry.Max = 5
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Return.Successes = true
-	config.Producer.MaxMessageBytes = 5000000
+	config.Producer.MaxMessageBytes = 10000000
 
 	// async producer
 	//prd, err := sarama.NewAsyncProducer([]string{kafkaConn}, config)
