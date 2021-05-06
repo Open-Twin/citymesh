@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: masternode
-        image: tmatschinegg/smesh3
+        image: digitaltwin/smesh3
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 9000

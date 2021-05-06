@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: servicenode
-        image: tmatschinegg/smesh
+        image: digitaltwin/smesh
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 9000
