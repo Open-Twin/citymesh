@@ -1,23 +1,18 @@
 package application
 
-// import ReadProperties.readProperties
-
-import java.io.{File, FileNotFoundException}
+import application.StreamingCloudevent.logger
 import org.apache.log4j.{Level, Logger}
 import broker.{Any, CloudEvent}
 import org.apache.spark.sql._
-
-import java.util.Properties
-import scala.io.Source
-
-import org.apache.spark.sql.types.{StructType, StructField, StringType, ArrayType};
+import org.apache.spark.sql.streaming.StreamingQuery
+import scalapb.spark.ProtoSQL
 
 
-object StreamingCloudevent {
+object StreamingCloudevent extends Object with PropertiesReader with SparkSessionWrapper {
 
     private val logger = Logger.getRootLogger
     /**
-    * main-function calling to push to Kafka and stream from it
+    * main-function calling to read Kafka data and stream from it to warehouse
     */
     def main(args: Array[String]): Unit = {
         Logger.getLogger("org").setLevel(Level.OFF)
@@ -27,33 +22,19 @@ object StreamingCloudevent {
 
 
     def streamKafkaCloudEvent(): Unit = {
-        val configMap = readProperties()
-
-        val warehousePath = new File(configMap("warehouseLocation")).getAbsolutePath
-        val spark = SparkSession
-          .builder()
-          .appName("Spark Structured Streaming CloudEvent")
-          .master(configMap("master"))
-          .config("spark.sql.warehouse.dir", warehousePath)
-          .config("spark.speculation","false")
-          .enableHiveSupport()
-          .getOrCreate()
-
         logger.info("Spark Session has been built.")
         logger.info("Spark master set to: " + configMap("master"))
-        logger.info("warehouse location set to: " + warehousePath)
+        logger.info("warehouse location set to: " + configMap("warehouseLocation"))
 
-        // ScalaPB
-        import spark.implicits.StringToColumn
-        import scalapb.spark.ProtoSQL
+        val df_read = readData()
+        logger.info("Reading data from Kafka topic: " + configMap("kafka_topic"))
 
-        import scalapb.spark.Implicits._ 
+        val proc_data = processData(df_read)
+        proc_data.printSchema()
+        persistData(proc_data)
+    }
 
-        
-        import spark.sql
-        import org.apache.spark.sql.functions._
-        import org.apache.spark.sql.Column
-
+    def readData(): DataFrame = {
         val df = spark
           .readStream
           .format("kafka")
@@ -62,14 +43,31 @@ object StreamingCloudevent {
           .option("failOnDataLoss", "false")
           .load()
           .select("value")
+        df
+    }
 
-        logger.info("Reading data from Kafka topic: " + configMap("kafka_topic"))  
+    def processData(df_read: DataFrame): DataFrame = {
+        import spark.implicits.StringToColumn
+        import scalapb.spark.ProtoSQL
+        import scalapb.spark.Implicits._
 
         val parseCloud = ProtoSQL.udf { bytes: Array[Byte] => CloudEvent.parseFrom(bytes) }
+        val df_new = df_read.withColumn("cloud", parseCloud($"value"))
+        logger.info("Processing data into original format")
+        df_new
+    }
 
-        val df_new = df.withColumn("cloud", parseCloud($"value"))
+    def persistData(proc_data: DataFrame): Unit = {
+        /*import spark.sql
+        sql("CREATE TABLE IF NOT EXISTS " + configMap("kafka_topic") + "(idService STRING, source STRING, " +
+          "spec_version STRING, type STRING, attributes STRUCT<key: STRING, value: STRING>, " +
+          "binary_data BINARY, text_data STRING, proto_data STRUCT<type_url: STRING, value: BINARY>, " +
+          "idSidecar STRING, ipService STRING, ipSidecar STRING, timestamp STRING)")
+        logger.info("Created table in warehouse")*/
 
-        df_new.select("cloud.*", "*").drop("value")
+        logger.info("Persisting processed data in warehouse")
+        proc_data.select("cloud.*", "*")
+          .drop("value", "cloud")
           .writeStream
           .format("json")
           .option("path", "spark-warehouse/" + configMap("kafka_topic"))
@@ -77,17 +75,5 @@ object StreamingCloudevent {
           .start()
           .awaitTermination()
     }
-
-    def readProperties(): Map[String, String] ={
-        val configMap=Source.fromFile("src/main/resources/application.properties").getLines().filter(line => line.contains("=")).map{ line => val config=line.split("=")
-          if(config.size==1){
-            (config(0) -> "" )
-          }else{
-            (config(0) ->  config(1))
-          }
-        }.toMap
-        configMap
-    }
-
 }
 

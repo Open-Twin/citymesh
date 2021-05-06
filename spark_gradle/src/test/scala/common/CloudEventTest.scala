@@ -1,16 +1,19 @@
 package common
 
-import application.StreamingCloudevent.{logger, streamKafkaCloudEvent}
+import application.SparkSessionWrapper
+import application.StreamingCloudevent.{configMap, logger, persistData, processData, readData, streamKafkaCloudEvent}
 import broker.CloudEvent
 import org.apache.log4j.{Level, Logger}
 import org.junit.runner.RunWith
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest._
 import org.scalatestplus.junit.JUnitRunner
-import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.spark.sql.{AnalysisException, SaveMode, SparkSession}
+
+import java.io.File
 
 @RunWith(classOf[JUnitRunner])
-class CloudEventTest extends AnyFlatSpec with SparkSessionTestWrapper {
+class CloudEventTest extends AnyFlatSpec with SparkSessionWrapper {
 
     Logger.getLogger("org").setLevel(Level.OFF)
     Logger.getLogger("akka").setLevel(Level.OFF)
@@ -23,64 +26,67 @@ class CloudEventTest extends AnyFlatSpec with SparkSessionTestWrapper {
     }
 
     it should "read a non-empty dataframe from Kafka" in {
-        val df = spark
-            .readStream
-            .format("kafka")
-            .option("kafka.bootstrap.servers", "localhost:9092")
-            .option("subscribe", "topic-test")
-            .option("failOnDataLoss", "false")
-            .load()
-            .select("value")
-
+        val df = readData()
         assert(df.isStreaming)
-        df.writeStream.format("console").outputMode("append").option("checkpointLocation", "test_checkpoint").start().awaitTermination(1000)
+        df.writeStream
+          .format("console")
+          .outputMode("append")
+          .option("checkpointLocation", "test_checkpoint")
+          .start()
+          .awaitTermination(1000)
     }
 
     it should "store Kafka data in file system" in {
-        import spark.sql
-
-        import spark.implicits.StringToColumn
-        import scalapb.spark.ProtoSQL
-
-        import scalapb.spark.Implicits._
-
         val cloudDF = spark.read.json("attribute.json")
 
         cloudDF.printSchema()
 
-        import spark.implicits.StringToColumn
-        import scalapb.spark.ProtoSQL
+        val df = readData()
+        val proc_data = processData(df)
 
-        import scalapb.spark.Implicits._
+        assert(proc_data.isStreaming)
 
-
-        import spark.sql
-        import org.apache.spark.sql.functions._
-        import org.apache.spark.sql.Column
-
-        val df = spark
-          .readStream
-          .format("kafka")
-          .option("kafka.bootstrap.servers", "localhost:9092")
-          .option("subscribe", "topic_test")
-          .option("failOnDataLoss", "false")
-          .load()
-          .select("value")
-
-
-        val parseCloud = ProtoSQL.udf { bytes: Array[Byte] => CloudEvent.parseFrom(bytes) }
-
-        val df_new = df.withColumn("cloud", parseCloud($"value"))
-
-        df_new.select("cloud.*", "*").drop("value")
+        proc_data.select("cloud.*", "*")
+          .drop("value", "cloud")
           .writeStream
           .format("json")
-          .option("path", "spark-warehouse/test_corona")
-          .option("checkpointLocation", "test_checkpoint")
+          .option("path", "spark-warehouse/" + configMap("kafka_topic"))
+          .option("checkpointLocation", "checkpoint")
           .start()
-          .awaitTermination(20000)
-        //val sql_df_kafka = sql("SELECT * FROM test_corona")
-        val persist_df = spark.read.json("spark-warehouse/test_corona/*.json")
-        assert(persist_df.select("cloud.ipService").first().get(0) === cloudDF.selectExpr("ipService").first().get(0))
+          .awaitTermination(10000)
+
+        val persist_df = spark.read.json("spark-warehouse/" + configMap("kafka_topic")+ "/*.json")
+        assert(!persist_df.isEmpty)
+        assert(!cloudDF.isEmpty)
+        assert(persist_df.select("ipService").first().get(0) === cloudDF.selectExpr("ipService").first().get(0))
+        assert(persist_df.select("source").first().get(0) === cloudDF.selectExpr("source").first().get(0))
+    }
+
+    it should "not allow direct access to data" in {
+        val df = readData()
+        val proc_data = processData(df)
+        assertThrows[AnalysisException](df.select("value").collect())
+        assertThrows[AnalysisException](proc_data.select("cloud.source").collect())
+    }
+
+    it should "process into multiple columns" in {
+        val df = readData()
+        val proc_data = processData(df)
+        proc_data.select("cloud.*", "*")
+          .drop("value", "cloud")
+          .writeStream
+          .format("json")
+          .option("path", "spark-warehouse/" + configMap("kafka_topic"))
+          .option("checkpointLocation", "checkpoint")
+          .start()
+          .awaitTermination(10000)
+
+        val persist_df = spark.read.json("spark-warehouse/" + configMap("kafka_topic")+ "/*.json")
+        assert(persist_df.columns.length > 0)
+    }
+
+    it should "start with correct configurations" in {
+        assert(spark.conf.get("spark.sql.warehouse.dir") == new File(configMap("warehouseLocation")).getAbsolutePath)
+        assert(spark.conf.get("spark.speculation") == "false")
     }
 }

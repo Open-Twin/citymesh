@@ -8,7 +8,7 @@ import org.apache.log4j.{Level, Logger}
 
 import org.apache.spark.sql.SparkSession
 
-object SocketData {
+object SocketData extends Object with SparkSessionWrapper with PropertiesReader {
 
     def main(args: Array[String]): Unit = {
         Logger.getLogger("org").setLevel(Level.OFF)
@@ -18,16 +18,7 @@ object SocketData {
     }
 
     def querySocket(): Unit = {
-      val configMap = readProperties()
-      val warehouseLocation = new File(configMap("warehouseLocation")).getAbsolutePath
-      val spark = SparkSession
-        .builder()
-        .appName("Spark Structured Streaming Example")
-        .master(configMap("master"))
-        .config("spark.sql.warehouse.dir", warehouseLocation)
-        .enableHiveSupport()
-        .getOrCreate()
-
+      //val configMap = readProperties()
       import spark.sql
 
       val df = spark.readStream
@@ -43,7 +34,7 @@ object SocketData {
         .awaitTermination()
     }
 
-    def readProperties(): Map[String, String] ={
+    /*def readProperties(): Map[String, String] ={
         val configMap = Source.fromFile("src/main/resources/application.properties").getLines().filter(line => line.contains("=")).map{ line => val config=line.split("=")
           if(config.size==1) {
             (config(0) -> "" )
@@ -52,6 +43,6 @@ object SocketData {
           }
         }.toMap
         configMap
-    }
+    }*/
 
 }
