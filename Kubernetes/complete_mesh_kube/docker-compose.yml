@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  client:
+    container_name: sensorclient
+    image: golang:latest
+    volumes: 
+      - .:/app  
+    working_dir: /app 
+    ports:
+      - "9000:9000"
+    command: go run cmd/clientMain.go
+  sidecar:
+    container_name: sidecar
+    image: golang:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "9000:9000"
+    command: go run cmd/sidecarMain.go
+  master:
+    container_name: master
+    image: golang:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "9010:9010"
+    command: go run cmd/masterMain.go
