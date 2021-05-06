@@ -2,7 +2,9 @@ package application
 
 import scala.io.Source
 
+/** trait for reading the properties file */
 trait PropertiesReader {
+  // offers a string map, that returns all of the configurations from the properties
   lazy val configMap: Map[String, String] = {
     val txtSource = Source.fromFile("src/main/resources/application.properties")
     val all = txtSource.getLines()
