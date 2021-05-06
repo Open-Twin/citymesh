@@ -23,7 +23,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/clientSQL/sqlInteraction.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../CompleteMesh/Dockerfile" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/.idea/complete_mesh.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../CompleteMesh/complete_mesh/.idea/modules.xml" beforeDir="false" />
@@ -105,20 +104,6 @@
       <change beforePath="$PROJECT_DIR$/../ServiceMesh/sidecarMain.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../ServiceMesh/test/apiclient2_test.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/clientSQL/clientSQL.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/masterHeartBeat.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/clientCon.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/clientCon.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/master2Config.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/meshMasters.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/mastermetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/mastermetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sidecarCon.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarCon.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarmetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-shm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-wal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/master/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/master/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarServer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
