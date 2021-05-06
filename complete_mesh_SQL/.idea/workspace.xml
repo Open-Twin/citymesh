@@ -23,10 +23,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../Kubernetes/complete_mesh_kube/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Kubernetes/complete_mesh_kube/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/mastermetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/mastermetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarmetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/files/sqlite-database.db-shm" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
