@@ -8,6 +8,7 @@ import (
 	"testing"
 )
 
+//Tests if sqlitedb can store entries
 func TestDataStorage(t *testing.T) {
 	os.Remove("files/sqlite-database.db")
 	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
@@ -43,7 +44,7 @@ func TestDataStorage(t *testing.T) {
 	}
 }
 
-
+// Inserting the same data entire twice
 func TestDataStorageError(t *testing.T) {
 	os.Remove("files/sqlite-database.db")
 	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
@@ -169,3 +170,4 @@ func TestGetIps(t *testing.T) {
 		t.Errorf("Value 0 correct got: %s, want: %s.", ips[2], "192.168.33.156:9000")
 	}
 }
+

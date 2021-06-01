@@ -9,6 +9,7 @@ import (
 	"testing"
 )
 
+// Tests if the sqlite db can storage messages
 func TestMasterStorage(t *testing.T) {
 	os.Remove("files/mastermetadata-database.db")
 	if _, err := os.Stat("files/mastermetadata-database.db"); os.IsNotExist(err) {
@@ -44,7 +45,7 @@ func TestMasterStorage(t *testing.T) {
 	}
 }
 
-
+// Testing if the sqlite db can handle upper and lower case
 func TestMasterStoragePosError(t *testing.T) {
 	os.Remove("files/mastermetadata-database.db")
 	if _, err := os.Stat("files/mastermetadata-database.db"); os.IsNotExist(err) {
