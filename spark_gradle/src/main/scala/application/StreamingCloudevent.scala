@@ -16,8 +16,8 @@ object StreamingCloudevent extends Object with PropertiesReader with SparkSessio
   def main(args: Array[String]): Unit = {
       // turn off debug logging for better overview
       // is optional
-      Logger.getLogger("org").setLevel(Level.OFF)
-      Logger.getLogger("akka").setLevel(Level.OFF)
+      //Logger.getLogger("org").setLevel(Level.OFF)
+      //Logger.getLogger("akka").setLevel(Level.OFF)
       streamKafkaCloudEvent()
   }
 
@@ -28,7 +28,7 @@ object StreamingCloudevent extends Object with PropertiesReader with SparkSessio
         logger.info("Spark Session has been built.")
         logger.info("Spark master set to: " + configMap("master"))
         logger.info("warehouse location set to: " + configMap("warehouseLocation"))
-        // read data from KAfka
+        // read data from Kafka
         val df_read = readData()
         logger.info("Reading data from Kafka topic: " + configMap("kafka_topic"))
 
@@ -81,19 +81,18 @@ object StreamingCloudevent extends Object with PropertiesReader with SparkSessio
    */
   def persistData(proc_data: DataFrame): Unit = {
         // sql statement to create table, yet not working fully
-        /*import spark.sql
-        sql("CREATE TABLE IF NOT EXISTS " + configMap("kafka_topic") + "(idService STRING, source STRING, " +
-          "spec_version STRING, type STRING, attributes STRUCT<key: STRING, value: STRING>, " +
-          "binary_data BINARY, text_data STRING, proto_data STRUCT<type_url: STRING, value: BINARY>, " +
-          "idSidecar STRING, ipService STRING, ipSidecar STRING, timestamp STRING)")
-        logger.info("Created table in warehouse")*/
+        import spark.sql
+        sql("CREATE TABLE IF NOT EXISTS " + configMap("kafka_topic") + "(idService STRING, idSidecar STRING, " +
+          "ipService STRING, ipSidecar STRING, source STRING, spec_version STRING, text_data STRING, timestamp STRING, " +
+          "type STRING) STORED AS ORC")
+        logger.info("Created table in warehouse")
 
         // store the processed original data in the warehouse in json format
         logger.info("Persisting processed data in warehouse")
         proc_data.select("cloud.*", "*")
           .drop("value", "cloud")
           .writeStream
-          .format("json")
+          .format("orc")
           .option("path", "spark-warehouse/" + configMap("kafka_topic"))
           .option("checkpointLocation", "checkpoint")
           .start()

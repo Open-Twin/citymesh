@@ -9,7 +9,9 @@ object SelectAll extends Object with SparkSessionWrapper with PropertiesReader{
    * @param args command line arguments
    */
   def main(args: Array[String]): Unit = {
-      val df = spark.read.json("spark-warehouse/"+configMap("kafka_topic")+"/*.json")
+      import spark.sql
+      val df = sql("SELECT * FROM " + configMap("kafka_topic"))
       df.show()
+      df.printSchema()
   }
 }
