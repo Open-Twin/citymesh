@@ -43,6 +43,79 @@ func TestDataStorage(t *testing.T) {
 	}
 }
 
+
+func TestDataStorageError(t *testing.T) {
+	os.Remove("files/sqlite-database.db")
+	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
+		log.Println("Creating sqlite-database.db...")
+		file, err := os.Create("files/sqlite-database.db") // Create SQLite file
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		file.Close()
+		log.Println("sqlite-database.db created")
+	}else {
+		log.Println("sqlite-database.db already exists")
+	}
+
+
+	sqliteDatabase, error := sql.Open("sqlite3", "files/sqlite-database.db") // Open the created SQLite File
+
+	if error != nil {
+		log.Panic(error)
+	}
+	defer sqliteDatabase.Close() // Defer Closing the database
+	sqliteDatabase.Exec("PRAGMA journal_mode=WAL;")
+	csql.CreateTable(sqliteDatabase) // Create Database Tables
+
+	csql.InsertStorage(sqliteDatabase, "2021.2", "S123", "Corona Ampel","1.0","Json","000","123.123.123.123","192.168.0.1")
+	errorMessage := csql.InsertStorage(sqliteDatabase, "2021.2", "S123", "Corona Ampel","1.0","Json","000","123.123.123.123","192.168.0.1")
+
+
+
+	if errorMessage != "UNIQUE constraint failed: storage.Timestamp" {
+		t.Errorf("Value 0 correct got: %s, want: %s.", errorMessage, "UNIQUE constraint failed: storage.Timestamp\n")
+	}
+}
+
+
+func TestDataDeleteError(t *testing.T) {
+	os.Remove("files/sqlite-database.db")
+	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
+		log.Println("Creating sqlite-database.db...")
+		file, err := os.Create("files/sqlite-database.db") // Create SQLite file
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+		file.Close()
+		log.Println("sqlite-database.db created")
+	}else {
+		log.Println("sqlite-database.db already exists")
+	}
+
+
+	sqliteDatabase, error := sql.Open("sqlite3", "files/sqlite-database.db") // Open the created SQLite File
+
+	if error != nil {
+		log.Panic(error)
+	}
+	defer sqliteDatabase.Close() // Defer Closing the database
+	sqliteDatabase.Exec("PRAGMA journal_mode=WAL;")
+	csql.CreateTable(sqliteDatabase) // Create Database Tables
+
+	csql.InsertStorage(sqliteDatabase, "2021.1", "S123", "Corona Ampel","1.0","Json","000","123.123.123.123","192.168.0.1")
+	csql.InsertStorage(sqliteDatabase, "2021.2", "S123", "Corona Ampel","1.0","Json","000","123.123.123.123","192.168.0.1")
+
+	csql.DeleteStorage(sqliteDatabase,"2021.3")
+
+	responsi := csql.DisplayStorage(sqliteDatabase)
+	log.Println(responsi)
+
+	if responsi != "2021.1;S123;Corona Ampel;1.0;Json;000;192.168.0.1;123.123.123.1232021.2;S123;Corona Ampel;1.0;Json;000;192.168.0.1;123.123.123.123" {
+		t.Errorf("Value 0 correct got: %s, want: %s.", responsi, "2021.1;S123;Corona Ampel;1.0;Json;000;192.168.0.1;123.123.123.1232021.2;S123;Corona Ampel;1.0;Json;000;192.168.0.1;123.123.123.123")
+	}
+}
+
 func TestDataDelete(t *testing.T) {
 	os.Remove("files/sqlite-database.db")
 	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
@@ -79,7 +152,6 @@ func TestDataDelete(t *testing.T) {
 		t.Errorf("Value 0 correct got: %s, want: %s.", responsi, "2021.1;S123;Corona Ampel;1.0;Json;000;192.168.0.1;123.123.123.123")
 	}
 }
-
 
 func TestGetIps(t *testing.T) {
 	ips := csql.GetIPs()

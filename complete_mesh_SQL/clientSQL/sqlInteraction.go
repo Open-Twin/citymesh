@@ -54,7 +54,7 @@ func CreateTable(db *sql.DB) {
 	log.Println("storage table created")
 }
 
-func InsertStorage(db *sql.DB, Timestamp string, IdService string, Source string,SpecVersion string,Type string,IdSidecar string,IpSidecar string,IpService string) {
+func InsertStorage(db *sql.DB, Timestamp string, IdService string, Source string, SpecVersion string, Type string, IdSidecar string, IpSidecar string, IpService string) string {
 	// Inserting service data which could not be send into the sqlite DB
 	log.Println("Inserting storage record ...")
 	insertStorageSQL := `INSERT INTO storage(Timestamp , IdService, Source, SpecVersion, Type, IdSidecar, IpService, IpSidecar ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
@@ -65,11 +65,13 @@ func InsertStorage(db *sql.DB, Timestamp string, IdService string, Source string
 	}
 	_, err = statement.Exec(Timestamp, IdService, Source, SpecVersion, Type, IdSidecar, IpService, IpSidecar)
 	if err != nil {
-		log.Fatalln(err.Error())
+		log.Println(err.Error())
+		return err.Error()
 	}
+	return ""
 }
 
-func DeleteStorage(db *sql.DB, tst string) {
+func DeleteStorage(db *sql.DB, tst string) string{
 
 	// Deleting existing entries by their Timestamp
 	log.Println("Delete storage record ...")
@@ -82,9 +84,12 @@ func DeleteStorage(db *sql.DB, tst string) {
 	}
 	_, err = statement.Exec(tst)
 	if err != nil {
-		log.Fatalln(err.Error())
+		log.Println(err.Error())
+		return(err.Error())
 	}
+
 	log.Println("Deleting from storage record ...")
+	return ""
 }
 
 

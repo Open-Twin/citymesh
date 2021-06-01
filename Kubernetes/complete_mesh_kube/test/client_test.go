@@ -8,6 +8,10 @@ import (
 	"testing"
 )
 
+func TestCreateStorage(t *testing.T){
+
+}
+
 func TestDataStorage(t *testing.T) {
 	os.Remove("files/sqlite-database.db")
 	if _, err := os.Stat("files/sqlite-database.db"); os.IsNotExist(err) {
@@ -80,20 +84,3 @@ func TestDataDelete(t *testing.T) {
 	}
 }
 
-
-func TestGetIps(t *testing.T) {
-	ips := csql.GetIPs()
-
-	if ips[0] != "192.168.61.192:9000" {
-		t.Errorf("Value 0 correct got: %s, want: %s.", ips[0], "192.168.61.192:9000")
-	}
-	if ips[1] != "192.168.45.172:9000" {
-		t.Errorf("Value 0 correct got: %s, want: %s.", ips[1], "192.168.45.172:9000")
-	}
-	if ips[2] != "192.168.14.123:9000" {
-		t.Errorf("Value 0 correct got: %s, want: %s.", ips[2], "192.168.14.123:9000")
-	}
-	if ips[3] != "192.168.33.156:9000" {
-		t.Errorf("Value 0 correct got: %s, want: %s.", ips[2], "192.168.33.156:9000")
-	}
-}
