@@ -10,7 +10,6 @@ import (
 	//"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	//"github.com/golang/protobuf/ptypes"
 
-	//"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	//"github.com/gogo/protobuf/proto"
 	_ "github.com/gogo/protobuf/proto"
 

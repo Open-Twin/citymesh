@@ -29,6 +29,62 @@ type Properties struct {
 	Source            string      `json:"SOURCE"`
 	SeAnnoCadData     interface{} `json:"SE_ANNO_CAD_DATA"`
 }
+type Features struct {
+	Type     string `json:"type"`
+	ID       string `json:"id"`
+	Geometry struct {
+		Type        string    `json:"type"`
+		Coordinates []float32 `json:"coordinates"`
+	} `json:"geometry"`
+	GeometryName string `json:"geometry_name"`
+	Properties   struct {
+		Objectid          int         `json:"OBJECTID"`
+		Address           string      `json:"ADDRESS"`
+		Bezirk            int         `json:"BEZIRK"`
+		City              string      `json:"CITY"`
+		Countrycode       string      `json:"COUNTRYCODE"`
+		Designation       string      `json:"DESIGNATION"`
+		Directpayment     int         `json:"DIRECTPAYMENT"`
+		Evseid            string      `json:"EVSEID"`
+		HubjectCompatible int         `json:"HUBJECT_COMPATIBLE"`
+		Operatorname      string      `json:"OPERATORNAME"`
+		Source            string      `json:"SOURCE"`
+		SeAnnoCadData     interface{} `json:"SE_ANNO_CAD_DATA"`
+	} `json:"properties"`
+}
+
+type Geometry struct {
+	Type        string    `json:"type"`
+	Coordinates []float32 `json:"coordinates"`
+}
+
+type Message struct {
+	Type          string `json:"type"`
+	Totalfeatures int    `json:"totalFeatures"`
+	Features      []struct {
+		Type     string `json:"type"`
+		ID       string `json:"id"`
+		Geometry struct {
+			Type        string    `json:"type"`
+			Coordinates []float32 `json:"coordinates"`
+		} `json:"geometry"`
+		GeometryName string `json:"geometry_name"`
+		Properties   struct {
+			Objectid          int         `json:"OBJECTID"`
+			Address           string      `json:"ADDRESS"`
+			Bezirk            int         `json:"BEZIRK"`
+			City              string      `json:"CITY"`
+			Countrycode       string      `json:"COUNTRYCODE"`
+			Designation       string      `json:"DESIGNATION"`
+			Directpayment     int         `json:"DIRECTPAYMENT"`
+			Evseid            string      `json:"EVSEID"`
+			HubjectCompatible int         `json:"HUBJECT_COMPATIBLE"`
+			Operatorname      string      `json:"OPERATORNAME"`
+			Source            string      `json:"SOURCE"`
+			SeAnnoCadData     interface{} `json:"SE_ANNO_CAD_DATA"`
+		} `json:"properties"`
+	} `json:"features"`
+}
 
 func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 
@@ -50,15 +106,22 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 	//println(value.String())
 
 	messages := make([]*eladestationen.Message, 0, 0)
+
+	//allproperties := make([]*eladestationen.Features, 0, 0)
 	//0,0 checken
+	allfeatures := make([]*eladestationen.Features, 0, 0)
 
-	datenres := gjson.Get(dataJson, "features")
+	//allcoordinates := make([]*Coordinates,0,0)
+
+	datenres := gjson.Get(dataJson, "features.#.id")
 	datenres.ForEach(func(key, value gjson.Result) bool {
-		stand := value.String()
-		warnstufen := make([]*eladestationen.Features, 0, 0)
-
-		types := gjson.Get(dataJson, "features.#.type")
-		ids := gjson.Get(dataJson, "features.#.id")
+		//stand := value.String()
+		allproperties := make([]*eladestationen.Properties, 0, 0)
+		allgeometries := make([]*eladestationen.Geometry, 0, 0)
+		id := value.String()
+		fmt.Println(id)
+		/*types := gjson.Get(dataJson, "features.#.type")
+		ids := gjson.Get(dataJson, "features.#.id")*/
 
 		/*println("Length types: ", len(types.Array()))
 		println("Text", types.String())
@@ -66,62 +129,94 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 		println("Length ids: ", len(ids.Array()))
 		println("Text", ids.String())*/
 
-		geometrytypes := gjson.Get(dataJson, "features.#.geometry.#.type")
-		println("Length geometry: ", len(geometrytypes.Array()))
-		println("Text", geometrytypes.String())
-
-		geometry := gjson.Get(dataJson, "features.#.geometry")
-		geometry.ForEach(func(key, value gjson.Result) bool {
-			println("in geometry")
-
-			geometrycoordinates := gjson.Get(dataJson, "features.#.geometry.#.coordinates")
-
-			println("Length coordinates: ", len(geometrycoordinates.Array()))
-			println("Text", geometrycoordinates.String())
-
-			return true
-		})
-
-		println("Length types: ", len(types.Array()))
-		println("Text", types.String())
-
-		println("Length ids: ", len(ids.Array()))
-		println("Text", ids.String())
-
-		messages := append(messages,
-			&eladestationen.Message{
-				Type:          "",
-				Totalfeatures: 0,
-				Features:      nil,
-				Crs:           nil,
-			})
-
-		path := "#(Stand==" + stand + ").Warnstufen"
-		result := gjson.Get(dataJson, path)
-		result.ForEach(func(key, value gjson.Result) bool {
+		//propertiespath := "#(ID==" + value.String() + ").properties"
+		//propertiespath := "features.#(id=" + id + ").properties"
+		propertiespath := "features.#.properties"
+		propertysearch := gjson.Get(dataJson, propertiespath)
+		propertysearch.ForEach(func(key, value gjson.Result) bool {
 			var properties Properties
+			//fmt.Println(value.String())
 			if err := json.Unmarshal([]byte(value.Raw), &properties); err != nil {
 				panic(err)
 			}
-			warnstufen = append(warnstufen,
-				&eladestationen.Features{
-					Type:         "",
-					ID:           "",
-					Geometry:     nil,
-					GeometryName: "",
-					Properties:   nil,
+
+			allproperties = append(allproperties,
+				&eladestationen.Properties{
+					Objectid:          int64(properties.Objectid),
+					Address:           properties.Address,
+					Bezirk:            int32(properties.Bezirk),
+					City:              properties.City,
+					Countrycode:       properties.Countrycode,
+					Designation:       properties.Designation,
+					Directpayment:     int32(properties.Directpayment),
+					Evseid:            properties.Evseid,
+					HubjectCompatible: int64(properties.HubjectCompatible),
+					Operatorname:      properties.Operatorname,
+					Source:            properties.Source,
+					//SeAnnoCadData:     ptypes.MarshalAny(properties.SeAnnoCadData),
 				})
+			//fmt.Println(allproperties)
 			return true
 		})
+
+		//geometryname := gjson.Get(dataJson, "features.#.geometry_name")
+		//geometriespath := "features.#.geometry.type"
+
+		geometry := gjson.Get(dataJson, "features.#.geometry")
+		geometry.ForEach(func(key, value gjson.Result) bool {
+			var geometry Geometry
+
+			if err := json.Unmarshal([]byte(value.Raw), &geometry); err != nil {
+				panic(err)
+			}
+
+			allgeometries = append(allgeometries,
+				&eladestationen.Geometry{
+					Type:        geometry.Type,
+					Coordinates: geometry.Coordinates,
+				})
+
+			fmt.Println(allgeometries)
+			return true
+		})
+
+		/*var features Features
+		featurespath := "features"
+		result := gjson.Get(dataJson, featurespath)
+		fmt.Println("Result:", result)
+		if err := json.Unmarshal([]byte(result.String()), &features); err != nil {
+			panic(err)
+		}
+
+		allfeatures = append(allfeatures,
+			&eladestationen.Features{
+				Type:         features.Type,
+				ID:           features.ID,
+				Geometry:     allgeometries,
+				GeometryName: features.GeometryName,
+				Properties:   allproperties,
+			})*/
+
+		var message Message
+		featurespath := ""
+		result := gjson.Get(dataJson, featurespath)
+		fmt.Println("Result:", result)
+		if err := json.Unmarshal([]byte(value.Raw), &message); err != nil {
+			panic(err)
+		}
+
 		messages = append(messages,
 			&eladestationen.Message{
-				Type:          "",
-				Totalfeatures: 0,
-				Features:      nil,
-				Crs:           nil,
-			},
-		)
-		//jsonmessage,err := ProtobufToJSON(messages)
+				Type:          message.Type,
+				Totalfeatures: int64(message.Totalfeatures),
+				Features:      allfeatures,
+			})
+
+		/*println("Length types: ", len(types.Array()))
+		println("Text", types.String())
+
+		println("Length ids: ", len(ids.Array()))
+		println("Text", ids.String())*/
 
 		return true
 	})
@@ -140,16 +235,21 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 	text := ""
 	for _, element := range messages {
 		text = text + string(proto.MarshalTextString(element))
+		//fmt.Println(text)
 		//result, _ := ProtobufToJSON(element)
 		//text = text + result
 
 	}
 
+	fmt.Println(messages)
+
 	finishedMessage := sidecar.CloudEvent_TextData{TextData: text}
+
+	fmt.Println(finishedMessage.TextData)
 
 	cloudeventmessage = sidecar.CloudEvent{
 		IdService:   "",
-		Source:      "corona-ampel",
+		Source:      "E-Ladestationen",
 		SpecVersion: "1.0",
 		Type:        "json",
 		Attributes:  nil,
@@ -159,7 +259,7 @@ func Apiclient() (cloudeventmessage sidecar.CloudEvent) {
 		IpSidecar:   "192.168.0.11",
 	}
 
-	//fmt.Println(cloudeventmessage.Data)
+	fmt.Println(cloudeventmessage.Data)
 
 	/*response, err := c.DataFromService(context.Background(), &cloudeventmessage)
 	if err != nil {

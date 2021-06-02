@@ -4,6 +4,10 @@ package dataFormat;
 option go_package = "";
 import "google/protobuf/any.proto";
 
+message Messages{
+  repeated Message message = 1;
+}
+
 message Message {
   string Type = 1;
   int64 Totalfeatures = 2;
@@ -14,28 +18,24 @@ message Message {
 message Features {
   string Type = 1;
   string ID = 2;
-  repeated Geometry geometry = 3;
+  Geometry geometry = 3;
   string GeometryName = 4;
   repeated Properties properties = 5;
 }
 
 message Geometry {
   string Type = 1;
-  repeated float Coordinates = 2;
+  repeated double Coordinates = 2;
 }
 
 message Properties {
   int64 Objectid = 1;
-  string Address = 2;
-  int32 Bezirk = 3;
-  string City = 5;
-  string Countrycode  = 6;
-  string Designation = 7;
-  int32 Directpayment = 8;
-  string Evseid = 9;
-  int64 HubjectCompatible = 10;
-  string Operatorname = 11;
-  string Source = 12;
+  string Krankenhausbez = 2;
+  string Bezeichnung = 3;
+  string Weblink1 = 5;
+  string Adresse  = 6;
+  int32 Bezirk = 7;
+  string Telefon = 8;
   google.protobuf.Any SeAnnoCadData = 13;
 }
 
@@ -47,4 +47,3 @@ message Crs{
 message CrsProperties {
   string Name = 1;
 }
-

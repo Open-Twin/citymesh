@@ -31,15 +31,22 @@ var localmessage string
 
 var msg *CloudEvent
 
+type service struct {
+}
+
+/*func New() ChatServiceServer {
+	return &service{}
+}*/
+
 func (s *Server) DataFromService(ctx context.Context, message *CloudEvent) (*MessageReply, error) {
 	//log.Printf("Received message body from client %s , %s , %s , %s , %s ", message.IdService, message.Source, message.SpecVersion, message.Type, message.IdService, message.IpSidecar, message.IpSidecar, message.Timestamp, message.Data)
 	//fmt.Printf( "Received message body from client")
 	log.Printf("Received: %s", message.String())
-	message.IdSidecar = "sd123"
-	message.IpSidecar = "123.123.123.123"
+	//	message.IdSidecar = "sd123"
+	//	message.IpSidecar = "123.123.123.123"
 	msg = message
-	SafeToFile(message.IdService, message.IpService, message.Timestamp)
-	go client(msg)
+	//	SafeToFile(message.IdService, message.IpService, message.Timestamp)
+	//	go client(msg)
 	return &MessageReply{Message: "Sidecar Proxy: Received the message"}, nil
 }
 

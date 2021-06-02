@@ -43,6 +43,66 @@ type Properties struct {
 	Source            string      `json:"SOURCE"`
 	SeAnnoCadData     interface{} `json:"SE_ANNO_CAD_DATA"`
 }
+type Features struct {
+	Type     string `json:"type"`
+	ID       string `json:"id"`
+	Geometry struct {
+		Type        string    `json:"type"`
+		Coordinates []float64 `json:"coordinates"`
+	} `json:"geometry"`
+	GeometryName string `json:"geometry_name"`
+	Properties   struct {
+		Objectid          int         `json:"OBJECTID"`
+		Address           string      `json:"ADDRESS"`
+		Bezirk            int         `json:"BEZIRK"`
+		City              string      `json:"CITY"`
+		Countrycode       string      `json:"COUNTRYCODE"`
+		Designation       string      `json:"DESIGNATION"`
+		Directpayment     int         `json:"DIRECTPAYMENT"`
+		Evseid            string      `json:"EVSEID"`
+		HubjectCompatible int         `json:"HUBJECT_COMPATIBLE"`
+		Operatorname      string      `json:"OPERATORNAME"`
+		Source            string      `json:"SOURCE"`
+		SeAnnoCadData     interface{} `json:"SE_ANNO_CAD_DATA"`
+	} `json:"properties"`
+}
+
+type Geometry struct {
+	Type        string    `json:"type"`
+	Coordinates []float64 `json:"coordinates"`
+}
+
+type Message struct {
+	Type          string `json:"type"`
+	Totalfeatures int    `json:"totalFeatures"`
+	Features      []struct {
+		Type     string `json:"type"`
+		ID       string `json:"id"`
+		Geometry struct {
+			Type        string    `json:"type"`
+			Coordinates []float64 `json:"coordinates"`
+		} `json:"geometry"`
+		GeometryName string `json:"geometry_name"`
+		Properties   struct {
+			Objectid          int         `json:"OBJECTID"`
+			Address           string      `json:"ADDRESS"`
+			Bezirk            int         `json:"BEZIRK"`
+			City              string      `json:"CITY"`
+			Countrycode       string      `json:"COUNTRYCODE"`
+			Designation       string      `json:"DESIGNATION"`
+			Directpayment     int         `json:"DIRECTPAYMENT"`
+			Evseid            string      `json:"EVSEID"`
+			HubjectCompatible int         `json:"HUBJECT_COMPATIBLE"`
+			Operatorname      string      `json:"OPERATORNAME"`
+			Source            string      `json:"SOURCE"`
+			SeAnnoCadData     interface{} `json:"SE_ANNO_CAD_DATA"`
+		} `json:"properties"`
+	} `json:"features"`
+}
+
+type Coordinates struct {
+	Coordinates []float64 `json:"coordinates"`
+}
 
 func Client() {
 

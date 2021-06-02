@@ -23,31 +23,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../complete_mesh_SQL/ddns/dnsConnection.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GETAPI/GETKrankenhaus/GETKrankenhaus.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/client2_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataFormat/krankehaus/krankenhaus.pb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataFormat/krankehaus/krankenhaus.proto" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/Consumer/Consumer_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/Consumer/sidecarCom/sidecarCom_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/Producer_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/apiclient2_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/docker-compose_test.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../complete_mesh_SQL/test/apiclient2_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../complete_mesh_SQL/test/eladestationenAPI_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GETAPI/GETeclient/GETeclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/GETAPI/GETeclient/GETeclient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/client2.go" beforeDir="false" afterPath="$PROJECT_DIR$/client/client2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/clientEStationen/clientE.go" beforeDir="false" afterPath="$PROJECT_DIR$/clientEStationen/clientE.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataFormat/eladestationen/eladestationen.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/dataFormat/eladestationen/eladestationen.pb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataFormat/eladestationen/eladestationen.proto" beforeDir="false" afterPath="$PROJECT_DIR$/dataFormat/eladestationen/eladestationen.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/saveData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/files/saveData.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kafka/Consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/kafka/Consumer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/master/masterClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/master/masterClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/master/masterCom.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarClient.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarCom.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/cert/ca.key" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/cert/service.csr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/cert/service.key" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/cert/service.pem" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/clientSQL/clientSQL.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/cmd/masterHeartBeat.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/cmd/masterHeartBeat.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/files/sidecarmetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-shm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-wal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/master/chat2.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/master/chat2.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-shm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/files/sqlite-database.db-wal" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/master/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/master/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/proto/chat2.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/proto/chat2.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarCom.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh_SQL/sidecar/sidecarServer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh_SQL/test/files/sqlite-database.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="GOROOT" url="file://E:/Go" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" path="/usr/local/Cellar/go/1.15.5/libexec" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -61,37 +87,92 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/chat" />
-      <recent name="$PROJECT_DIR$/sidecar" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/proto" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test/Consumer/sidecarCom" />
+      <recent name="$PROJECT_DIR$/test" />
+      <recent name="$PROJECT_DIR$/test/Consumer" />
+      <recent name="$PROJECT_DIR$/test/files" />
+      <recent name="$PROJECT_DIR$/dataFormat/eladestationen" />
+    </key>
   </component>
-  <component name="RunManager">
-    <configuration name="go build github.com/Open-Twin/citymesh/complete_mesh/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.TestApiclient in github.com/Open-Twin/citymesh/complete_mesh/client">
+    <configuration name="TestApiclient in github.com/Open-Twin/citymesh/complete_mesh/client" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="complete_mesh" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="FILE" />
-      <package value="github.com/Open-Twin/citymesh/complete_mesh/cmd" />
+      <working_directory value="$PROJECT_DIR$/client" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Open-Twin/citymesh/complete_mesh/client" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/cmd/masterMain.go" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestApiclient\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestConsume in github.com/Open-Twin/citymesh/complete_mesh/test/Consumer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="complete_mesh" />
+      <working_directory value="$PROJECT_DIR$/test/Consumer" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Open-Twin/citymesh/complete_mesh/test/Consumer" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestConsume\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestConsumeTwice in github.com/Open-Twin/citymesh/complete_mesh/test/Consumer" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="complete_mesh" />
+      <working_directory value="$PROJECT_DIR$/test/Consumer" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Open-Twin/citymesh/complete_mesh/test/Consumer" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestConsumeTwice\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestURL in github.com/Open-Twin/citymesh/complete_mesh/client" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="complete_mesh" />
+      <working_directory value="$PROJECT_DIR$/client" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Open-Twin/citymesh/complete_mesh/client" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestURL\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestWrongURL in github.com/Open-Twin/citymesh/complete_mesh/client" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="complete_mesh" />
+      <working_directory value="$PROJECT_DIR$/client" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Open-Twin/citymesh/complete_mesh/client" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestWrongURL\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build github.com/Open-Twin/citymesh/complete_mesh/cmd" />
+        <item itemvalue="Go Test.TestApiclient in github.com/Open-Twin/citymesh/complete_mesh/client" />
+        <item itemvalue="Go Test.TestWrongURL in github.com/Open-Twin/citymesh/complete_mesh/client" />
+        <item itemvalue="Go Test.TestURL in github.com/Open-Twin/citymesh/complete_mesh/client" />
+        <item itemvalue="Go Test.TestConsumeTwice in github.com/Open-Twin/citymesh/complete_mesh/test/Consumer" />
+        <item itemvalue="Go Test.TestConsume in github.com/Open-Twin/citymesh/complete_mesh/test/Consumer" />
       </list>
     </recent_temporary>
   </component>
@@ -111,8 +192,71 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Producer.go max message size increased on 10 MB" />
+    <option name="LAST_COMMIT_MESSAGE" value="Producer.go max message size increased on 10 MB" />
+  </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2889" y="629" key="#GOROOT" timestamp="1622450793480">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state x="2889" y="629" key="#GOROOT/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622450793480" />
+    <state width="982" height="255" key="GridCell.Tab.0.bottom" timestamp="1622639722197">
+      <screen x="0" y="25" width="1024" height="699" />
+    </state>
+    <state width="982" height="255" key="GridCell.Tab.0.bottom/0.25.1024.699@0.25.1024.699" timestamp="1622639722197" />
+    <state width="1588" height="120" key="GridCell.Tab.0.bottom/0.25.2048.1181@0.25.2048.1181" timestamp="1622637094547" />
+    <state width="2131" height="326" key="GridCell.Tab.0.bottom/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622581240879" />
+    <state width="982" height="255" key="GridCell.Tab.0.center" timestamp="1622639722197">
+      <screen x="0" y="25" width="1024" height="699" />
+    </state>
+    <state width="982" height="255" key="GridCell.Tab.0.center/0.25.1024.699@0.25.1024.699" timestamp="1622639722197" />
+    <state width="1588" height="120" key="GridCell.Tab.0.center/0.25.2048.1181@0.25.2048.1181" timestamp="1622637094546" />
+    <state width="2131" height="326" key="GridCell.Tab.0.center/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622581240862" />
+    <state width="982" height="255" key="GridCell.Tab.0.left" timestamp="1622639722197">
+      <screen x="0" y="25" width="1024" height="699" />
+    </state>
+    <state width="982" height="255" key="GridCell.Tab.0.left/0.25.1024.699@0.25.1024.699" timestamp="1622639722197" />
+    <state width="1588" height="120" key="GridCell.Tab.0.left/0.25.2048.1181@0.25.2048.1181" timestamp="1622637094545" />
+    <state width="2131" height="326" key="GridCell.Tab.0.left/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622581240848" />
+    <state width="982" height="255" key="GridCell.Tab.0.right" timestamp="1622639722197">
+      <screen x="0" y="25" width="1024" height="699" />
+    </state>
+    <state width="982" height="255" key="GridCell.Tab.0.right/0.25.1024.699@0.25.1024.699" timestamp="1622639722197" />
+    <state width="1588" height="120" key="GridCell.Tab.0.right/0.25.2048.1181@0.25.2048.1181" timestamp="1622637094546" />
+    <state width="2131" height="326" key="GridCell.Tab.0.right/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622581240865" />
+    <state width="2144" height="457" key="GridCell.Tab.1.bottom" timestamp="1620394394259">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state width="2144" height="457" key="GridCell.Tab.1.bottom/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1620394394259" />
+    <state width="2144" height="457" key="GridCell.Tab.1.center" timestamp="1620394394259">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state width="2144" height="457" key="GridCell.Tab.1.center/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1620394394259" />
+    <state width="2144" height="457" key="GridCell.Tab.1.left" timestamp="1620394394258">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state width="2144" height="457" key="GridCell.Tab.1.left/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1620394394258" />
+    <state width="2144" height="457" key="GridCell.Tab.1.right" timestamp="1620394394259">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state width="2144" height="457" key="GridCell.Tab.1.right/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1620394394259" />
+    <state x="2500" y="331" key="SettingsEditor" timestamp="1622491222322">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state x="1000" y="294" key="SettingsEditor/0.25.2048.1181@0.25.2048.1181" timestamp="1620286517005" />
+    <state x="2500" y="331" key="SettingsEditor/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622491222322" />
+    <state x="1861" y="432" key="Vcs.Push.Dialog.v2" timestamp="1620241072159">
+      <screen x="0" y="25" width="5120" height="1341" />
+    </state>
+    <state x="1861" y="432" key="Vcs.Push.Dialog.v2/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1620241072159" />
+    <state x="1134" y="291" width="670" height="676" key="search.everywhere.popup" timestamp="1622627260402">
+      <screen x="0" y="25" width="2048" height="1181" />
+    </state>
+    <state x="1134" y="291" width="670" height="676" key="search.everywhere.popup/0.25.2048.1181@0.25.2048.1181" timestamp="1622627260402" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

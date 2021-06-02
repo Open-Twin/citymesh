@@ -4,7 +4,6 @@ import (
 	"bufio"
 	_ "errors"
 	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/master"
 	_ "github.com/gogo/protobuf/proto"
 	"google.golang.org/grpc/credentials"
 
@@ -55,9 +54,9 @@ func client(cloudmessage *CloudEvent) {
 	// defer runs after the functions finishes
 	defer conn.Close()
 
-	c := master.NewChatServiceClient(conn)
+	c := NewChatServiceClient(conn)
 
-	message := master.CloudEvent{
+	message := CloudEvent{
 		IdService:   cloudmessage.IdService,
 		Source:      cloudmessage.Source,
 		SpecVersion: cloudmessage.SpecVersion,
@@ -70,7 +69,7 @@ func client(cloudmessage *CloudEvent) {
 		Timestamp:   cloudmessage.Timestamp,
 	}
 
-	response, err := c.DataFromSidecar(context.Background(), &message)
+	response, err := c.DataFromService(context.Background(), &message)
 
 	if response != nil {
 		log.Printf("Response from Server: %s , ", response.Message)

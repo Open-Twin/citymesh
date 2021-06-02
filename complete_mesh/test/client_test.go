@@ -1,14 +1,8 @@
 package test
 
 import (
-	"bufio"
-	"fmt"
-	"github.com/Open-Twin/citymesh/complete_mesh/client"
-	"github.com/Open-Twin/citymesh/complete_mesh/sidecar"
 	"log"
 	"os"
-	"strings"
-	"testing"
 )
 
 func setup() {
@@ -18,7 +12,7 @@ func setup() {
 	}
 }
 
-func TestDataSave(t *testing.T) {
+/*func TestDataSave(t *testing.T) {
 	setup()
 	var message sidecar.Message
 
@@ -67,3 +61,4 @@ func TestDataSave(t *testing.T) {
 func TestNewIP(t *testing.T) {
 
 }
+*/

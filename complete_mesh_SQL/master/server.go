@@ -35,7 +35,7 @@ func Master() {
 	//create the GRCP Server
 
 	creds, _ := credentials.NewServerTLSFromFile("cert/service.pem", "cert/service.key")
-	grpcServer := grpc.NewServer(grpc.Creds(creds), grpc.MaxSendMsgSize(10*1024*1024), grpc.MaxRecvMsgSize(10*1024*1024))
+	grpcServer := grpc.NewServer(grpc.Creds(creds), grpc.MaxSendMsgSize(1000*1024*1024), grpc.MaxRecvMsgSize(1000*1024*1024))
 	// error handling omitted
 
 	//grpcServer := grpc.NewServer()

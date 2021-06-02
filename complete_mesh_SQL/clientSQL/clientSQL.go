@@ -88,7 +88,7 @@ func Client() {
 	var ips []string
 	ips = GetIPs()
 
-	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "")
+	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "Sidecar")
 	if err != nil {
 		log.Fatalf("could not process the credentials: %v", err)
 	}

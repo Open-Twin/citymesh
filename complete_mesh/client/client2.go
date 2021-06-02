@@ -72,6 +72,7 @@ func Client() {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
+
 	defer conn.Close()
 
 	print("Test after connection")
@@ -247,6 +248,23 @@ func newIP(ips []string) {
 		*/
 
 	}
+}
+
+func URL(url string) (ampelJson string) {
+	ampel, erro := http.Get(url)
+
+	if erro != nil {
+		fmt.Print(erro.Error())
+		os.Exit(1)
+	}
+	body, err := ioutil.ReadAll(ampel.Body)
+	if err != nil {
+		fmt.Print(err.Error())
+		os.Exit(1)
+	}
+	ampelJSON := string(body)
+
+	return ampelJSON
 }
 
 func Apiclient() (cloudeventmessage sidecar.CloudEvent) {

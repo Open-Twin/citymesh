@@ -55,7 +55,8 @@ func main() {
 				}
 
 				//log.Printf("Message received: %s", receivedMessage.Data)
-				fmt.Println("Message received: ", receivedMessage.Data)
+				//fmt.Println("Message received: ", receivedMessage.Data)
+				fmt.Println("Message received: ", receivedMessage)
 				//fmt.Println("Received messages", string(msg.Key), string(msg.Value))
 			case consumerError := <-errors:
 				msgCount++
