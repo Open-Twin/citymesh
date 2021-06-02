@@ -23,43 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb037a5-6ee5-4c94-95fa-9870e4de9102" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/GETAPI/GETKrankenhaus/GETKrankenhaus.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/client/client2_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/dataFormat/krankehaus/krankenhaus.pb.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/dataFormat/krankehaus/krankenhaus.proto" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/test/Consumer/Consumer_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/test/Consumer/sidecarCom/sidecarCom_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/test/Producer_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/test/apiclient2_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../complete_mesh/test/docker-compose_test.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/apiclient2_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/eladestationenAPI_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/GETAPI/GETeclient/GETeclient.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/GETAPI/GETeclient/GETeclient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/client/client2.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/client/client2.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/clientEStationen/clientE.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/clientEStationen/clientE.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/dataFormat/eladestationen/eladestationen.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/dataFormat/eladestationen/eladestationen.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/dataFormat/eladestationen/eladestationen.proto" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/dataFormat/eladestationen/eladestationen.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/files/saveData.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/files/saveData.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/kafka/Consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/kafka/Consumer.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/master/masterClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/master/masterClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/master/masterCom.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/sidecar/sidecarClient.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/sidecar/sidecarClient.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/sidecar/sidecarCom.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/sidecar/sidecarCom.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../complete_mesh/test/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/../complete_mesh/test/client_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cert/ca.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cert/service.csr" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cert/service.key" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cert/service.pem" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/clientSQL/clientSQL.go" beforeDir="false" afterPath="$PROJECT_DIR$/clientSQL/clientSQL.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sidecarmetadata-database.db" beforeDir="false" afterPath="$PROJECT_DIR$/files/sidecarmetadata-database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-shm" beforeDir="false" afterPath="$PROJECT_DIR$/files/sqlite-database.db-shm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/sqlite-database.db-wal" beforeDir="false" afterPath="$PROJECT_DIR$/files/sqlite-database.db-wal" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/master/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/master/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sidecar/sidecarServer.go" beforeDir="false" afterPath="$PROJECT_DIR$/sidecar/sidecarServer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/client_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/client_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/integration_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/integration_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/master_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/master_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +40,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/Cellar/go/1.15.5/libexec" />
+  <component name="GOROOT" url="file://E:/Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -104,10 +71,6 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/cert" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/chat" />
-      <recent name="$PROJECT_DIR$/sidecar" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\thoma\Documents\Projekt\ProjectFinale\citymesh\complete_mesh_SQL\cert" />
       <recent name="C:\Users\thoma\Documents\Projekt\ProjectFinale\citymesh\complete_mesh_SQL\test\files" />
@@ -115,19 +78,36 @@
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/cmd" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/chat" />
+      <recent name="$PROJECT_DIR$/sidecar" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Test.TestGetIps in github.com/Open-Twin/citymesh/complete_mesh/test">
     <configuration name="go build github.com/Open-Twin/citymesh/complete_mesh/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="complete_mesh" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/cmd/masterMain.go" />
       <package value="github.com/Open-Twin/citymesh/complete_mesh/cmd" />
       <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/cmd/masterMain.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetIps in github.com/Open-Twin/citymesh/complete_mesh/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="complete_mesh" />
+      <working_directory value="$PROJECT_DIR$/test" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/Open-Twin/citymesh/complete_mesh/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetIps\E$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestGetIps in github.com/Open-Twin/citymesh/complete_mesh/test" />
         <item itemvalue="Go Build.go build github.com/Open-Twin/citymesh/complete_mesh/cmd" />
       </list>
     </recent_temporary>
@@ -150,19 +130,5 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="1784" y="629" key="#GOROOT" timestamp="1622450803146">
-      <screen x="0" y="25" width="5120" height="1341" />
-    </state>
-    <state x="1784" y="629" key="#GOROOT/0.25.5120.1341/-1792.345.1792.1095@0.25.5120.1341" timestamp="1622450803146" />
-    <state x="134" y="112" key="MergeDialog" timestamp="1620306949937">
-      <screen x="0" y="25" width="1792" height="1024" />
-    </state>
-    <state x="134" y="112" key="MergeDialog/331.-775.1280.775/0.25.1792.1024@0.25.1792.1024" timestamp="1620306949937" />
-    <state x="652" y="453" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1620306842805">
-      <screen x="0" y="25" width="1792" height="1024" />
-    </state>
-    <state x="652" y="453" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/331.-775.1280.775/0.25.1792.1024@0.25.1792.1024" timestamp="1620306842805" />
   </component>
 </project>

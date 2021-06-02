@@ -11,7 +11,6 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
 	"log"
 	"net"
 	"os"
@@ -87,21 +86,23 @@ func Client() {
 	// Getting all the ips from the ClientCon File
 	var ips []string
 	ips = GetIPs()
-
-	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "Sidecar")
+	/*
+	creds, err := credentials.NewClientTLSFromFile("cert/service.pem", "")
 	if err != nil {
 		log.Fatalf("could not process the credentials: %v", err)
 	}
-
-	conn, err = grpc.Dial(ipsidecar.String()+":"+gRPCport, grpc.WithTransportCredentials(creds))
-	//conn, err = grpc.Dial(ipsidecar.String()+":"+gRPCport, grpc.WithInsecure())
+	*/
+	//conn, err = grpc.Dial(ipsidecar.String()+":"+gRPCport, grpc.WithTransportCredentials(creds))
+	conn, _ = grpc.Dial(ipsidecar.String()+":"+gRPCport, grpc.WithInsecure())
 	//conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 
-
+	/*
 	if err != nil {
 		log.Fatalf("no server connection could be established cause: %v", err)
 
 	}
+
+	 */
 
 	// Defer runs after the functions finishes
 	defer conn.Close()

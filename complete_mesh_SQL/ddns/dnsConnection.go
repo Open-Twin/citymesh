@@ -25,9 +25,9 @@ const (
 
 func Register(hostname string,ip string, rtype string){
 	msg := bson.M{
-		"Hostname": hostname,
-		"Ip" : ip,
-		"RequestType" : rtype,
+		"hostname": hostname,
+		"ip" : ip,
+		"requestType" : rtype,
 	}
 
 	ans := SendBsonMessage(lbip+":"+strconv.Itoa(dnsapiport),msg)
