@@ -104,3 +104,4 @@ class PersistDataTest extends AnyFlatSpec with SparkSessionWrapper {
     assertThrows[AnalysisException](proc_data.select("value").collect())
   }
 }
+

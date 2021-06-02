@@ -107,6 +107,6 @@ class CloudEventTest extends AnyFlatSpec with SparkSessionWrapper {
         val df = Seq("default data").toDF
         val proc_data = processData(df)
         proc_data.selectExpr("value")
-    }
+    } 
 
 }
