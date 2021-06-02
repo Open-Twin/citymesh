@@ -44,6 +44,9 @@ class PersistDataTest extends AnyFlatSpec with SparkSessionWrapper {
     assert(persist_df.select("source").first().get(0) === cloudDF.selectExpr("source").first().get(0))
   }
 
+  /**
+   * only Cloudevent data can persisted
+   */
   it should "throw an exception when not persisting Cloudevent data" in {
     import spark.implicits._
     import org.apache.spark.sql.types.{StructType, StructField, StringType, IntegerType};
@@ -56,8 +59,10 @@ class PersistDataTest extends AnyFlatSpec with SparkSessionWrapper {
     assertThrows[AnalysisException](persistData(df))
   }
 
+  /**
+   * after persisting, persisted data should not be empty
+   */
   it should "should not have empty data after persisting" in {
-
     val df = readData()
     val proc_data = processData(df)
     proc_data.select("cloud.*", "*")
@@ -71,5 +76,31 @@ class PersistDataTest extends AnyFlatSpec with SparkSessionWrapper {
 
     val persist_df = spark.read.json("spark-warehouse/" + configMap("kafka_topic")+ "/*.json")
     assert(!persist_df.isEmpty)
+  }
+
+  /**
+   * only data that are streaming should be accepted for persisting
+   */
+  it should "only take streaming dataframes for persisting" in {
+    import spark.implicits._
+    val seq_data = Seq(("data1", "data2"),("data3", "data4")).toDF
+    assertThrows[AnalysisException](persistData(seq_data))
+  }
+
+  /**
+   * data that is already persisted can't be repeatedly persisted
+   */
+  it should "not take already persisted data" in {
+    val cloudDF = spark.read.json("attribute.json")
+    assertThrows[AnalysisException](persistData(cloudDF))
+  }
+
+  /**
+   * before persisted data cannot be directly accessed and should not be changed
+   */
+  it should "not allow direct access to processed streaming data" in {
+    val df = readData()
+    val proc_data = processData(df)
+    assertThrows[AnalysisException](proc_data.select("value").collect())
   }
 }

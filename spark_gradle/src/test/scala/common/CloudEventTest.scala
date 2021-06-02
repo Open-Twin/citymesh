@@ -72,6 +72,9 @@ class CloudEventTest extends AnyFlatSpec with SparkSessionWrapper {
         assert(hasColumn(persist_df, "text_data"))
     }
 
+    /**
+     * Exception should be thrown when persisting gets the wrong binary data
+     */
     it should "throw an exception when given wrong binary data" in {
         import spark.implicits._
         val df = Seq("default data").toDF
@@ -79,9 +82,31 @@ class CloudEventTest extends AnyFlatSpec with SparkSessionWrapper {
         assertThrows[AnalysisException](persistData(new_df))
     }
 
+    /**
+     * without a created table, an Exception should be thrown when accessed
+     */
     it should "not allow selects without tables" in {
         import spark.sql
         assertThrows[AnalysisException](sql("select * from " + configMap("kafka_topic")))
+    }
+
+    /**
+     * sequenced data can be processed without being correct
+     */
+    it should "be able to process sequenced data" in {
+        import spark.implicits._
+        val df = Seq(("default data", "data 1"), ("second default data", "data 2")).toDF
+        assertThrows[AnalysisException](processData(df))
+    }
+
+    /**
+     * non streaming dataframes can be accessed
+     */
+    it should "be able to access non-streaming data" in {
+        import spark.implicits._
+        val df = Seq("default data").toDF
+        val proc_data = processData(df)
+        proc_data.selectExpr("value")
     }
 
 }

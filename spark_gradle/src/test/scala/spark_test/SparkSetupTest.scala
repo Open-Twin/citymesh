@@ -39,10 +39,16 @@ class SparkSetupTest extends AnyFlatSpec with SparkSessionWrapper {
   }
 
   /**
-   * assert, whether correct configurations have been set to the SparkSession
+   * assert, whether warehouse has been set like the properties
    */
   it should "start with correct configurations" in {
     assert(spark.conf.get("spark.sql.warehouse.dir") == new File(configMap("warehouseLocation")).getAbsolutePath)
+  }
+
+  /**
+   * assert, whether the SparkSession starts without speculation
+   */
+  it should "set speculation to false" in {
     assert(spark.conf.get("spark.speculation") == "false")
   }
 
